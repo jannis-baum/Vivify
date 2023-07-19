@@ -11,7 +11,10 @@ ws.addEventListener('message', (event) => {
 
     switch (key) {
         case 'UPDATE':
-            document.body.innerHTML = value
-            break
+            document.body.innerHTML = value;
+            break;
+        case 'RELOAD':
+            window.location.reload();
+            break;
     }
 });

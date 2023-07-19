@@ -44,3 +44,16 @@ router.post(/.*/, async (req: Request, res: Response) => {
     messageClientsAt(path, `UPDATE: ${parsed}`);
     res.end();
 })
+
+router.delete(/.*/, async (req: Request, res: Response) => {
+    const path = req.path;
+    if (path === '/') {
+        const paths = [...liveContent.keys()]
+        liveContent.clear();
+        paths.forEach((path) => messageClientsAt(path, 'RELOAD: 1'));
+    }
+    else {
+        liveContent.delete(path) && messageClientsAt(path, 'RELOAD: 1');
+    }
+    res.end();
+});
