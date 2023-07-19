@@ -52,5 +52,12 @@ export function setupSockets(server: Server) {
     wss.on('close', function close() {
         clearInterval(interval);
     });
+
+    const messageClientsAt = (p: string, message: string) =>
+        [...sockets.values()]
+        .filter(({ path }) => path == p)
+        .forEach(({ socket }) => socket.send(message))
+
+    return { messageClientsAt };
 }
 
