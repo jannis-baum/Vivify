@@ -5,5 +5,13 @@ ws.addEventListener('open', () => {
 });
 
 ws.addEventListener('message', (event) => {
-    console.log('Message from server ', event.data);
+    const fields = event.data.toString().split(': ')
+    if (fields.length != 2) return;
+    const [key, value] = fields;
+
+    switch (key) {
+        case 'UPDATE':
+            document.body.innerHTML = value
+            break
+    }
 });
