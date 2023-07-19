@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import { readFileSync } from "fs";
 import { Converter } from "showdown";
+import { messageClientsAt } from "./app";
 
 export const router = Router()
 
@@ -27,7 +28,13 @@ router.get(/.*/, async (req: Request, res: Response) => {
 </html>
         `);
     } catch {
-        res.status(400);
-        res.send('File not found.');
+        res.status(404).send('File not found.');
     }
+})
+
+router.post(/.*/, async (req: Request, res: Response) => {
+    const path = req.path;
+    const { content, cursor } = req.body;
+    messageClientsAt(path, content);
+    res.end();
 })
