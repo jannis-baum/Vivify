@@ -17,14 +17,10 @@ router.get(/.*/, async (req: Request, res: Response) => {
         ${converter.makeHtml(content)}
     </body>
     <script>
-        let ws = new WebSocket("ws://localhost:${process.env['PORT']}");
-        ws.addEventListener("open", (event) => {
-            ws.send("PATH: ${req.path}");
-        });
-        ws.addEventListener("message", (event) => {
-            console.log("Message from server ", event.data);
-        });
+        window.MKPV_PORT = "${process.env['PORT']}"
+        window.MKPV_PATH = "${req.path}"
     </script>
+    <script type="text/javascript" src="/static/client.js"></script>
 </html>
         `);
     } catch {

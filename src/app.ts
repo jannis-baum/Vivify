@@ -8,7 +8,8 @@ process.env['PORT'] = process.env['PORT'] ?? '31622'
 
 const app = express()
 app.use(express.json());
-app.use(router)
+app.use('/static', express.static('static'));
+app.use('/viewer', router);
 
 const server = createServer(app);
 
