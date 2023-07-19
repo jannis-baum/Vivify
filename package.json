@@ -5,6 +5,9 @@
   "repository": "https://github.com/jannis-baum/mkpv.git",
   "author": "Jannis Baum",
   "private": true,
+  "scripts": {
+      "dev": "ts-node ./src/app.ts"
+  },
   "dependencies": {
     "express": "^4.18.2"
   },
