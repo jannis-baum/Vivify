@@ -24,7 +24,7 @@ app.get(/.*/, async (req: Request, res: Response) => {
     <script>
         let ws = new WebSocket("ws://localhost:${port}");
         ws.addEventListener("open", (event) => {
-            socket.send("PATH: ${req.path}");
+            ws.send("PATH: ${req.path}");
         });
         ws.addEventListener("message", (event) => {
             console.log("Message from server ", event.data);

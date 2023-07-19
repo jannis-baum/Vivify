@@ -15,11 +15,24 @@ export function setupSockets(server: Server) {
     wss.on('connection', (socket) => {
         const id = uuidv4();
         sockets.set(id, { socket, alive: true });
+
         socket.on('pong', () => {
             if (sockets.has(id)) {
                 sockets.get(id)!.alive = true;
             } else {
                 socket.terminate();
+            }
+        });
+
+        socket.on('message', function message(message) {
+            const fields = message.toString().split(': ')
+            if (fields.length != 2) return;
+            const [key, value] = fields;
+
+            switch (key) {
+                case 'PATH':
+                    sockets.get(id)!.path = value
+                    break
             }
         });
     });
