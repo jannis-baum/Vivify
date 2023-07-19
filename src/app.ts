@@ -1,14 +1,17 @@
 import express, { Application , Request, Response} from 'express';
 import { readFileSync } from 'fs';
+import { Converter } from 'showdown';
 
 const app: Application = express()
-
 const port: number = 31622
+
+const converter = new Converter()
+converter.setFlavor('github');
 
 app.get(/.*/, async (req: Request, res: Response) => {
     try {
         const content = readFileSync(req.path).toString();
-        res.send(content)
+        res.send(converter.makeHtml(content));
     } catch {
         res.status(400);
         res.send('File not found.');
