@@ -1,7 +1,7 @@
 import express from 'express';
 import { createServer } from 'http';
 
-import { router } from './routes';
+import { router as viewerRouter } from './routes/viewer';
 import { setupSockets } from './sockets';
 
 process.env['PORT'] = process.env['PORT'] ?? '31622'
@@ -9,7 +9,7 @@ process.env['PORT'] = process.env['PORT'] ?? '31622'
 const app = express()
 app.use(express.json());
 app.use('/static', express.static('static'));
-app.use('/viewer', router);
+app.use('/viewer', viewerRouter);
 
 const server = createServer(app);
 

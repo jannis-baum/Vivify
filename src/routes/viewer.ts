@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express";
 import { readFileSync } from "fs";
 import { Converter } from "showdown";
-import { messageClientsAt } from "./app";
+import { messageClientsAt } from "../app";
 
 export const router = Router()
 
