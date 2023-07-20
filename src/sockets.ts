@@ -28,7 +28,7 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
             }
         });
 
-        socket.on('message', function message(message) {
+        socket.on('message', (message) => {
             const fields = message.toString().split(': ')
             if (fields.length != 2) return;
             const [key, value] = fields;
@@ -41,7 +41,7 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
         });
     });
 
-    const interval = setInterval(function ping() {
+    const interval = setInterval(() => {
         wss.clients.forEach((ws) => ws.ping());
         for (const [id, { socket, alive }] of sockets) {
             if (alive) {
@@ -54,9 +54,7 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
         }
     }, 1000);
 
-    wss.on('close', function close() {
-        clearInterval(interval);
-    });
+    wss.on('close', () => clearInterval(interval));
 
     const messageClientsAt = (p: string, message: string) =>
         [...sockets.values()]

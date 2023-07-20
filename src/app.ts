@@ -15,8 +15,8 @@ app.use('/viewer', viewerRouter);
 
 const server = createServer(app);
 
-server.listen(process.env['MKPV_PORT'], function () {
-    console.log(`App is listening on port ${process.env['MKPV_PORT']} !`)
+server.listen(process.env['MKPV_PORT'], () => {
+    console.log(`App is listening on port ${process.env['MKPV_PORT']}!`)
 })
 
 let shutdownTimer: NodeJS.Timer | null = null
@@ -24,7 +24,10 @@ export const { messageClientsAt } = setupSockets(
     server,
     () => {
         const timeout = parseInt(process.env['MKPV_TIMEOUT'] ?? '10000')
-        if (timeout > 0) shutdownTimer = setInterval(() => process.exit(0), timeout);
+        if (timeout > 0) shutdownTimer = setInterval(() => {
+            console.log(`No clients for ${timeout}s, shutting down.`)
+            process.exit(0)
+        }, timeout);
     },
     () => { if (shutdownTimer) clearInterval(shutdownTimer); }
 );
