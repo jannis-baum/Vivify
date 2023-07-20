@@ -25,7 +25,7 @@ export const { messageClientsAt } = setupSockets(
     () => {
         const timeout = parseInt(process.env['MKPV_TIMEOUT'] ?? '10000')
         if (timeout > 0) shutdownTimer = setInterval(() => {
-            console.log(`No clients for ${timeout}s, shutting down.`)
+            console.log(`No clients for ${timeout}ms, shutting down.`)
             process.exit(0)
         }, timeout);
     },

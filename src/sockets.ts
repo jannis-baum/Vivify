@@ -15,7 +15,7 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
     const sockets = new Map<string, SocketData>();
 
     wss.on('connection', (socket) => {
-        if (sockets.size === 1) onFirstClient();
+        if (sockets.size === 0) onFirstClient();
         const id = uuidv4();
         sockets.set(id, { socket, alive: true });
 
