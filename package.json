@@ -1,23 +1,29 @@
 {
-  "name": "mkpv",
+  "name": "mkpv-server",
   "version": "0.0.1",
   "repository": "https://github.com/jannis-baum/mkpv.git",
   "author": "Jannis Baum",
   "private": true,
-
   "scripts": {
     "dev-prog": "MKPV_CMD='./node_modules/.bin/ts-node ./src/app.ts' ./mkpv",
     "dev": "MKPV_TIMEOUT=0 nodemon --exec ts-node ./src/app.ts",
-    "build": "tsc --project ."
+    "build": "tsc --project . && pkg ."
   },
-
+  "bin": "dist/app.js",
+  "pkg": {
+    "scripts": "dist/**/*.js",
+    "assets": "static/**/*",
+    "targets": [
+      "latest-macos-arm64"
+    ],
+    "outputPath": "bin"
+  },
   "dependencies": {
     "express": "^4.18.2",
     "showdown": "^2.1.0",
     "uuid": "^9.0.0",
     "ws": "^8.13.0"
   },
-
   "devDependencies": {
     "@types/express": "^4.17.17",
     "@types/node": "^20.4.2",
