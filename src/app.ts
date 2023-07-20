@@ -17,4 +17,9 @@ server.listen(process.env['PORT'], function () {
     console.log(`App is listening on port ${process.env['PORT']} !`)
 })
 
-export const { messageClientsAt } = setupSockets(server);
+let shutdownTimer: NodeJS.Timer | null = null
+export const { messageClientsAt } = setupSockets(
+    server,
+    () => { shutdownTimer = setInterval(() => process.exit(0), 10000) },
+    () => { if (shutdownTimer) clearInterval(shutdownTimer) }
+);

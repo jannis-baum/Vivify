@@ -8,11 +8,14 @@ interface SocketData {
     path?: string;
 }
 
-export function setupSockets(server: Server) {
+export function setupSockets(server: Server, onNoClients: () => void, onFirstClient: () => void) {
+    onNoClients();
+
     const wss = new ws.Server({ server });
     const sockets = new Map<string, SocketData>();
 
     wss.on('connection', (socket) => {
+        if (sockets.size === 1) onFirstClient();
         const id = uuidv4();
         sockets.set(id, { socket, alive: true });
 
@@ -21,6 +24,7 @@ export function setupSockets(server: Server) {
                 sockets.get(id)!.alive = true;
             } else {
                 socket.terminate();
+                if (!sockets.size) onNoClients();
             }
         });
 
@@ -46,6 +50,7 @@ export function setupSockets(server: Server) {
             }
             socket.terminate();
             sockets.delete(id);
+            if (!sockets.size) onNoClients();
         }
     }, 1000);
 
