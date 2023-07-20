@@ -6,6 +6,7 @@
   "author": "Jannis Baum",
   "private": true,
   "scripts": {
+    "dev-prog": "MKPV_CMD='./node_modules/.bin/ts-node ./src/app.ts' ./mkpv",
     "dev": "MKPV_TIMEOUT=0 nodemon --exec ts-node ./src/app.ts"
   },
   "dependencies": {

@@ -1,0 +1,31 @@
+#!/bin/sh
+
+print_usage() {
+    echo "mkpv [--help] file"
+    echo "View file in browser and lazily start mkpv-server"
+}
+
+if [ "$#" -ne 1 -o "$1" = "-h" -o "$1" = "--help" ]; then
+    print_usage
+    exit 1
+fi
+
+if ! [ -f "$1" ]; then
+    echo "$1 not found"
+    exit 1
+fi
+FILE=`realpath "$1"`
+
+[ -z "$MKPV_PORT" ] && MKPV_PORT=31622
+MKPV_ADDR=http://localhost:$MKPV_PORT
+[ -z "$MKPV_CMD" ] && MKPV_CMD=mkpv-server
+
+if ! curl --fail-with-body -v $MKPV_ADDR/health 1>/dev/null 2>/dev/null; then
+    echo "Launching server ..."
+    nohup $MKPV_CMD 1>/dev/null 2>/dev/null &
+    while ! curl --fail-with-body -v $MKPV_ADDR/health 1>/dev/null 2>/dev/null; do
+        sleep 0.1
+    done
+fi
+
+open $MKPV_ADDR/viewer$FILE
