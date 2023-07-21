@@ -7,6 +7,7 @@ export const router = Router()
 
 const converter = new Converter();
 converter.setFlavor('github');
+converter.setOption('simpleLineBreaks', false);
 
 const liveContent = new Map<string, string>()
 
