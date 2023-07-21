@@ -1,6 +1,8 @@
+import { execSync } from "child_process";
 import { Request, Response, Router } from "express";
 import { readFileSync } from "fs";
 import { Converter } from "showdown";
+
 import { messageClientsAt } from "../app";
 
 export const router = Router()
@@ -11,13 +13,22 @@ converter.setOption('simpleLineBreaks', false);
 
 const liveContent = new Map<string, string>()
 
+const getMimeFromPath = (path: string) =>
+    execSync(`file --mime-type -b '${path}'`).toString().trim();
+
 router.get(/.*/, async (req: Request, res: Response) => {
     const path = req.path;
     let body = liveContent.get(path);
     if (!body) {
         try {
-            const content = readFileSync(req.path).toString();
-            body = converter.makeHtml(content)
+            const data = readFileSync(path);
+            const type = getMimeFromPath(path);
+            if (type !== 'text/plain') {
+                res.setHeader('Content-Type', type).send(data);
+                return;
+            }
+
+            body = converter.makeHtml(data.toString());
         } catch {
             res.status(404).send('File not found.');
             return;
