@@ -1,5 +1,6 @@
 import express from 'express';
 import { createServer } from 'http';
+import path from 'path';
 
 import { router as healthRouter } from './routes/health';
 import { router as viewerRouter } from './routes/viewer';
@@ -9,7 +10,7 @@ process.env['MKPV_PORT'] = process.env['MKPV_PORT'] ?? '31622'
 
 const app = express()
 app.use(express.json());
-app.use('/static', express.static('static'));
+app.use('/static', express.static(path.join(__dirname, '../static')));
 app.use('/health', healthRouter);
 app.use('/viewer', viewerRouter);
 
