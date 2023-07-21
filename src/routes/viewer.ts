@@ -39,6 +39,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
 
     res.send(`
         <html>
+            <head><link rel="stylesheet" type="text/css" href="/static/style.css"/></head>
             <body>${body}</body>
             <script>
                 window.MKPV_PORT = "${process.env['MKPV_PORT']}";
