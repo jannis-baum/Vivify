@@ -17,12 +17,14 @@ const getMimeFromPath = (path: string) =>
     execSync(`file --mime-type -b '${path}'`).toString().trim();
 
 router.get(/.*/, async (req: Request, res: Response) => {
-    const path = req.path;
+    const path = req.path.replace(/^.*~/, process.env['HOME']!);
+
     let body = liveContent.get(path);
     if (!body) {
         try {
             const data = readFileSync(path);
             const type = getMimeFromPath(path);
+
             if (type !== 'text/plain') {
                 res.setHeader('Content-Type', type).send(data);
                 return;
@@ -34,6 +36,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
             return;
         }
     }
+
     res.send(`
         <html>
             <body>${body}</body>
