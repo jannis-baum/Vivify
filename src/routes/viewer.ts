@@ -17,7 +17,7 @@ const getMimeFromPath = (path: string) =>
     execSync(`file --mime-type -b '${path}'`).toString().trim();
 
 router.get(/.*/, async (req: Request, res: Response) => {
-    const path = req.path.replace(/^.*~/, process.env['HOME']!);
+    const path = res.locals.filepath;
 
     let body = liveContent.get(path);
     if (!body) {
