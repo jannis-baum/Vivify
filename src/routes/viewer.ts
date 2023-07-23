@@ -1,15 +1,13 @@
 import { execSync } from "child_process";
 import { Request, Response, Router } from "express";
 import { readFileSync } from "fs";
-import { Converter } from "showdown";
+import MarkdownIt from "markdown-it";
 
 import { messageClientsAt } from "../app";
 
 export const router = Router()
 
-const converter = new Converter();
-converter.setFlavor('github');
-converter.setOption('simpleLineBreaks', false);
+const converter = new MarkdownIt();
 
 const liveContent = new Map<string, string>()
 
@@ -30,7 +28,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 return;
             }
 
-            body = converter.makeHtml(data.toString());
+            body = converter.render(data.toString());
         } catch {
             res.status(404).send('File not found.');
             return;
@@ -54,7 +52,7 @@ router.post(/.*/, async (req: Request, res: Response) => {
     const path = req.path;
     const { content, cursor } = req.body;
 
-    const parsed = converter.makeHtml(content);
+    const parsed = converter.render(content);
     liveContent.set(path, parsed);
 
     messageClientsAt(path, `UPDATE: ${parsed}`);
