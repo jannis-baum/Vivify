@@ -6,8 +6,9 @@ ws.addEventListener('open', () => {
 
 ws.addEventListener('message', (event) => {
     const fields = event.data.toString().split(': ')
-    if (fields.length != 2) return;
-    const [key, value] = fields;
+    if (fields.length < 2) return;
+    const [key, ...values] = fields;
+    const value = values.join(': ');
 
     switch (key) {
         case 'UPDATE':
