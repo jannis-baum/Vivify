@@ -9,7 +9,7 @@ body {
     box-sizing: border-box;
     max-width: 900px;
     margin: auto;
-    padding: 2rem;
+    padding: 2rem 4rem;
 }
 
 pre {
@@ -28,6 +28,18 @@ a {
     text-decoration: none;
 }
 a:hover { text-decoration: underline; }
+a.header-anchor {
+    opacity: 0;
+    position: absolute;
+    transform: translateX(-2rem);
+    width: 2rem;
+}
+a.header-anchor:hover,
+h1:hover a.header-anchor, h2:hover a.header-anchor,
+h3:hover a.header-anchor, h4:hover a.header-anchor,
+h5:hover a.header-anchor, h6:hover a.header-anchor {
+    opacity: 1;
+}
 
 h1, h2 {
     border-bottom: 0.2px solid #444;

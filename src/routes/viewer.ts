@@ -2,12 +2,16 @@ import { execSync } from "child_process";
 import { Request, Response, Router } from "express";
 import { readFileSync } from "fs";
 import MarkdownIt from "markdown-it";
+import anchor from "markdown-it-anchor";
 
 import { messageClientsAt } from "../app";
 
 export const router = Router()
 
-const converter = new MarkdownIt();
+const mdit = new MarkdownIt();
+mdit.use(anchor, { permalink: anchor.permalink.ariaHidden({
+    placement: 'before'
+}) });
 
 const liveContent = new Map<string, string>()
 
@@ -28,7 +32,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 return;
             }
 
-            body = converter.render(data.toString());
+            body = mdit.render(data.toString());
         } catch {
             res.status(404).send('File not found.');
             return;
@@ -52,7 +56,7 @@ router.post(/.*/, async (req: Request, res: Response) => {
     const path = req.path;
     const { content, cursor } = req.body;
 
-    const parsed = converter.render(content);
+    const parsed = mdit.render(content);
     liveContent.set(path, parsed);
 
     messageClientsAt(path, `UPDATE: ${parsed}`);
