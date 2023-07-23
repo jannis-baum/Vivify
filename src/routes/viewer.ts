@@ -3,6 +3,7 @@ import { Request, Response, Router } from "express";
 import { readFileSync } from "fs";
 import MarkdownIt from "markdown-it";
 import anchor from "markdown-it-anchor";
+import emoji from "markdown-it-emoji";
 
 import { messageClientsAt } from "../app";
 
@@ -12,6 +13,7 @@ const mdit = new MarkdownIt();
 mdit.use(anchor, { permalink: anchor.permalink.ariaHidden({
     placement: 'before'
 }) });
+mdit.use(emoji);
 
 const liveContent = new Map<string, string>()
 

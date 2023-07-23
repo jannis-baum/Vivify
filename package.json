@@ -20,9 +20,11 @@
   },
   "dependencies": {
     "@types/markdown-it": "^12.2.3",
+    "@types/markdown-it-emoji": "^2.0.2",
     "express": "^4.18.2",
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.7",
+    "markdown-it-emoji": "^2.0.2",
     "uuid": "^9.0.0",
     "ws": "^8.13.0"
   },
