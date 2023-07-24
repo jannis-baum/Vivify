@@ -34,8 +34,11 @@ router.get(/.*/, async (req: Request, res: Response) => {
     }
 
     res.send(`
+        <!DOCTYPE html>
         <html>
-            <head><link rel="stylesheet" type="text/css" href="/static/style.css"/></head>
+            <head>
+              <link rel="stylesheet" type="text/css" href="/static/style.css"/>
+              <link rel="stylesheet" type="text/css" href="/static/katex/katex.css">
             <body>${body}</body>
             <script>
                 window.VIV_PORT = "${process.env['VIV_PORT']}";
