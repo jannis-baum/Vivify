@@ -23,5 +23,13 @@ mdit.use(require("markdown-it-task-lists"));
 mdit.use(require("markdown-it-inject-linenumbers"));
 mdit.use(require("markdown-it-katex"));
 
-const mdParse = (src: string) => mdit.render(src);
-export default mdParse;
+export default function parse(src: string, path?: string) {
+    let md = src;
+
+    const fileEnding = path?.split('.')?.at(-1);
+    if (fileEnding && fileEnding !== 'md') {
+        md = `# \`${path!.replace(process.env['HOME']!, '~')}\`\n\`\`\`${fileEnding}\n${src}\n\`\`\``
+    }
+
+    return mdit.render(md);
+}

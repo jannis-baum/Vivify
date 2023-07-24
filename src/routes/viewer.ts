@@ -3,7 +3,7 @@ import { Request, Response, Router } from "express";
 import { readFileSync } from "fs";
 
 import { messageClientsAt } from "../app";
-import mdParse from "../parser";
+import parse from "../parser";
 
 export const router = Router()
 
@@ -21,12 +21,12 @@ router.get(/.*/, async (req: Request, res: Response) => {
             const data = readFileSync(path);
             const type = getMimeFromPath(path);
 
-            if (type !== 'text/plain') {
+            if (!type.startsWith('text/')) {
                 res.setHeader('Content-Type', type).send(data);
                 return;
             }
 
-            body = mdParse(data.toString());
+            body = parse(data.toString(), path);
         } catch {
             res.status(404).send('File not found.');
             return;
@@ -51,11 +51,11 @@ router.get(/.*/, async (req: Request, res: Response) => {
 })
 
 router.post(/.*/, async (req: Request, res: Response) => {
-    const path = req.path;
+    const path = res.locals.filepath;
     const { content, cursor } = req.body;
 
     if (content) {
-        const parsed = mdParse(content);
+        const parsed = parse(content, path);
         liveContent.set(path, parsed);
         messageClientsAt(path, `UPDATE: ${parsed}`);
     }
