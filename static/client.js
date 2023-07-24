@@ -14,6 +14,17 @@ ws.addEventListener('message', (event) => {
         case 'UPDATE':
             document.body.innerHTML = value;
             break;
+        case 'SCROLL':
+            let line = parseInt(value);
+            while (line) {
+                const targets = document.querySelectorAll(`[data-source-line="${line - 1}"]`);
+                if (targets.length) {
+                    targets[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    break;
+                }
+                line -= 1;
+            }
+            break;
         case 'RELOAD':
             window.location.reload();
             break;

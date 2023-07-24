@@ -50,10 +50,13 @@ router.post(/.*/, async (req: Request, res: Response) => {
     const path = req.path;
     const { content, cursor } = req.body;
 
-    const parsed = mdParse(content);
-    liveContent.set(path, parsed);
+    if (content) {
+        const parsed = mdParse(content);
+        liveContent.set(path, parsed);
+        messageClientsAt(path, `UPDATE: ${parsed}`);
+    }
+    if (cursor) messageClientsAt(path, `SCROLL: ${cursor}`);
 
-    messageClientsAt(path, `UPDATE: ${parsed}`);
     res.end();
 })
 
