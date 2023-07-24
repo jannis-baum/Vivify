@@ -1,6 +1,6 @@
 import { execSync } from "child_process";
 import { lstatSync, readdirSync, readFileSync } from "fs";
-import { basename, join } from "path";
+import { dirname, join } from "path";
 
 import { Request, Response, Router } from "express";
 
@@ -21,7 +21,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
     if (!body) {
         try {
             if (lstatSync(path).isDirectory()) {
-                const list = ['..', ...readdirSync(path)].map((item) =>
+                const list = readdirSync(path).map((item) =>
                    `- [\`${item}\`](/viewer${join(path, item)})`
                 ).join('\n');
                 body = parse(`${pathHeading(path)}\n\n${list}`);
@@ -49,7 +49,12 @@ router.get(/.*/, async (req: Request, res: Response) => {
               <link rel="stylesheet" type="text/css" href="/static/style.css"/>
               <link rel="stylesheet" type="text/css" href="/static/highlight.css">
               <link rel="stylesheet" type="text/css" href="/static/katex/katex.css">
-            <body>${body}</body>
+            <body>
+                <a id="parent-dir" href="/viewer${dirname(path)}">↩</a>
+                <div id="body-content">
+                    ${body}
+                </div>
+            </body>
             <script>
                 window.VIV_PORT = "${process.env['VIV_PORT']}";
                 window.VIV_PATH = "${req.path}";

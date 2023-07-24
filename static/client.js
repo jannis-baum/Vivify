@@ -12,7 +12,7 @@ ws.addEventListener('message', (event) => {
 
     switch (key) {
         case 'UPDATE':
-            document.body.innerHTML = value;
+            document.getElementById('body-content').innerHTML = value;
             break;
         case 'SCROLL':
             let line = parseInt(value);
