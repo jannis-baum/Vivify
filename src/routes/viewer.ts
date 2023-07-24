@@ -38,6 +38,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
         <html>
             <head>
               <link rel="stylesheet" type="text/css" href="/static/style.css"/>
+              <link rel="stylesheet" type="text/css" href="/static/highlight.css">
               <link rel="stylesheet" type="text/css" href="/static/katex/katex.css">
             <body>${body}</body>
             <script>

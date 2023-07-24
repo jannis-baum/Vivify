@@ -1,9 +1,20 @@
 import MarkdownIt from "markdown-it";
+import hljs from "highlight.js";
 import anchor from "markdown-it-anchor";
 
 const mdit = new MarkdownIt({
-    html: true
+    html: true,
+    highlight: (str, lang) => {
+        let content = str;
+        if (lang && hljs.getLanguage(lang)) {
+            try {
+              content = hljs.highlight(content, { language: lang, ignoreIllegals: true }).value;
+            } catch (_) {}
+        }
+        return `<pre class="language-${lang}"><code>${content}</code></pre>`;
+    },
 });
+
 mdit.use(anchor, { permalink: anchor.permalink.ariaHidden({
     placement: 'before'
 }) });
