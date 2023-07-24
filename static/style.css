@@ -24,6 +24,7 @@ h1, h2 {
 pre {
     background-color: #161616;
     padding: 1rem;
+    overflow: scroll;
 }
 code {
     background-color: #333;
