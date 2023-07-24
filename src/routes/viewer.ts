@@ -38,8 +38,8 @@ router.get(/.*/, async (req: Request, res: Response) => {
             <head><link rel="stylesheet" type="text/css" href="/static/style.css"/></head>
             <body>${body}</body>
             <script>
-                window.MKPV_PORT = "${process.env['MKPV_PORT']}";
-                window.MKPV_PATH = "${req.path}";
+                window.VIV_PORT = "${process.env['VIV_PORT']}";
+                window.VIV_PATH = "${req.path}";
             </script>
             <script type="text/javascript" src="/static/client.js"></script>
         </html>

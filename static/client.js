@@ -1,7 +1,7 @@
-const ws = new WebSocket(`ws://localhost:${window.MKPV_PORT}`);
+const ws = new WebSocket(`ws://localhost:${window.VIV_PORT}`);
 
 ws.addEventListener('open', () => {
-    ws.send(`PATH: ${window.MKPV_PATH}`);
+    ws.send(`PATH: ${window.VIV_PATH}`);
 });
 
 ws.addEventListener('message', (event) => {
