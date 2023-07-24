@@ -12,6 +12,15 @@ body {
     padding: 2rem 4rem;
 }
 
+/* --------------------------------------------------------------------------
+ * HEADINGS ----------------------------------------------------------------- */
+h1, h2 {
+    border-bottom: 0.2px solid #444;
+    padding-bottom: 0.75rem;
+}
+
+/* --------------------------------------------------------------------------
+ * CODE --------------------------------------------------------------------- */
 pre {
     background-color: #161616;
     padding: 1rem;
@@ -23,6 +32,8 @@ code {
 }
 pre > code { background-color: unset; }
 
+/* --------------------------------------------------------------------------
+ * LINKS -------------------------------------------------------------------- */
 a {
     color: #859abc;
     text-decoration: none;
@@ -41,7 +52,10 @@ h5:hover a.header-anchor, h6:hover a.header-anchor {
     opacity: 1;
 }
 
-h1, h2 {
-    border-bottom: 0.2px solid #444;
-    padding-bottom: 0.75rem;
+/* --------------------------------------------------------------------------
+ * LISTS -------------------------------------------------------------------- */
+li.task-list-item { list-style: none; }
+input.task-list-item-checkbox {
+    position: absolute;
+    transform: translateX(-1.44rem);
 }
