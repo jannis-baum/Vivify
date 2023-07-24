@@ -1,9 +1,11 @@
 import { execSync } from "child_process";
+import { lstatSync, readdirSync, readFileSync } from "fs";
+import { basename, join } from "path";
+
 import { Request, Response, Router } from "express";
-import { readFileSync } from "fs";
 
 import { messageClientsAt } from "../app";
-import parse from "../parser";
+import parse, { pathHeading } from "../parser";
 
 export const router = Router()
 
@@ -18,15 +20,22 @@ router.get(/.*/, async (req: Request, res: Response) => {
     let body = liveContent.get(path);
     if (!body) {
         try {
-            const data = readFileSync(path);
-            const type = getMimeFromPath(path);
+            if (lstatSync(path).isDirectory()) {
+                const list = readdirSync(path).map((item) =>
+                   `- [\`${item}\`](${join(basename(path), item)})`
+                ).join('\n')
+                body = parse(`${pathHeading(path)}\n\n${list}`);
+            } else {
+                const data = readFileSync(path);
+                const type = getMimeFromPath(path);
 
-            if (!type.startsWith('text/')) {
-                res.setHeader('Content-Type', type).send(data);
-                return;
+                if (!type.startsWith('text/')) {
+                    res.setHeader('Content-Type', type).send(data);
+                    return;
+                }
+
+                body = parse(data.toString(), path);
             }
-
-            body = parse(data.toString(), path);
         } catch {
             res.status(404).send('File not found.');
             return;

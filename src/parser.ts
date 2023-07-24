@@ -25,12 +25,15 @@ mdit.use(require("markdown-it-task-lists"));
 mdit.use(require("markdown-it-inject-linenumbers"));
 mdit.use(require("markdown-it-katex"));
 
+export const pathHeading = (path: string) =>
+    `# \`${path.replace(homedir(), '~')}\``
+
 export default function parse(src: string, path?: string) {
     let md = src;
 
     const fileEnding = path?.split('.')?.at(-1);
     if (fileEnding && fileEnding !== 'md') {
-        md = `# \`${path!.replace(homedir(), '~')}\`\n\`\`\`${fileEnding}\n${src}\n\`\`\``
+        md = `${pathHeading(path!)}\n\n\`\`\`${fileEnding}\n${src}\n\`\`\``
     }
 
     return mdit.render(md);
