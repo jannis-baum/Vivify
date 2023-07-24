@@ -1,6 +1,8 @@
-import express from 'express';
 import { createServer } from 'http';
 import path from 'path';
+import { homedir } from 'os';
+
+import express from 'express';
 
 import { router as healthRouter } from './routes/health';
 import { router as viewerRouter } from './routes/viewer';
@@ -13,7 +15,7 @@ app.use(express.json());
 app.use((req, res, next) => {
     res.locals.filepath = req.path
         .replace(/^\/(viewer|health)/, '')
-        .replace(/^.*~/, process.env['HOME']!);
+        .replace(/^.*~/, homedir());
     next();
 });
 app.use('/static', express.static(path.join(__dirname, '../static')));

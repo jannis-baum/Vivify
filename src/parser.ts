@@ -1,3 +1,5 @@
+import { homedir } from "os";
+
 import MarkdownIt from "markdown-it";
 import hljs from "highlight.js";
 import anchor from "markdown-it-anchor";
@@ -28,7 +30,7 @@ export default function parse(src: string, path?: string) {
 
     const fileEnding = path?.split('.')?.at(-1);
     if (fileEnding && fileEnding !== 'md') {
-        md = `# \`${path!.replace(process.env['HOME']!, '~')}\`\n\`\`\`${fileEnding}\n${src}\n\`\`\``
+        md = `# \`${path!.replace(homedir(), '~')}\`\n\`\`\`${fileEnding}\n${src}\n\`\`\``
     }
 
     return mdit.render(md);
