@@ -1,7 +1,9 @@
 import MarkdownIt from "markdown-it";
 import anchor from "markdown-it-anchor";
 
-const mdit = new MarkdownIt();
+const mdit = new MarkdownIt({
+    html: true
+});
 mdit.use(anchor, { permalink: anchor.permalink.ariaHidden({
     placement: 'before'
 }) });
