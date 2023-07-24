@@ -187,14 +187,7 @@
   resolved "https://registry.yarnpkg.com/@types/linkify-it/-/linkify-it-3.0.2.tgz#fd2cd2edbaa7eaac7e7f3c1748b52a19143846c9"
   integrity sha512-HZQYqbiFVWufzCwexrvh694SOim8z2d+xJl5UNamcvQFejLY/2YUtzXHYi3cHdI7PMlS8ejH2slRAOJQ32aNbA==
 
-"@types/markdown-it-emoji@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@types/markdown-it-emoji/-/markdown-it-emoji-2.0.2.tgz#f12a97df2758f38b4b38f277b468780459faff14"
-  integrity sha512-2ln8Wjbcj/0oRi/6VnuMeWEHHuK8uapFttvcLmDIe1GKCsFBLOLBX+D+xhDa9oWOQV0IpvxwrSfKKssAqqroog==
-  dependencies:
-    "@types/markdown-it" "*"
-
-"@types/markdown-it@*", "@types/markdown-it@^12.2.3":
+"@types/markdown-it@^12.2.3":
   version "12.2.3"
   resolved "https://registry.yarnpkg.com/@types/markdown-it/-/markdown-it-12.2.3.tgz#0d6f6e5e413f8daaa26522904597be3d6cd93b51"
   integrity sha512-GKMHFfv3458yYy+v/N8gjufHO6MSZKCOXpZc5GXIWWy8uldwfmPn98vp81gZ5f9SVw8YYBctgfJ22a2d7AOMeQ==
@@ -950,6 +943,11 @@ markdown-it-emoji@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/markdown-it-emoji/-/markdown-it-emoji-2.0.2.tgz#cd42421c2fda1537d9cc12b9923f5c8aeb9029c8"
   integrity sha512-zLftSaNrKuYl0kR5zm4gxXjHaOI3FAOEaloKmRA5hijmJZvSjmxcokOLlzycb/HXlUFWzXqpIEoyEMCE4i9MvQ==
+
+markdown-it-inject-linenumbers@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/markdown-it-inject-linenumbers/-/markdown-it-inject-linenumbers-0.3.0.tgz#654364fa7a2dcb5f4461ef6d29d2603b74b29fd7"
+  integrity sha512-c9ymcXUunjCJ8vNBNrg3JMT5d94IxAy6KHJ891vuZf/go98opU77X5neiVIi9Rer3v+03WYk5913J1pVmJOV0g==
 
 markdown-it-task-lists@^2.1.1:
   version "2.1.1"
