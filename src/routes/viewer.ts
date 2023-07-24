@@ -3,7 +3,7 @@ import { Request, Response, Router } from "express";
 import { readFileSync } from "fs";
 
 import { messageClientsAt } from "../app";
-import mdParse from "../mdit";
+import mdParse from "../parser";
 
 export const router = Router()
 
