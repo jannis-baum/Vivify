@@ -21,9 +21,9 @@ router.get(/.*/, async (req: Request, res: Response) => {
     if (!body) {
         try {
             if (lstatSync(path).isDirectory()) {
-                const list = readdirSync(path).map((item) =>
-                   `- [\`${item}\`](${join(basename(path), item)})`
-                ).join('\n')
+                const list = ['..', ...readdirSync(path)].map((item) =>
+                   `- [\`${item}\`](/viewer${join(path, item)})`
+                ).join('\n');
                 body = parse(`${pathHeading(path)}\n\n${list}`);
             } else {
                 const data = readFileSync(path);

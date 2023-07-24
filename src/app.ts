@@ -15,7 +15,8 @@ app.use(express.json());
 app.use((req, res, next) => {
     res.locals.filepath = req.path
         .replace(/^\/(viewer|health)/, '')
-        .replace(/^.*~/, homedir());
+        .replace(/^.*~/, homedir())
+        .replace(/\/$/, '');
     next();
 });
 app.use('/static', express.static(path.join(__dirname, '../static')));
