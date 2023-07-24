@@ -3,7 +3,7 @@ import { Request, Response, Router } from "express";
 import { readFileSync } from "fs";
 
 import { messageClientsAt } from "../app";
-import mdit from "../mdit"
+import mdParse from "../mdit";
 
 export const router = Router()
 
@@ -26,7 +26,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 return;
             }
 
-            body = mdit.render(data.toString());
+            body = mdParse(data.toString());
         } catch {
             res.status(404).send('File not found.');
             return;
@@ -50,7 +50,7 @@ router.post(/.*/, async (req: Request, res: Response) => {
     const path = req.path;
     const { content, cursor } = req.body;
 
-    const parsed = mdit.render(content);
+    const parsed = mdParse(content);
     liveContent.set(path, parsed);
 
     messageClientsAt(path, `UPDATE: ${parsed}`);

@@ -9,4 +9,5 @@ mdit.use(require("markdown-it-emoji"));
 mdit.use(require("markdown-it-task-lists"));
 mdit.use(require("markdown-it-inject-linenumbers"));
 
-export default mdit;
+const mdParse = (src: string) => mdit.render(src);
+export default mdParse;
