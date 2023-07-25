@@ -20,10 +20,12 @@ const mdit = new MarkdownIt({
 mdit.use(anchor, { permalink: anchor.permalink.ariaHidden({
     placement: 'before'
 }) });
+/* eslint-disable @typescript-eslint/no-var-requires */
 mdit.use(require("markdown-it-emoji"));
 mdit.use(require("markdown-it-task-lists"));
 mdit.use(require("markdown-it-inject-linenumbers"));
 mdit.use(require("markdown-it-katex"));
+/* eslint-enable @typescript-eslint/no-var-requires */
 
 export const pathHeading = (path: string) =>
     `# \`${path.replace(homedir(), '~')}\``
