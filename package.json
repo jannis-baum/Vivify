@@ -1,12 +1,11 @@
 {
   "name": "vivify-server",
-  "version": "0.0.1",
   "repository": "https://github.com/jannis-baum/vivify.git",
   "author": "Jannis Baum",
   "scripts": {
     "dev-prog": "VIV_CMD='./node_modules/.bin/ts-node ./src/app.ts' ./viv",
     "dev": "VIV_TIMEOUT=0 nodemon --exec ts-node ./src/app.ts",
-    "build": "tsc --project . && pkg .",
+    "build": "./build.sh",
     "lint": "eslint src static"
   },
   "bin": "dist/app.js",
@@ -14,7 +13,7 @@
     "scripts": "dist/**/*.js",
     "assets": "static/**/*",
     "targets": [
-      "latest-macos-arm64"
+        "latest-macos", "latest-linux"
     ],
     "outputPath": "bin"
   },
