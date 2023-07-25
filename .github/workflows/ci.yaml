@@ -2,6 +2,9 @@ name: CI
 
 on: push
 
+permissions:
+  contents: write
+
 jobs:
   lint:
     name: Lint
@@ -16,14 +19,20 @@ jobs:
     needs: [lint]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: yarn
-      - run: yarn build
-      - uses: actions/upload-artifact@v3
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: build
+        run: |
+          yarn
+          yarn build
+      - name: package
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          zip -r vivify-macos-${{ github.ref_name }}.zip bin/macos/*
+          zip -r vivify-linux-${{ github.ref_name }}.zip bin/linux/*
+      - name: release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
         with:
-          name: macos-${{ github.sha }}
-          path: bin/macos
-      - uses: actions/upload-artifact@v3
-        with:
-          name: linux-${{ github.sha }}
-          path: bin/linux
+          generate_release_notes: true
+          files: vivify-*.zip
