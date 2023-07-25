@@ -19,3 +19,11 @@ jobs:
       - uses: actions/checkout@v3
       - run: yarn
       - run: yarn build
+      - uses: actions/upload-artifact@v3
+        with:
+          name: macos-${{ github.sha }}
+          path: bin/macos
+      - uses: actions/upload-artifact@v3
+        with:
+          name: linux-${{ github.sha }}
+          path: bin/linux
