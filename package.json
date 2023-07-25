@@ -14,7 +14,7 @@
     "scripts": "dist/**/*.js",
     "assets": "static/**/*",
     "targets": [
-      "latest-macos-arm64"
+        "latest-macos", "latest-linux"
     ],
     "outputPath": "bin"
   },
