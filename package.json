@@ -1,6 +1,5 @@
 {
   "name": "vivify-server",
-  "version": "0.0.1",
   "repository": "https://github.com/jannis-baum/vivify.git",
   "author": "Jannis Baum",
   "scripts": {
