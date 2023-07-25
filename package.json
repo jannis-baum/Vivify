@@ -6,7 +6,7 @@
   "scripts": {
     "dev-prog": "VIV_CMD='./node_modules/.bin/ts-node ./src/app.ts' ./viv",
     "dev": "VIV_TIMEOUT=0 nodemon --exec ts-node ./src/app.ts",
-    "build": "tsc --project . && pkg .",
+    "build": "./build.sh",
     "lint": "eslint src static"
   },
   "bin": "dist/app.js",
