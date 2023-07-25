@@ -1,6 +1,6 @@
 import { execSync } from "child_process";
 import { lstatSync, readdirSync, readFileSync } from "fs";
-import { dirname, join } from "path";
+import { basename, dirname, join } from "path";
 
 import { Request, Response, Router } from "express";
 
@@ -46,9 +46,10 @@ router.get(/.*/, async (req: Request, res: Response) => {
         <!DOCTYPE html>
         <html>
             <head>
-              <link rel="stylesheet" type="text/css" href="/static/style.css"/>
-              <link rel="stylesheet" type="text/css" href="/static/highlight.css">
-              <link rel="stylesheet" type="text/css" href="/static/katex/katex.css">
+                <title>${join(basename(dirname(path)), basename(path))}</title>
+                <link rel="stylesheet" type="text/css" href="/static/style.css"/>
+                <link rel="stylesheet" type="text/css" href="/static/highlight.css">
+                <link rel="stylesheet" type="text/css" href="/static/katex/katex.css">
             <body>
                 <a id="parent-dir" href="/viewer${dirname(path)}">↩</a>
                 <div id="body-content">
