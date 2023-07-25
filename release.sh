@@ -5,7 +5,7 @@ if [ "$1" != "minor" -a "$1" != "major" ]; then
     exit 1
 fi
 
-version="v0.0.0"
+version="v0.0.1"
 prev=$(git tag --sort=version:refname | tail -1)
 
 if [ -n "$prev" ]; then
