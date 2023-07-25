@@ -1,0 +1,21 @@
+name: CI
+
+on: push
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: yarn
+      - run: yarn lint
+
+  build:
+    name: Build
+    needs: [lint]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: yarn
+      - run: yarn build

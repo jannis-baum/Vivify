@@ -6,7 +6,8 @@
   "scripts": {
     "dev-prog": "VIV_CMD='./node_modules/.bin/ts-node ./src/app.ts' ./viv",
     "dev": "VIV_TIMEOUT=0 nodemon --exec ts-node ./src/app.ts",
-    "build": "tsc --project . && pkg ."
+    "build": "tsc --project . && pkg .",
+    "lint": "eslint src static"
   },
   "bin": "dist/app.js",
   "pkg": {
@@ -35,8 +36,14 @@
     "@types/node": "^20.4.2",
     "@types/uuid": "^9.0.2",
     "@types/ws": "^8.5.5",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^5.0.0",
     "nodemon": "^3.0.1",
     "pkg": "^5.8.1",
+    "prettier": "^3.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   }

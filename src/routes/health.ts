@@ -1,8 +1,8 @@
-import { Request, Response, Router } from "express";
+import { Request, Response, Router } from 'express';
 
-import { clientsAt } from "../app";
+import { clientsAt } from '../app';
 
-export const router = Router()
+export const router = Router();
 
 router.get('/', async (_: Request, res: Response) => {
     res.end();

@@ -29,14 +29,14 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
         });
 
         socket.on('message', (message) => {
-            const fields = message.toString().split(': ')
+            const fields = message.toString().split(': ');
             if (fields.length != 2) return;
             const [key, value] = fields;
 
             switch (key) {
                 case 'PATH':
-                    sockets.get(id)!.path = value
-                    break
+                    sockets.get(id)!.path = value;
+                    break;
             }
         });
     });
@@ -56,13 +56,9 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
 
     wss.on('close', () => clearInterval(interval));
 
-    const clientsAt = (p: string) =>
-        [...sockets.values()]
-        .filter(({ path }) => path == p);
+    const clientsAt = (p: string) => [...sockets.values()].filter(({ path }) => path == p);
     const messageClientsAt = (p: string, message: string) =>
-        clientsAt(p)
-        .forEach(({ socket }) => socket.send(message))
+        clientsAt(p).forEach(({ socket }) => socket.send(message));
 
     return { clientsAt, messageClientsAt };
 }
-
