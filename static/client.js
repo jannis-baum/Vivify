@@ -5,7 +5,7 @@ ws.addEventListener('open', () => {
 });
 
 ws.addEventListener('message', (event) => {
-    const fields = event.data.toString().split(': ')
+    const fields = event.data.toString().split(': ');
     if (fields.length < 2) return;
     const [key, ...values] = fields;
     const value = values.join(': ');
@@ -19,7 +19,10 @@ ws.addEventListener('message', (event) => {
             while (line) {
                 const targets = document.querySelectorAll(`[data-source-line="${line - 1}"]`);
                 if (targets.length) {
-                    targets[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    targets[0].scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest',
+                    });
                     break;
                 }
                 line -= 1;

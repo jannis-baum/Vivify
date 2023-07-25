@@ -1,15 +1,15 @@
-import { execSync } from "child_process";
-import { lstatSync, readdirSync, readFileSync } from "fs";
-import { basename, dirname, join } from "path";
+import { execSync } from 'child_process';
+import { lstatSync, readdirSync, readFileSync } from 'fs';
+import { basename, dirname, join } from 'path';
 
-import { Request, Response, Router } from "express";
+import { Request, Response, Router } from 'express';
 
-import { messageClientsAt } from "../app";
-import parse, { pathHeading } from "../parser";
+import { messageClientsAt } from '../app';
+import parse, { pathHeading } from '../parser';
 
-export const router = Router()
+export const router = Router();
 
-const liveContent = new Map<string, string>()
+const liveContent = new Map<string, string>();
 
 const getMimeFromPath = (path: string) =>
     execSync(`file --mime-type -b '${path}'`).toString().trim();
@@ -21,9 +21,9 @@ router.get(/.*/, async (req: Request, res: Response) => {
     if (!body) {
         try {
             if (lstatSync(path).isDirectory()) {
-                const list = readdirSync(path).map((item) =>
-                   `- [\`${item}\`](/viewer${join(path, item)})`
-                ).join('\n');
+                const list = readdirSync(path)
+                    .map((item) => `- [\`${item}\`](/viewer${join(path, item)})`)
+                    .join('\n');
                 body = parse(`${pathHeading(path)}\n\n${list}`);
             } else {
                 const data = readFileSync(path);
@@ -63,7 +63,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
             <script type="text/javascript" src="/static/client.js"></script>
         </html>
     `);
-})
+});
 
 router.post(/.*/, async (req: Request, res: Response) => {
     const path = res.locals.filepath;
@@ -77,16 +77,15 @@ router.post(/.*/, async (req: Request, res: Response) => {
     if (cursor) messageClientsAt(path, `SCROLL: ${cursor}`);
 
     res.end();
-})
+});
 
 router.delete(/.*/, async (req: Request, res: Response) => {
     const path = req.path;
     if (path === '/') {
-        const paths = [...liveContent.keys()]
+        const paths = [...liveContent.keys()];
         liveContent.clear();
         paths.forEach((path) => messageClientsAt(path, 'RELOAD: 1'));
-    }
-    else {
+    } else {
         liveContent.delete(path) && messageClientsAt(path, 'RELOAD: 1');
     }
     res.end();
