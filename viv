@@ -16,6 +16,16 @@ if ! [ -f "$1" ]; then
 fi
 FILE=`realpath "$1"`
 
+if [ -z "$VIV_OPEN" ]; then
+    which open 1>/dev/null 2>/dev/null && VIV_OPEN="open"
+    which xdg-open 1>/dev/null 2>/dev/null && VIV_OPEN="xdg-open"
+
+    if [ -z "$VIV_OPEN" ]; then
+        echo 'Please specify an "open" command in $VIV_OPEN'
+        exit 1
+    fi
+fi
+
 [ -z "$VIV_PORT" ] && VIV_PORT=31622
 VIV_ADDR=http://localhost:$VIV_PORT
 [ -z "$VIV_CMD" ] && VIV_CMD=vivify-server
@@ -28,4 +38,4 @@ if ! curl --fail-with-body -v $VIV_ADDR/health 1>/dev/null 2>/dev/null; then
     done
 fi
 
-open $VIV_ADDR/viewer$FILE
+$VIV_OPEN $VIV_ADDR/viewer$FILE
