@@ -418,6 +418,11 @@
     "@typescript-eslint/types" "6.2.0"
     eslint-visitor-keys "^3.4.1"
 
+"@viz-js/viz@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@viz-js/viz/-/viz-3.1.0.tgz#f192a4f98f1fa187b959f2f54d169531677a0d99"
+  integrity sha512-rQi2PL9HoqTpE5DVodGgSLRdRVkDVgTG36AdcUR8EWxHL45KoUw7PAzZLm70vgK+QbUN6nCraTtqgxyqeJzxBA==
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
