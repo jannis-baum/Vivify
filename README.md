@@ -23,6 +23,7 @@ Vivify brings your (Markdown) files to life in the browser!
 - full Katex math support
 - GitHub task-lists
 - syntax highlighting for code
+- graphviz/dot graphs
 
 If you need any additional features, feel free to [open an
 issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
