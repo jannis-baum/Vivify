@@ -4,7 +4,7 @@
   "author": "Jannis Baum",
   "scripts": {
     "dev-prog": "VIV_CMD='./node_modules/.bin/ts-node ./src/app.ts' ./viv",
-    "dev": "VIV_TIMEOUT=0 nodemon --exec ts-node ./src/app.ts",
+    "dev": "VIV_TIMEOUT=0 VIV_PORT=3000 nodemon --exec ts-node ./src/app.ts",
     "build": "./build.sh",
     "lint": "eslint src static"
   },
