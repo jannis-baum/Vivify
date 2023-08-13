@@ -1,23 +1,13 @@
 import { homedir } from 'os';
 
 import MarkdownIt from 'markdown-it';
-import hljs from 'highlight.js';
 import anchor from 'markdown-it-anchor';
+import highlight from './highlight';
+import graphviz from './dot';
 
 const mdit = new MarkdownIt({
     html: true,
-    highlight: (str, lang) => {
-        let content = str;
-        if (lang && hljs.getLanguage(lang)) {
-            try {
-                content = hljs.highlight(content, {
-                    language: lang,
-                    ignoreIllegals: true,
-                }).value;
-            } catch (_) {}
-        }
-        return `<pre class="language-${lang}"><code>${content}</code></pre>`;
-    },
+    highlight: highlight,
 });
 
 mdit.use(anchor, {
@@ -31,6 +21,7 @@ mdit.use(require('markdown-it-task-lists'));
 mdit.use(require('markdown-it-inject-linenumbers'));
 mdit.use(require('markdown-it-katex'));
 /* eslint-enable @typescript-eslint/no-var-requires */
+mdit.use(graphviz);
 
 export const pathHeading = (path: string) => `# \`${path.replace(homedir(), '~')}\``;
 

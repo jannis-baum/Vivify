@@ -4,7 +4,7 @@
   "author": "Jannis Baum",
   "scripts": {
     "dev-prog": "VIV_CMD='./node_modules/.bin/ts-node ./src/app.ts' ./viv",
-    "dev": "VIV_TIMEOUT=0 nodemon --exec ts-node ./src/app.ts",
+    "dev": "VIV_TIMEOUT=0 VIV_PORT=3000 nodemon --exec ts-node ./src/app.ts",
     "build": "./build.sh",
     "lint": "eslint src static"
   },
@@ -13,11 +13,13 @@
     "scripts": "dist/**/*.js",
     "assets": "static/**/*",
     "targets": [
-        "latest-macos", "latest-linux"
+      "latest-macos",
+      "latest-linux"
     ],
     "outputPath": "bin"
   },
   "dependencies": {
+    "@viz-js/viz": "^3.1.0",
     "express": "^4.18.2",
     "highlight.js": "^11.8.0",
     "markdown-it": "^13.0.1",

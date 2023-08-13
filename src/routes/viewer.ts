@@ -5,7 +5,7 @@ import { basename, dirname, join } from 'path';
 import { Request, Response, Router } from 'express';
 
 import { messageClientsAt } from '../app';
-import parse, { pathHeading } from '../parser';
+import parse, { pathHeading } from '../parser/parser';
 
 export const router = Router();
 

@@ -1,3 +1,11 @@
+// here anything that needs to be initialized asynchronously once can register
+// to run at startup
+// this needs to be declared and exported first!
+const asyncInits = new Array<() => Promise<void>>();
+export const registerAsyncInit = (f: () => Promise<void>) => {
+    asyncInits.push(f);
+};
+
 import { createServer } from 'http';
 import path from 'path';
 import { homedir } from 'os';
@@ -25,7 +33,8 @@ app.use('/viewer', viewerRouter);
 
 const server = createServer(app);
 
-server.listen(process.env['VIV_PORT'], () => {
+server.listen(process.env['VIV_PORT'], async () => {
+    await Promise.all(asyncInits.map(async (i) => await i()));
     console.log(`App is listening on port ${process.env['VIV_PORT']}!`);
 });
 
