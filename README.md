@@ -15,6 +15,12 @@ Vivify brings your (Markdown) files to life in the browser!
   support](#editor-support))
 - Vivify server starts lazily and automatically shuts down when no more viewers
   are connected
+- customize KaTeX to your needs by providing available [KaTeX
+  options](#KaTeX-options)
+  
+If you need any additional features, feel free to [open an
+issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
+[contribute](CONTRIBUTING.md)!
 
 ### Markdown
 
@@ -25,9 +31,19 @@ Vivify brings your (Markdown) files to life in the browser!
 - syntax highlighting for code
 - graphviz/dot graphs
 
-If you need any additional features, feel free to [open an
-issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
-[contribute](CONTRIBUTING.md)!
+### KaTeX options
+
+Customize KaTeX to your needs by providing an optional
+`~/.vivify/katex_config.json` config file with [available KaTeX
+options](https://katex.org/docs/options.html). For example:
+```
+{
+        "errorColor": "#cc0000",
+        "macros": {
+                "\\RR": "\\mathbb{R}"
+        }
+}
+```
 
 ## Usage
 
