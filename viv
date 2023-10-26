@@ -16,12 +16,23 @@ if ! [ -f "$1" ]; then
 fi
 FILE=`realpath "$1"`
 
+if which jq 1>/dev/null 2>/dev/null; then
+    test -f ~/.vivify.json && VIV_CONFIG=~/.vivify.json
+    test -f ~/.vivify/config.json && VIV_CONFIG=~/.vivify/config.json
+
+    if [ -n "$VIV_CONFIG" ]; then
+        [ -z "$VIV_PORT" ]    && export VIV_PORT="`jq -r '.port' "$VIV_CONFIG" | sed 's/^null$//'`"
+        [ -z "$VIV_TIMEOUT" ] && export VIV_TIMEOUT="`jq -r '.timeout' "$VIV_CONFIG" | sed 's/^null$//'`"
+        [ -z "$VIV_OPEN" ]    && export VIV_OPEN="`jq -r '.openCmd' "$VIV_CONFIG" | sed 's/^null$//'`"
+    fi
+fi
+
 if [ -z "$VIV_OPEN" ]; then
     which open 1>/dev/null 2>/dev/null && VIV_OPEN="open"
     which xdg-open 1>/dev/null 2>/dev/null && VIV_OPEN="xdg-open"
 
     if [ -z "$VIV_OPEN" ]; then
-        echo 'Please specify an "open" command in $VIV_OPEN'
+        echo 'Please specify an "open" command in ~/.vivify/config.json, ~/.vivify.json, or $VIV_OPEN'
         exit 1
     fi
 fi
