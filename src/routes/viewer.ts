@@ -6,6 +6,7 @@ import { Request, Response, Router } from 'express';
 
 import { messageClientsAt } from '../app';
 import parse, { pathHeading } from '../parser/parser';
+import config from '../parser/config';
 
 export const router = Router();
 
@@ -13,6 +14,11 @@ const liveContent = new Map<string, string>();
 
 const getMimeFromPath = (path: string) =>
     execSync(`file --mime-type -b '${path}'`).toString().trim();
+
+const pageTitle = (path: string) => {
+    if (config.pageTitle) return eval(`const path = "${path}"; ${config.pageTitle}`);
+    else return join(basename(dirname(path)), basename(path));
+};
 
 router.get(/.*/, async (req: Request, res: Response) => {
     const path = res.locals.filepath;
@@ -46,10 +52,13 @@ router.get(/.*/, async (req: Request, res: Response) => {
         <!DOCTYPE html>
         <html>
             <head>
-                <title>${join(basename(dirname(path)), basename(path))}</title>
+                <title>${pageTitle(path)}</title>
                 <link rel="stylesheet" type="text/css" href="/static/style.css"/>
                 <link rel="stylesheet" type="text/css" href="/static/highlight.css">
                 <link rel="stylesheet" type="text/css" href="/static/katex/katex.css">
+                <style>
+                  ${config.styles}
+                </style>
             <body>
                 <a id="parent-dir" href="/viewer${dirname(path)}">↩</a>
                 <div id="body-content">
