@@ -27,9 +27,9 @@ mdit.use(require('markdown-it-emoji'));
 mdit.use(require('markdown-it-task-lists'));
 mdit.use(require('markdown-it-inject-linenumbers'));
 mdit.use(require('markdown-it-texmath'), {
-	engine: require('katex'),
-	delimiters: 'dollars',
-	katexOptions: katexConfig
+    engine: require('katex'),
+    delimiters: 'dollars',
+    katexOptions: katexConfig,
 });
 /* eslint-enable @typescript-eslint/no-var-requires */
 mdit.use(graphviz);
