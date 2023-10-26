@@ -15,8 +15,7 @@ Vivify brings your (Markdown) files to life in the browser!
   support](#editor-support))
 - Vivify server starts lazily and automatically shuts down when no more viewers
   are connected
-- customize KaTeX to your needs by providing available [KaTeX
-  options](#KaTeX-options)
+- various [config options](#config)
   
 If you need any additional features, feel free to [open an
 issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
@@ -31,19 +30,40 @@ issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
 - syntax highlighting for code
 - graphviz/dot graphs
 
-### KaTeX options
+### Config
 
-Customize KaTeX to your needs by providing an optional
-`~/.vivify/katex_config.json` config file with [available KaTeX
-options](https://katex.org/docs/options.html). For example:
-```
-{
-        "errorColor": "#cc0000",
-        "macros": {
-                "\\RR": "\\mathbb{R}"
-        }
-}
-```
+Vivify will look for a config file at `~/.vivify/config.json` and
+`~/.vivify.json`. This file should contain a JSON object that can have the
+following optional keys:
+
+- **`"styles"`**\
+  a path to a custom style sheet, see [the default
+  styles](./static/) for examples
+- **`"port"`**\
+  the port Vivify's server should run on; this will be overwritten by
+  the environment variable `VIV_PORT` (default is 31622)
+- **`"timeout"`**\
+  how long the server should wait in ms before shutting down after
+  the last client disconnected; this will be overwritten by the environment
+  variable `VIV_TIMEOUT` (default is 10000)
+- **`"openCmd"`**\
+  the command `viv` uses to open your browser at a given URL; this
+  will be overwritten by the environment variable `VIV_OPEN` (default will try
+  `open` and fall back to `xdg-open`)
+- **`"katexOptions"`**\
+  [available KaTeX options](https://katex.org/docs/options.html), such as
+  ```json
+  {
+    "errorColor": "#cc0000",
+    "macros": {
+      "\\RR": "\\mathbb{R}"
+    }
+  }
+  ```
+- **`"pageTitle"`**\
+  JavaScript code that will be evaluated to determine the
+  viewer's page title based on the variable `path` for the given file (default
+  is `join(basename(dirname(path)), basename(path))`, e.g. `my_dir/my_file`)
 
 ## Usage
 
@@ -76,7 +96,7 @@ I have been using
 [iamcco/markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
 for the longest time and started this project because
 
-1. I wanted a Markdown viewer that works without Vim and
+1. I wanted a Markdown viewer that works with and without Vim and
 2. I wanted a Markdown viewer that supports file links like in GitHub.
 
 Looking at
