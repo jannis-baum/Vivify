@@ -56,6 +56,9 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 <link rel="stylesheet" type="text/css" href="/static/style.css"/>
                 <link rel="stylesheet" type="text/css" href="/static/highlight.css">
                 <link rel="stylesheet" type="text/css" href="/static/katex/katex.css">
+                <style>
+                  ${config.styles}
+                </style>
             <body>
                 <a id="parent-dir" href="/viewer${dirname(path)}">↩</a>
                 <div id="body-content">

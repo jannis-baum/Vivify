@@ -23,4 +23,10 @@ for (const cp of configPaths) {
     } catch {}
 }
 
+if (config.styles && config.styles.length > 0) {
+    const stylePath =
+        config.styles[0] === '~' ? path.join(homedir(), config.styles.slice(1)) : config.styles;
+    config.styles = fs.existsSync(stylePath) ? fs.readFileSync(stylePath, 'utf8') : '';
+}
+
 export default config;
