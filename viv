@@ -10,7 +10,7 @@ if [ "$#" -ne 1 -o "$1" = "-h" -o "$1" = "--help" ]; then
     exit 1
 fi
 
-if ! [ -f "$1" ]; then
+if ! [ -f "$1" ] && ! [ -d "$1" ]; then
     echo "$1 not found"
     exit 1
 fi
