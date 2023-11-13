@@ -1,5 +1,5 @@
 import { execSync } from 'child_process';
-import { lstatSync, readdirSync, readFileSync } from 'fs';
+import { Dirent, lstatSync, readdirSync, readFileSync } from 'fs';
 import { basename, dirname, join } from 'path';
 
 import { Request, Response, Router } from 'express';
@@ -20,6 +20,11 @@ const pageTitle = (path: string) => {
     else return join(basename(dirname(path)), basename(path));
 };
 
+const formatByFileType = (item: Dirent) => {
+    if (item.isDirectory()) return `${item.name}/`;
+    return item.name;
+};
+
 router.get(/.*/, async (req: Request, res: Response) => {
     const path = res.locals.filepath;
 
@@ -27,7 +32,8 @@ router.get(/.*/, async (req: Request, res: Response) => {
     if (!body) {
         try {
             if (lstatSync(path).isDirectory()) {
-                const list = readdirSync(path)
+                const list = readdirSync(path, { withFileTypes: true })
+                    .map((item) => formatByFileType(item))
                     .map((item) => `- [\`${item}\`](/viewer${join(path, item)})`)
                     .join('\n');
                 body = parse(`${pathHeading(path)}\n\n${list}`);
