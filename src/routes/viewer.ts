@@ -21,8 +21,9 @@ const pageTitle = (path: string) => {
 };
 
 const formatByFileType = (item: Dirent) => {
-    if (item.isDirectory()) return `${item.name}/`;
-    return item.name;
+    const link = (label: string) => `- [${label}](/viewer${join(item.path, item.name)})`;
+    if (item.isDirectory()) return link(`📁 \`${item.name}/\``);
+    return link(`📄 \`${item.name}\``);
 };
 
 router.get(/.*/, async (req: Request, res: Response) => {
@@ -34,7 +35,6 @@ router.get(/.*/, async (req: Request, res: Response) => {
             if (lstatSync(path).isDirectory()) {
                 const list = readdirSync(path, { withFileTypes: true })
                     .map((item) => formatByFileType(item))
-                    .map((item) => `- [\`${item}\`](/viewer${join(path, item)})`)
                     .join('\n');
                 body = parse(`${pathHeading(path)}\n\n${list}`);
             } else {
