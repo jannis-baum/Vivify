@@ -21,9 +21,14 @@ const pageTitle = (path: string) => {
 };
 
 const formatByFileType = (item: Dirent) => {
-    const link = (label: string) => `- [${label}](/viewer${join(item.path, item.name)})`;
-    if (item.isDirectory()) return link(`📁 \`${item.name}/\``);
-    return link(`📄 \`${item.name}\``);
+    const link = (label: string, classSuffix: string) =>
+        `<li class="dir-list-${classSuffix}"><a href="/viewer${join(
+            item.path,
+            item.name,
+        )}">${label}</a></li>`;
+
+    if (item.isDirectory()) return link(`${item.name}/`, 'directory');
+    return link(item.name, 'file');
 };
 
 router.get(/.*/, async (req: Request, res: Response) => {
