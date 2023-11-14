@@ -61,9 +61,16 @@ following optional keys:
   }
   ```
 - **`"pageTitle"`**\
-  JavaScript code that will be evaluated to determine the
-  viewer's page title based on the variable `path` for the given file (default
-  is `join(basename(dirname(path)), basename(path))`, e.g. `my_dir/my_file`)
+  JavaScript code that will be evaluated to determine the viewer's page title.
+  Here, the variables
+  
+  - `path` (the full path),
+  - `basename` (the path's
+    [`basename`](https://nodejs.org/api/path.html#pathbasenamepath-suffix)), and
+  - `dirbasename` (the parent directory's `basename`)
+  
+  are defined according to the what the viewer is currently showing (default is
+  `` `${dirbasename}/${basename}` ``, e.g.  `my_dir/my_file`)
 
 Note that you need to have [`jq`](https://github.com/jqlang/jq) installed if you
 want to use a custom config file.

@@ -16,8 +16,14 @@ const getMimeFromPath = (path: string) =>
     execSync(`file --mime-type -b '${path}'`).toString().trim();
 
 const pageTitle = (path: string) => {
-    if (config.pageTitle) return eval(`const path = "${path}"; ${config.pageTitle}`);
-    else return join(basename(dirname(path)), basename(path));
+    if (config.pageTitle) {
+        return eval(`
+            const path = "${path}";
+            const basename = "${basename(path)}";
+            const dirbasename = "${basename(dirname(path))}";
+            ${config.pageTitle};
+        `);
+    } else return join(basename(dirname(path)), basename(path));
 };
 
 const dirListItem = (item: Dirent, path: string) => {
