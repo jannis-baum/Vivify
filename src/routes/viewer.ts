@@ -34,6 +34,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
         try {
             if (lstatSync(path).isDirectory()) {
                 const list = readdirSync(path, { withFileTypes: true })
+                    .sort((a, b) => +b.isDirectory() - +a.isDirectory())
                     .map((item) => formatByFileType(item))
                     .join('\n');
                 body = parse(`${pathHeading(path)}\n\n${list}`);
