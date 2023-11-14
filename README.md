@@ -69,8 +69,10 @@ following optional keys:
     [`basename`](https://nodejs.org/api/path.html#pathbasenamepath-suffix)), and
   - `dirbasename` (the parent directory's `basename`)
   
-  are defined according to the what the viewer is currently showing (default is
-  `` `${dirbasename}/${basename}` ``, e.g.  `my_dir/my_file`)
+  are defined according to the what the viewer is currently showing. If this
+  evaluation fails, the title will be *custom title error* and you will see the
+  error message on the page. The default title is ``
+  `${dirbasename}/${basename}` ``, e.g.  `my_dir/my_file`)
 
 Note that you need to have [`jq`](https://github.com/jqlang/jq) installed if you
 want to use a custom config file.

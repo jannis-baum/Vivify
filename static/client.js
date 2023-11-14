@@ -31,5 +31,8 @@ ws.addEventListener('message', (event) => {
         case 'RELOAD':
             window.location.reload();
             break;
+        case 'PRINT':
+            console.log(value);
+            break;
     }
 });

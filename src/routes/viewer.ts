@@ -61,11 +61,18 @@ router.get(/.*/, async (req: Request, res: Response) => {
         }
     }
 
+    let title = 'custom title error';
+    try {
+        title = pageTitle(path);
+    } catch (error) {
+        body = `Error evaluating custom page title: ${error as string}`;
+    }
+
     res.send(`
         <!DOCTYPE html>
         <html>
             <head>
-                <title>${pageTitle(path)}</title>
+                <title>${title}</title>
                 <link rel="stylesheet" type="text/css" href="/static/style.css"/>
                 <link rel="stylesheet" type="text/css" href="/static/highlight.css">
                 <link rel="stylesheet" type="text/css" href="/static/katex/katex.css">
