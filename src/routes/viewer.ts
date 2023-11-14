@@ -42,7 +42,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                     .sort((a, b) => +b.isDirectory() - +a.isDirectory())
                     .map((item) => formatByFileType(item))
                     .join('\n');
-                body = parse(`${pathHeading(path)}\n\n${list}`);
+                body = parse(`${pathHeading(path)}\n\n<ul class="dir-list">\n${list}\n</ul>`);
             } else {
                 const data = readFileSync(path);
                 const type = getMimeFromPath(path);
