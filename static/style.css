@@ -71,6 +71,11 @@ input.task-list-item-checkbox {
     transform: translateX(-1.44rem);
 }
 
+li[class^='dir-list-'] { list-style: none; }
+li[class^='dir-list-']:before { margin-right: 0.5rem; }
+li.dir-list-directory:before { content: '📁' }
+li.dir-list-file:before { content: '📄' }
+
 /* --------------------------------------------------------------------------
  * IMAGES ------------------------------------------------------------------- */
 img, svg { max-width: 100%; }
