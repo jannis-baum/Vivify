@@ -16,8 +16,14 @@ const getMimeFromPath = (path: string) =>
     execSync(`file --mime-type -b '${path}'`).toString().trim();
 
 const pageTitle = (path: string) => {
-    if (config.pageTitle) return eval(`const path = "${path}"; ${config.pageTitle}`);
-    else return join(basename(dirname(path)), basename(path));
+    if (config.pageTitle) {
+        return eval(`
+            const path = "${path}";
+            const basename = "${basename(path)}";
+            const dirbasename = "${basename(dirname(path))}";
+            ${config.pageTitle};
+        `);
+    } else return join(basename(dirname(path)), basename(path));
 };
 
 const dirListItem = (item: Dirent, path: string) => {
@@ -55,11 +61,18 @@ router.get(/.*/, async (req: Request, res: Response) => {
         }
     }
 
+    let title = 'custom title error';
+    try {
+        title = pageTitle(path);
+    } catch (error) {
+        body = `Error evaluating custom page title: ${error as string}`;
+    }
+
     res.send(`
         <!DOCTYPE html>
         <html>
             <head>
-                <title>${pageTitle(path)}</title>
+                <title>${title}</title>
                 <link rel="stylesheet" type="text/css" href="/static/style.css"/>
                 <link rel="stylesheet" type="text/css" href="/static/highlight.css">
                 <link rel="stylesheet" type="text/css" href="/static/katex/katex.css">
