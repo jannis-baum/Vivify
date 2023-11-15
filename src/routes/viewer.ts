@@ -20,10 +20,10 @@ const pageTitle = (path: string) => {
     else return join(basename(dirname(path)), basename(path));
 };
 
-const dirListItem = (item: Dirent) => {
+const dirListItem = (item: Dirent, path: string) => {
     return `<li class="dir-list-${
         item.isDirectory() ? 'directory' : 'file'
-    }"><a href="/viewer${join(item.path, item.name)}">${item.name}</a></li>`;
+    }"><a href="/viewer${join(path, item.name)}">${item.name}</a></li>`;
 };
 
 router.get(/.*/, async (req: Request, res: Response) => {
@@ -35,7 +35,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
             if (lstatSync(path).isDirectory()) {
                 const list = readdirSync(path, { withFileTypes: true })
                     .sort((a, b) => +b.isDirectory() - +a.isDirectory())
-                    .map((item) => dirListItem(item))
+                    .map((item) => dirListItem(item, path))
                     .join('\n');
                 body = parse(`${pathHeading(path)}\n\n<ul class="dir-list">\n${list}\n</ul>`);
             } else {
