@@ -1,5 +1,5 @@
 import { execSync } from 'child_process';
-import { lstatSync, readdirSync, readFileSync } from 'fs';
+import { Dirent, lstatSync, readdirSync, readFileSync } from 'fs';
 import { basename, dirname, join } from 'path';
 
 import { Request, Response, Router } from 'express';
@@ -20,6 +20,12 @@ const pageTitle = (path: string) => {
     else return join(basename(dirname(path)), basename(path));
 };
 
+const dirListItem = (item: Dirent, path: string) => {
+    return `<li class="dir-list-${
+        item.isDirectory() ? 'directory' : 'file'
+    }"><a href="/viewer${join(path, item.name)}">${item.name}</a></li>`;
+};
+
 router.get(/.*/, async (req: Request, res: Response) => {
     const path = res.locals.filepath;
 
@@ -27,10 +33,11 @@ router.get(/.*/, async (req: Request, res: Response) => {
     if (!body) {
         try {
             if (lstatSync(path).isDirectory()) {
-                const list = readdirSync(path)
-                    .map((item) => `- [\`${item}\`](/viewer${join(path, item)})`)
+                const list = readdirSync(path, { withFileTypes: true })
+                    .sort((a, b) => +b.isDirectory() - +a.isDirectory())
+                    .map((item) => dirListItem(item, path))
                     .join('\n');
-                body = parse(`${pathHeading(path)}\n\n${list}`);
+                body = parse(`${pathHeading(path)}\n\n<ul class="dir-list">\n${list}\n</ul>`);
             } else {
                 const data = readFileSync(path);
                 const type = getMimeFromPath(path);
