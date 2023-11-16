@@ -21,10 +21,14 @@ process.env['VIV_PORT'] = process.env['VIV_PORT'] ?? '31622';
 const app = express();
 app.use(express.json());
 app.use((req, res, next) => {
-    res.locals.filepath = req.path
-        .replace(/^\/(viewer|health)/, '')
-        .replace(/^.*~/, homedir())
-        .replace(/\/$/, '');
+    const path = req.path.replace(/^\/(viewer|health)/, '')
+    if (path === "/") {
+        res.locals.filepath = "/"
+    } else {
+        res.locals.filepath = path
+            .replace(/^~/, homedir())
+            .replace(/(\/)+$/, '');
+    }
     next();
 });
 app.use('/static', express.static(path.join(__dirname, '../static')));
