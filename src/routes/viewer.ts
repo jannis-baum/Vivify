@@ -1,6 +1,6 @@
 import { execSync } from 'child_process';
 import { Dirent, lstatSync, readdirSync, readFileSync } from 'fs';
-import { basename, dirname, join } from 'path';
+import { basename as pbasename, dirname as pdirname, join as pjoin, parse as pparse } from 'path';
 
 import { Request, Response, Router } from 'express';
 
@@ -15,21 +15,36 @@ const liveContent = new Map<string, string>();
 const getMimeFromPath = (path: string) =>
     execSync(`file --mime-type -b '${path}'`).toString().trim();
 
+const pcomponents = (path: string) => {
+    const parsed = pparse(path);
+    const components = new Array<string>();
+    // root
+    if (parsed.root !== '') components.push(parsed.root);
+    // directory
+    let dir = parsed.dir;
+    while (dir !== '/' && dir !== '') {
+        components.push(pbasename(dir));
+        dir = pdirname(dir);
+    }
+    // base
+    if (parsed.base !== '') components.push(parsed.base);
+    return components;
+};
+
 const pageTitle = (path: string) => {
+    const comps = pcomponents(path);
     if (config.pageTitle) {
         return eval(`
-            const path = "${path}";
-            const basename = "${basename(path)}";
-            const dirbasename = "${basename(dirname(path))}";
+            const components = "${comps}";
             ${config.pageTitle};
         `);
-    } else return join(basename(dirname(path)), basename(path));
+    } else return pjoin(...comps.slice(-2));
 };
 
 const dirListItem = (item: Dirent, path: string) => {
     return `<li class="dir-list-${
         item.isDirectory() ? 'directory' : 'file'
-    }"><a href="/viewer${join(path, item.name)}">${item.name}</a></li>`;
+    }"><a href="/viewer${pjoin(path, item.name)}">${item.name}</a></li>`;
 };
 
 router.get(/.*/, async (req: Request, res: Response) => {
@@ -68,9 +83,6 @@ router.get(/.*/, async (req: Request, res: Response) => {
         body = `Error evaluating custom page title: ${error as string}`;
     }
 
-    // Edge case: when pageTitle is set as "basename", on root directory it's an empty string
-    if (title === '') title = '/';
-
     res.send(`
         <!DOCTYPE html>
         <html>
@@ -83,7 +95,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                   ${config.styles}
                 </style>
             <body>
-                <a id="parent-dir" href="/viewer${dirname(path)}">↩</a>
+                <a id="parent-dir" href="/viewer${pdirname(path)}">↩</a>
                 <div id="body-content">
                     ${body}
                 </div>
