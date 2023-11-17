@@ -1,35 +1,16 @@
-import { execSync } from 'child_process';
 import { Dirent, lstatSync, readdirSync, readFileSync } from 'fs';
-import { basename as pbasename, dirname as pdirname, join as pjoin, parse as pparse } from 'path';
+import { dirname as pdirname, join as pjoin } from 'path';
 
 import { Request, Response, Router } from 'express';
 
 import { messageClientsAt } from '../app';
-import parse, { pathHeading } from '../parser/parser';
 import config from '../parser/config';
+import parse, { pathHeading } from '../parser/parser';
+import { pcomponents, pmime } from '../utils/path';
 
 export const router = Router();
 
 const liveContent = new Map<string, string>();
-
-const getMimeFromPath = (path: string) =>
-    execSync(`file --mime-type -b '${path}'`).toString().trim();
-
-const pcomponents = (path: string) => {
-    const parsed = pparse(path);
-    const components = new Array<string>();
-    // root
-    if (parsed.root !== '') components.push(parsed.root);
-    // directory
-    let dir = parsed.dir;
-    while (dir !== '/' && dir !== '') {
-        components.push(pbasename(dir));
-        dir = pdirname(dir);
-    }
-    // base
-    if (parsed.base !== '') components.push(parsed.base);
-    return components;
-};
 
 const pageTitle = (path: string) => {
     const comps = pcomponents(path);
@@ -61,7 +42,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 body = parse(`${pathHeading(path)}\n\n<ul class="dir-list">\n${list}\n</ul>`);
             } else {
                 const data = readFileSync(path);
-                const type = getMimeFromPath(path);
+                const type = pmime(path);
 
                 if (!type.startsWith('text/')) {
                     res.setHeader('Content-Type', type).send(data);
