@@ -68,6 +68,9 @@ router.get(/.*/, async (req: Request, res: Response) => {
         body = `Error evaluating custom page title: ${error as string}`;
     }
 
+    // Edge case: when pageTitle is set as "basename", on root directory it's an empty string
+    if (title === '') title = '/';
+
     res.send(`
         <!DOCTYPE html>
         <html>
