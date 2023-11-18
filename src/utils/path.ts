@@ -6,14 +6,14 @@ export const pmime = (path: string) => execSync(`file --mime-type -b '${path}'`)
 export const pcomponents = (path: string) => {
     const parsed = pparse(path);
     const components = new Array<string>();
-    // root
-    if (parsed.root !== '') components.push(parsed.root);
     // directory
     let dir = parsed.dir;
     while (dir !== '/' && dir !== '') {
-        components.push(pbasename(dir));
+        components.unshift(pbasename(dir));
         dir = pdirname(dir);
     }
+    // root
+    if (parsed.root !== '') components.unshift(parsed.root);
     // base
     if (parsed.base !== '') components.push(parsed.base);
     return components;
