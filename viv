@@ -49,4 +49,4 @@ if ! curl --fail-with-body -v $VIV_ADDR/health 1>/dev/null 2>/dev/null; then
     done
 fi
 
-$VIV_OPEN $VIV_ADDR/viewer$FILE
+$VIV_OPEN "$VIV_ADDR/viewer$FILE"
