@@ -65,8 +65,8 @@ following optional keys:
   Here, the variable `components` is set to a string array of path components
   for the current file, e.g. `['/', 'Users', 'you', 'file.txt']`. If this
   evaluation fails, the title will be *custom title error* and you will see the
-  error message on the page. The default title is
-  `components.splice(-2).join('/')`, e.g.  `you/file.txt`
+  error message on the page. The default title are the last two components
+  joined with the path separator, e.g.  `you/file.txt`
 
 Note that you need to have [`jq`](https://github.com/jqlang/jq) installed if you
 want to use a custom config file.
