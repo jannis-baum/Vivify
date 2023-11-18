@@ -14,9 +14,10 @@ const liveContent = new Map<string, string>();
 
 const pageTitle = (path: string) => {
     const comps = pcomponents(path);
+    console.log(comps, comps.slice(-2), pjoin(...comps.slice(-2)));
     if (config.pageTitle) {
         return eval(`
-            const components = "${comps}";
+            const components = ${JSON.stringify(comps)};
             ${config.pageTitle};
         `);
     } else return pjoin(...comps.slice(-2));
