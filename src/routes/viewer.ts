@@ -1,35 +1,31 @@
-import { execSync } from 'child_process';
 import { Dirent, lstatSync, readdirSync, readFileSync } from 'fs';
-import { basename, dirname, join } from 'path';
+import { dirname as pdirname, join as pjoin } from 'path';
 
 import { Request, Response, Router } from 'express';
 
 import { messageClientsAt } from '../app';
-import parse, { pathHeading } from '../parser/parser';
 import config from '../parser/config';
+import parse, { pathHeading } from '../parser/parser';
+import { pcomponents, pmime } from '../utils/path';
 
 export const router = Router();
 
 const liveContent = new Map<string, string>();
 
-const getMimeFromPath = (path: string) =>
-    execSync(`file --mime-type -b '${path}'`).toString().trim();
-
 const pageTitle = (path: string) => {
+    const comps = pcomponents(path);
     if (config.pageTitle) {
         return eval(`
-            const path = "${path}";
-            const basename = "${basename(path)}";
-            const dirbasename = "${basename(dirname(path))}";
+            const components = ${JSON.stringify(comps)};
             ${config.pageTitle};
         `);
-    } else return join(basename(dirname(path)), basename(path));
+    } else return pjoin(...comps.slice(-2));
 };
 
 const dirListItem = (item: Dirent, path: string) => {
     return `<li class="dir-list-${
         item.isDirectory() ? 'directory' : 'file'
-    }"><a href="/viewer${join(path, item.name)}">${item.name}</a></li>`;
+    }"><a href="/viewer${pjoin(path, item.name)}">${item.name}</a></li>`;
 };
 
 router.get(/.*/, async (req: Request, res: Response) => {
@@ -46,7 +42,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 body = parse(`${pathHeading(path)}\n\n<ul class="dir-list">\n${list}\n</ul>`);
             } else {
                 const data = readFileSync(path);
-                const type = getMimeFromPath(path);
+                const type = pmime(path);
 
                 if (!type.startsWith('text/')) {
                     res.setHeader('Content-Type', type).send(data);
@@ -80,7 +76,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                   ${config.styles}
                 </style>
             <body>
-                <a id="parent-dir" href="/viewer${dirname(path)}">↩</a>
+                <a id="parent-dir" href="/viewer${pdirname(path)}">↩</a>
                 <div id="body-content">
                     ${body}
                 </div>
