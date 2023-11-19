@@ -21,10 +21,11 @@ export const pcomponents = (path: string) => {
 };
 
 export const urlToPath = (url: string) => {
-    const encodedPath = url.replace(/^\/(viewer|health)\//, '');
-    const path = decodeURIComponent(encodedPath).replace(/^~/, homedir()).replace(/\/+$/, '');
+    const path = decodeURIComponent(url.replace(/^\/(viewer|health)/, ''))
+        .replace(/^~/, homedir())
+        .replace(/\/+$/, '');
     return path === '' ? '/' : path;
 };
 
 export const pathToURL = (path: string, route: string = 'viewer') =>
-    `/${route}/${encodeURIComponent(path)}`;
+    `/${route}${encodeURIComponent(path).replaceAll('%2F', '/')}`;
