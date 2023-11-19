@@ -8,22 +8,20 @@ export const registerAsyncInit = (f: () => Promise<void>) => {
 
 import { createServer } from 'http';
 import path from 'path';
-import { homedir } from 'os';
 
 import express from 'express';
 
 import { router as healthRouter } from './routes/health';
 import { router as viewerRouter } from './routes/viewer';
 import { setupSockets } from './sockets';
+import { urlToPath } from './utils/path';
 
 process.env['VIV_PORT'] = process.env['VIV_PORT'] ?? '31622';
 
 const app = express();
 app.use(express.json());
 app.use((req, res, next) => {
-    const encodedPath = req.path.replace(/^\/(viewer|health)\//, '');
-    const path = decodeURIComponent(encodedPath).replace(/^~/, homedir()).replace(/\/+$/, '');
-    res.locals.filepath = path === '' ? '/' : path;
+    res.locals.filepath = urlToPath(req.path);
     next();
 });
 app.use('/static', express.static(path.join(__dirname, '../static')));
