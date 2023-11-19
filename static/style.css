@@ -31,7 +31,10 @@ code {
     padding: 0.2rem;
     border-radius: 0.25rem;
 }
-pre > code { background-color: unset; }
+pre > code {
+    background-color: unset;
+    padding: unset;
+}
 
 /* --------------------------------------------------------------------------
  * LINKS -------------------------------------------------------------------- */
