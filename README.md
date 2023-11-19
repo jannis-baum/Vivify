@@ -68,11 +68,9 @@ following optional keys:
   error message on the page. The default title are the last two components
   joined with the path separator, e.g.  `you/file.txt`
 
-Note that you need to have [`jq`](https://github.com/jqlang/jq) installed if you
-want to use a custom config file.
-
 ## Usage
 
+- make sure you have [`jq`](https://github.com/jqlang/jq) installed
 - download & unpack the latest release for your system (macOS or Linux)
 - add the two executables to your `$PATH`
 - run `viv <file>` to view `<file>`
