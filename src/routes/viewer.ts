@@ -6,7 +6,7 @@ import { Request, Response, Router } from 'express';
 import { messageClientsAt } from '../app';
 import config from '../parser/config';
 import parse, { pathHeading } from '../parser/parser';
-import { pcomponents, pmime } from '../utils/path';
+import { pathToURL, pcomponents, pmime } from '../utils/path';
 
 export const router = Router();
 
@@ -22,11 +22,10 @@ const pageTitle = (path: string) => {
     } else return pjoin(...comps.slice(-2));
 };
 
-const dirListItem = (item: Dirent, path: string) => {
-    return `<li class="dir-list-${
-        item.isDirectory() ? 'directory' : 'file'
-    }"><a href="/viewer${pjoin(path, item.name)}">${item.name}</a></li>`;
-};
+const dirListItem = (item: Dirent, path: string) =>
+    `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}"><a href="${pathToURL(
+        pjoin(path, item.name),
+    )}">${item.name}</a></li>`;
 
 router.get(/.*/, async (req: Request, res: Response) => {
     const path = res.locals.filepath;
@@ -76,7 +75,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                   ${config.styles}
                 </style>
             <body>
-                <a id="parent-dir" href="/viewer${pdirname(path)}">↩</a>
+                <a id="parent-dir" href="${pathToURL(pdirname(path))}">↩</a>
                 <div id="body-content">
                     ${body}
                 </div>

@@ -14,7 +14,6 @@ if ! [ -f "$1" ] && ! [ -d "$1" ]; then
     echo "$1 not found"
     exit 1
 fi
-FILE=`realpath "$1"`
 
 if which jq 1>/dev/null 2>/dev/null; then
     test -f ~/.vivify.json && VIV_CONFIG=~/.vivify.json
@@ -49,4 +48,8 @@ if ! curl --fail-with-body -v $VIV_ADDR/health 1>/dev/null 2>/dev/null; then
     done
 fi
 
-$VIV_OPEN $VIV_ADDR/viewer$FILE
+FILE=`realpath "$1" \
+    | tr -d "\n" \
+    | jq --slurp --raw-input --raw-output @uri \
+    | sed 's|%2F|/|g'`
+$VIV_OPEN "$VIV_ADDR/viewer$FILE"
