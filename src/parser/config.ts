@@ -7,6 +7,7 @@ type Config = {
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     katexOptions?: any;
     pageTitle?: string;
+    mdExtensions?: string[];
 };
 let config: Config = {};
 

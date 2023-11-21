@@ -33,10 +33,10 @@ export const pathHeading = (path: string) => `# \`${path.replace(homedir(), '~')
 export default function parse(src: string, path?: string) {
     let md = src;
 
-    const mdEndings = ['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn'];
+    const mdExtensions = config.mdExtensions ?? ['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn'];
 
     const fileEnding = path?.split('.')?.at(-1);
-    if (fileEnding && !mdEndings.includes(fileEnding)) {
+    if (fileEnding && !mdExtensions.includes(fileEnding)) {
         md = `${pathHeading(path!)}\n\n\`\`\`${fileEnding}\n${src}\n\`\`\``;
     }
 
