@@ -67,6 +67,11 @@ following optional keys:
   evaluation fails, the title will be *custom title error* and you will see the
   error message on the page. The default title are the last two components
   joined with the path separator, e.g.  `you/file.txt`
+- **`"mdExtensions"`**\
+  An array of file extensions that Vivify will parse as Markdown. All other
+  files will be displayed as monospaced text with code highlighting if
+  available. Default Markdown extensions are `['markdown', 'md', 'mdown',
+  'mdwn', 'mkd', 'mkdn']`
 
 ## Usage
 
