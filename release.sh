@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ "$(git rev-parse --abbrev-ref HEAD)" != "main" ]; then
+    echo "Releases should only be made from branch main"
+    exit 1
+fi
+
 if [ "$1" != "minor" -a "$1" != "major" ]; then
     echo "Specify increment minor|major."
     exit 1
