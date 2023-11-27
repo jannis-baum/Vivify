@@ -44,6 +44,7 @@
 }
 
 /* light mode */
+/* source: https://github.com/highlightjs/highlight.js/blob/main/src/styles/github.css */
 @media (prefers-color-scheme: light) {
     .hljs {
         color: #24292e;
