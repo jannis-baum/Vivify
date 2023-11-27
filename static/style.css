@@ -24,7 +24,7 @@ h1, h2 {
 pre {
     background-color: #161616;
     padding: 1rem;
-    overflow: scroll;
+    overflow: auto;
 }
 code {
     background-color: #333;
@@ -67,6 +67,15 @@ a#parent-dir {
 a#parent-dir:hover { opacity: 1; }
 
 /* --------------------------------------------------------------------------
+ * QUOTES ------------------------------------------------------------------- */
+blockquote {
+    padding: 0 1em;
+    color: #6a6a6a;
+    border-left: .25em solid #353535;
+    margin-left: 0
+}
+
+/* --------------------------------------------------------------------------
  * LISTS -------------------------------------------------------------------- */
 li.task-list-item { list-style: none; }
 input.task-list-item-checkbox {
@@ -86,3 +95,37 @@ li.dir-list-file:before { content: '📄' }
 /* --------------------------------------------------------------------------
  * IMAGES ------------------------------------------------------------------- */
 img, svg { max-width: 100%; }
+
+/* --------------------------------------------------------------------------
+ * LIGHT MODE --------------------------------------------------------------- */
+@media (prefers-color-scheme: light) {
+    html {
+        background-color: white;
+        color: #1f2328;
+    }
+
+    h1, h2 {
+        border-bottom: 0.2px solid #d8dee4;
+    }
+
+    pre {
+        background-color: #f6f8fa;
+    }
+
+    code {
+        background-color: #afb8c133;
+    }
+
+    a {
+        color: #0969da;
+    }
+
+    a#parent-dir {
+        background-color: #afb8c133;
+    }
+
+    blockquote {
+        color: #656d76;
+        border-left: .25em solid #d0d7de;
+    }
+}
