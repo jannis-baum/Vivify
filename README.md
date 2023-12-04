@@ -89,10 +89,20 @@ following optional keys:
 
 ## Installation
 
+Once you have Vivify installed, use it by running `viv` with any text file or
+directory as an argument!
+
+### Packaged
+
+- [AUR](https://aur.archlinux.org/packages/vivify), e.g. install with `yay -S vivify`
+
+### Manual
+
 - make sure you have [`jq`](https://github.com/jqlang/jq) installed
-- download & unpack the latest release for your system (macOS or Linux)
+- download & unpack the [latest
+  release](https://github.com/jannis-baum/vivify/releases) for your system
+  (macOS or Linux)
 - add the two executables to your `$PATH`
-- run `viv <file>` to view `<file>`
 
 ## Get help
 
