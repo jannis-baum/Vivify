@@ -30,6 +30,20 @@ issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
 - syntax highlighting for code
 - graphviz/dot graphs
 
+### Editor Support
+
+Vivify has a simple API to integrate your favorite editor so the viewer live
+updates to any changes as you are typing and the scrolling is smoothly
+synchronized!
+
+See below for a list of existing editor plugins. In case your favorite editor is
+not yet supported, use these as an example to write your own and add it to the
+list!
+
+#### Existing integration
+
+- for Vim and Neovim: [vivify.vim](https://github.com/jannis-baum/vivify.vim)
+
 ### Config
 
 Vivify will look for an optional config file at `~/.vivify/config.json` and
@@ -73,26 +87,12 @@ following optional keys:
   available. Default Markdown extensions are `['markdown', 'md', 'mdown',
   'mdwn', 'mkd', 'mkdn']`
 
-## Usage
+## Installation
 
 - make sure you have [`jq`](https://github.com/jqlang/jq) installed
 - download & unpack the latest release for your system (macOS or Linux)
 - add the two executables to your `$PATH`
 - run `viv <file>` to view `<file>`
-
-## Editor Support
-
-Vivify has a simple API to integrate your favorite editor so the viewer live
-updates to any changes as you are typing and the scrolling is smoothly
-synchronized!
-
-See below for a list of existing editor plugins. In case your favorite editor is
-not yet supported, use these as an example to write your own and add it to the
-list!
-
-### Existing integration
-
-- for Vim: [vivify.vim](https://github.com/jannis-baum/vivify.vim)
 
 ## Get help
 
