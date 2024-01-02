@@ -76,6 +76,24 @@ blockquote {
 }
 
 /* --------------------------------------------------------------------------
+ * TABLES ------------------------------------------------------------------- */
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+th, td {
+    padding: 6px 13px;
+    border: 1px solid #444;
+}
+
+tr:nth-child(even) {
+    background-color: #161616;
+}
+
+/* --------------------------------------------------------------------------
  * LISTS -------------------------------------------------------------------- */
 li.task-list-item { list-style: none; }
 input.task-list-item-checkbox {
@@ -127,5 +145,13 @@ img, svg { max-width: 100%; }
     blockquote {
         color: #656d76;
         border-left: .25em solid #d0d7de;
+    }
+
+    th, td {
+        border: 1px solid #d8dee4;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f6f8fa;
     }
 }
