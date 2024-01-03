@@ -115,6 +115,15 @@ li.dir-list-file:before { content: '📄' }
 img, svg { max-width: 100%; }
 
 /* --------------------------------------------------------------------------
+ * HORIZONTAL RULE ---------------------------------------------------------- */
+hr {
+    height: .25em;
+    margin: 24px 0;
+    background-color: #353535;
+    border: 0;
+}
+
+/* --------------------------------------------------------------------------
  * LIGHT MODE --------------------------------------------------------------- */
 @media (prefers-color-scheme: light) {
     html {
@@ -153,5 +162,9 @@ img, svg { max-width: 100%; }
 
     tr:nth-child(even) {
         background-color: #f6f8fa;
+    }
+
+    hr {
+        background-color: #d0d7de;
     }
 }
