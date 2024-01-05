@@ -9,6 +9,7 @@ import config from './config';
 const mdit = new MarkdownIt({
     html: true,
     highlight: highlight,
+    linkify: true,
 });
 
 mdit.use(anchor, {
