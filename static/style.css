@@ -129,8 +129,8 @@ hr {
     display: none;
 }
 section.footnotes {
-    font-size: 12px;
-    margin-top: 20px;
+    font-size: 0.75rem;
+    margin-top: 1.25rem;
     border-top: 0.2px solid #444;
     color: #7d7d7d;
 }
