@@ -26,9 +26,10 @@
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.7",
     "markdown-it-emoji": "^2.0.2",
+    "markdown-it-footnote": "^4.0.0",
     "markdown-it-inject-linenumbers": "^0.3.0",
-    "markdown-it-texmath": "^1.0.0",
     "markdown-it-task-lists": "^2.1.1",
+    "markdown-it-texmath": "^1.0.0",
     "uuid": "^9.0.0",
     "ws": "^8.13.0"
   },
