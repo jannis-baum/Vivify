@@ -124,6 +124,18 @@ hr {
 }
 
 /* --------------------------------------------------------------------------
+ * FOOTNOTE ----------------------------------------------------------------- */
+.footnotes-sep {
+    display: none;
+}
+section.footnotes {
+    font-size: 12px;
+    margin-top: 20px;
+    border-top: 0.2px solid #444;
+    color: #7d7d7d;
+}
+
+/* --------------------------------------------------------------------------
  * LIGHT MODE --------------------------------------------------------------- */
 @media (prefers-color-scheme: light) {
     html {
@@ -166,5 +178,10 @@ hr {
 
     hr {
         background-color: #d0d7de;
+    }
+
+    section.footnotes {
+        border-top: 0.2px solid #d8dee4;
+        color: #656d76;
     }
 }
