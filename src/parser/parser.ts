@@ -20,6 +20,7 @@ mdit.use(anchor, {
 /* eslint-disable @typescript-eslint/no-var-requires */
 mdit.use(require('markdown-it-emoji'));
 mdit.use(require('markdown-it-task-lists'));
+mdit.use(require('markdown-it-footnote'));
 mdit.use(require('markdown-it-inject-linenumbers'));
 mdit.use(require('markdown-it-texmath'), {
     engine: require('katex'),
