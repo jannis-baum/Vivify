@@ -136,6 +136,32 @@ section.footnotes {
 }
 
 /* --------------------------------------------------------------------------
+ * DEFIITION LISTS ---------------------------------------------------------- */
+
+dl {
+    display: flex;
+    flex-flow: row wrap;
+}
+dt {
+    flex-basis: 20%;
+    text-align: right;
+    font-weight: bold;
+    box-sizing: border-box;
+    padding: 0.25em;
+    border-right: 0.2px solid #444;
+    margin: 0.25em 0;
+}
+dd {
+    flex-basis: 80%;
+    flex-grow: 1;
+    text-align: left;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0.25em;
+    margin: 0.25em 0;
+}
+
+/* --------------------------------------------------------------------------
  * LIGHT MODE --------------------------------------------------------------- */
 @media (prefers-color-scheme: light) {
     html {
