@@ -27,6 +27,7 @@ mdit.use(require('markdown-it-texmath'), {
     delimiters: 'dollars',
     katexOptions: config.katexOptions,
 });
+mdit.use(require('markdown-it-deflist'));
 /* eslint-enable @typescript-eslint/no-var-requires */
 mdit.use(graphviz);
 
