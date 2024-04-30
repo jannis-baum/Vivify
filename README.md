@@ -26,9 +26,11 @@ issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
 - heading/anchor links
 - GitHub emojis `:smile:`
 - full Katex math support
-- GitHub task-lists
+- GitHub-style task-lists
 - syntax highlighting for code
 - graphviz/dot graphs
+- [Pandoc-style definition/description
+  lists](https://pandoc.org/MANUAL.html#extension-definition_lists)
 
 ### Editor Support
 
