@@ -24,11 +24,13 @@ issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
 ### Markdown
 
 - heading/anchor links
-- GitHub emojis `:smile:`
-- full Katex math support
-- GitHub-style task-lists
+- [Katex math](https://katex.org)
+- [GitHub-style
+  task-lists](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#task-lists)
+- [GitHub-style emojis like
+  `:smile:`](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#using-emojis)
 - syntax highlighting for code
-- graphviz/dot graphs
+- [graphviz/dot graphs](https://graphviz.org/doc/info/lang.html)
 - [Pandoc-style definition/description
   lists](https://pandoc.org/MANUAL.html#extension-definition_lists)
 
