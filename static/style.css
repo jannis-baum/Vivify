@@ -222,4 +222,8 @@ dt + dt + dd {
         border-top: 0.2px solid #d8dee4;
         color: #656d76;
     }
+
+    dd {
+        border-left: 0.2px solid #d8dee4;
+    }
 }
