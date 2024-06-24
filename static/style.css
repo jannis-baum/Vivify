@@ -174,6 +174,17 @@ dt + dt + dd {
 }                        /* Self height - margin - padding */
 
 /* --------------------------------------------------------------------------
+ * KEYBOARD INPUT ----------------------------------------------------------- */
+
+kbd {
+    background-color: #161616;
+    border: 1px solid #242424;
+    box-shadow: inset 0 -1px 0 #242424;
+    padding: 3px 5px;
+    border-radius: 6px;
+}
+
+/* --------------------------------------------------------------------------
  * LIGHT MODE --------------------------------------------------------------- */
 @media (prefers-color-scheme: light) {
     html {
@@ -225,5 +236,11 @@ dt + dt + dd {
 
     dd {
         border-left: 0.2px solid #d8dee4;
+    }
+
+    kbd {
+        background-color: #f6f8fa;
+        border: 1px solid #eff1f3;
+        box-shadow: inset 0 -1px 0 #eff1f3;
     }
 }
