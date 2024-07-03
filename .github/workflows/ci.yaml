@@ -41,6 +41,12 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           zip -r vivify-linux.zip bin/linux/*
+      - name: upload artifact
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v3
+        with:
+          name: vivify-linux
+          path: vivify-linux.zip
 
   build-macos:
     name: Build MacOS
@@ -57,12 +63,30 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           zip -r vivify-macos.zip bin/macos/*
+      - name: upload artifact
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v3
+        with:
+          name: vivify-macos
+          path: vivify-macos.zip
 
   release:
     name: Release
     needs: [build-linux, build-macos]
     runs-on: ubuntu-latest
     steps:
+      - name: download linux artifact
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/download-artifact@v3
+        with:
+          name: vivify-linux
+          path: .
+      - name: download macos artifact
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/download-artifact@v3
+        with:
+          name: vivify-macos
+          path: .
       - name: release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v1
