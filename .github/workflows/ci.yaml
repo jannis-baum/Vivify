@@ -18,26 +18,51 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: yarn
       - run: yarn lint
 
-  build:
-    name: Build
+  build-linux:
+    name: Build Linux
     needs: [lint]
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      - name: set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
       - name: build
         run: |
           yarn
-          yarn build
+          make linux
+      - name: package
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          zip -r vivify-linux.zip bin/linux/*
+
+  build-macos:
+    name: Build MacOS
+    needs: [lint]
+    runs-on: macos-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: build
+        run: |
+          yarn
+          make macos
       - name: package
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           zip -r vivify-macos.zip bin/macos/*
-          zip -r vivify-linux.zip bin/linux/*
+
+  release:
+    name: Release
+    needs: [build-linux, build-macos]
+    runs-on: ubuntu-latest
+    steps:
       - name: release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v1
