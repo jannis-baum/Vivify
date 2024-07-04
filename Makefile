@@ -21,6 +21,7 @@ macos: $(SERVER_PATH_MACOS) $(EXE_PATH_MACOS)
 linux: $(SERVER_PATH_LINUX) $(EXE_PATH_LINUX)
 
 $(STATIC_PATH): $(shell find static -type f)
+	mkdir -p $(BUILD_DIR)
 	rm -rf $(STATIC_PATH)
 	zip -X -r $(STATIC_PATH) static
 
