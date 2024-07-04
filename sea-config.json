@@ -1,4 +1,7 @@
 {
     "main": "build/bundle.js",
-    "output": "build/sea-prep.blob"
+    "output": "build/sea-prep.blob",
+    "assets": {
+        "static.zip": "build/static.zip"
+    }
 }

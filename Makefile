@@ -3,6 +3,7 @@ BUILD_DIR_MACOS=$(BUILD_DIR)/macos
 BUILD_DIR_LINUX=$(BUILD_DIR)/linux
 
 BUNDLE_PATH=$(BUILD_DIR)/bundle.js
+STATIC_PATH=$(BUILD_DIR)/static.zip
 
 SERVER_NAME=vivify-server
 EXE_NAME=viv
@@ -19,7 +20,11 @@ macos: $(SERVER_PATH_MACOS) $(EXE_PATH_MACOS)
 
 linux: $(SERVER_PATH_LINUX) $(EXE_PATH_LINUX)
 
-$(BUNDLE_PATH): $(shell find src -type f) webpack.config.js tsconfig.json package.json yarn.lock
+$(STATIC_PATH): $(shell find static -type f)
+	rm -rf $(STATIC_PATH)
+	zip -X -r $(STATIC_PATH) static
+
+$(BUNDLE_PATH): $(shell find src -type f) webpack.config.js tsconfig.json package.json yarn.lock $(STATIC_PATH)
 	npx webpack
 	touch $(BUNDLE_PATH)
 
