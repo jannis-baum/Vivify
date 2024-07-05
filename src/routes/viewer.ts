@@ -5,7 +5,7 @@ import { Request, Response, Router } from 'express';
 
 import { messageClientsAt } from '../app';
 import config from '../parser/config';
-import parse, { pathHeading } from '../parser/parser';
+import renderMarkdown, { pathHeading } from '../parser/markdown';
 import { pathToURL, pcomponents, pmime } from '../utils/path';
 
 export const router = Router();
@@ -38,7 +38,9 @@ router.get(/.*/, async (req: Request, res: Response) => {
                     .sort((a, b) => +b.isDirectory() - +a.isDirectory())
                     .map((item) => dirListItem(item, path))
                     .join('\n');
-                body = parse(`${pathHeading(path)}\n\n<ul class="dir-list">\n${list}\n</ul>`);
+                body = renderMarkdown(
+                    `${pathHeading(path)}\n\n<ul class="dir-list">\n${list}\n</ul>`,
+                );
             } else {
                 const data = readFileSync(path);
                 const type = pmime(path);
@@ -48,7 +50,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                     return;
                 }
 
-                body = parse(data.toString(), path);
+                body = renderMarkdown(data.toString(), path);
             }
         } catch {
             res.status(404).send('File not found.');
@@ -94,9 +96,9 @@ router.post(/.*/, async (req: Request, res: Response) => {
     const { content, cursor } = req.body;
 
     if (content) {
-        const parsed = parse(content, path);
-        liveContent.set(path, parsed);
-        messageClientsAt(path, `UPDATE: ${parsed}`);
+        const rendered = renderMarkdown(content, path);
+        liveContent.set(path, rendered);
+        messageClientsAt(path, `UPDATE: ${rendered}`);
     }
     if (cursor) messageClientsAt(path, `SCROLL: ${cursor}`);
 

@@ -33,7 +33,7 @@ mdit.use(graphviz);
 
 export const pathHeading = (path: string) => `# \`${path.replace(homedir(), '~')}\``;
 
-export default function parse(src: string, path?: string) {
+export default function renderMarkdown(src: string, path?: string) {
     let md = src;
 
     const mdExtensions = config.mdExtensions ?? ['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn'];
