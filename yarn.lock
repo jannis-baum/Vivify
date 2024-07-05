@@ -123,6 +123,25 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@jupyterlab/nbformat@^4.2.3":
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/nbformat/-/nbformat-4.2.3.tgz#6b7904a387f04542b8ffe7800d37a2ce41b625a9"
+  integrity sha512-eNn5F4JGw6Gq8xB1AaJ29hKQFgDvcjv9KZQeSp9joCYvedmc0LHivELCO+GticUjN5Y0+qgS4ZvnOARAqcIyvQ==
+  dependencies:
+    "@lumino/coreutils" "^2.1.2"
+
+"@lumino/algorithm@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@lumino/algorithm/-/algorithm-2.0.2.tgz#d211da98c92be0271afde96b949982e29178ae48"
+  integrity sha512-cI8yJ2+QK1yM5ZRU3Kuaw9fJ/64JEDZEwWWp7+U0cd/mvcZ44BGdJJ29w+tIet1QXxPAvnsUleWyQ5qm4qUouA==
+
+"@lumino/coreutils@^2.1.2":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@lumino/coreutils/-/coreutils-2.2.0.tgz#3f9d5c36f2513f067b2563c7ad3b33f43905a4e2"
+  integrity sha512-x5wnQ/GjWBayJ6vXVaUi6+Q6ETDdcUiH9eSfpRZFbgMQyyM6pi6baKqJBK2CHkCc/YbAEl6ipApTgm3KOJ/I3g==
+  dependencies:
+    "@lumino/algorithm" "^2.0.2"
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
