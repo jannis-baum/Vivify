@@ -46,7 +46,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 const data = readFileSync(path);
                 const type = pmime(path);
 
-                if (!type.startsWith('text/')) {
+                if (!(type.startsWith('text/') || type === 'application/json')) {
                     res.setHeader('Content-Type', type).send(data);
                     return;
                 }
