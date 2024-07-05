@@ -1,10 +1,9 @@
-import { homedir } from 'os';
-
 import MarkdownIt from 'markdown-it';
 import anchor from 'markdown-it-anchor';
 import highlight from './highlight';
 import graphviz from './dot';
 import config from './config';
+import { Renderer } from './parser';
 
 const mdit = new MarkdownIt({
     html: true,
@@ -31,17 +30,7 @@ mdit.use(require('markdown-it-deflist'));
 /* eslint-enable @typescript-eslint/no-var-requires */
 mdit.use(graphviz);
 
-export const pathHeading = (path: string) => `# \`${path.replace(homedir(), '~')}\``;
-
-export default function renderMarkdown(src: string, path?: string) {
-    let md = src;
-
-    const mdExtensions = config.mdExtensions ?? ['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn'];
-
-    const fileEnding = path?.split('.')?.at(-1);
-    if (fileEnding && !mdExtensions.includes(fileEnding)) {
-        md = `${pathHeading(path!)}\n\n\`\`\`${fileEnding}\n${src}\n\`\`\``;
-    }
-
-    return mdit.render(md);
-}
+const renderMarkdown: Renderer = (content: string) => {
+    return mdit.render(content);
+};
+export default renderMarkdown;

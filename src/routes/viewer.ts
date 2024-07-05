@@ -5,8 +5,9 @@ import { Request, Response, Router } from 'express';
 
 import { messageClientsAt } from '../app';
 import config from '../parser/config';
-import renderMarkdown, { pathHeading } from '../parser/markdown';
+import renderMarkdown from '../parser/markdown';
 import { pathToURL, pcomponents, pmime } from '../utils/path';
+import renderFile, { pathHeading } from '../parser/parser';
 
 export const router = Router();
 
@@ -50,7 +51,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                     return;
                 }
 
-                body = renderMarkdown(data.toString(), path);
+                body = renderFile(data.toString(), path);
             }
         } catch {
             res.status(404).send('File not found.');
@@ -96,7 +97,7 @@ router.post(/.*/, async (req: Request, res: Response) => {
     const { content, cursor } = req.body;
 
     if (content) {
-        const rendered = renderMarkdown(content, path);
+        const rendered = renderFile(content, path);
         liveContent.set(path, rendered);
         messageClientsAt(path, `UPDATE: ${rendered}`);
     }
