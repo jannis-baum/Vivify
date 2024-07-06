@@ -14,3 +14,7 @@
     padding: unset;
     background-color: unset;
 }
+
+.ipynb-output-error {
+    background-color: rgba(255, 0, 0, 0.1);
+}

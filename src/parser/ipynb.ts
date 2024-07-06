@@ -1,6 +1,7 @@
 import {
     ICell,
     ICodeCell,
+    IError,
     INotebookContent,
     IOutput,
     IStream,
@@ -40,6 +41,8 @@ const renderNotebook: Renderer = (content: string): string => {
                 const text = joinMultilineString((output as IStream).text);
                 return contain(renderAnsi(text), 'output-stream', 'pre');
             case 'error':
+                const traceback = (output as IError).traceback.join('\n');
+                return contain(renderAnsi(traceback), 'output-error', 'pre');
             case 'execute_result':
             case 'display_data':
             default:
