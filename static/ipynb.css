@@ -10,4 +10,7 @@
     left: -1rem;
 }
 
-
+.ipynb-output-stream {
+    padding: unset;
+    background-color: unset;
+}
