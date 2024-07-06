@@ -67,7 +67,11 @@ const renderNotebook: Renderer = (content: string): string => {
         switch (output.output_type) {
             case 'stream':
                 const text = joinMultilineString((output as IStream).text);
-                return contain(renderAnsi(text), 'output-stream', 'pre');
+                return contain(
+                    renderAnsi(text),
+                    `output-stream-${(output as IStream).name}`,
+                    'pre',
+                );
             case 'error':
                 const traceback = (output as IError).traceback.join('\n');
                 return contain(renderAnsi(traceback), 'output-error', 'pre');

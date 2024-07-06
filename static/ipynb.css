@@ -10,14 +10,13 @@
 }
 .ipynb-output-execution-result > .ipynb-execution-count { top: 0 }
 
-.ipynb-output-stream {
+*[class^="ipynb-output-stream-"] {
     padding: unset;
     background-color: unset;
 }
+.ipynb-output-stream-stderr { background-color: rgba(255, 0, 0, 0.1); }
 
-.ipynb-output-error {
-    background-color: rgba(255, 0, 0, 0.1);
-}
+.ipynb-output-error { background-color: rgba(255, 0, 0, 0.1); }
 
 .ipynb-output-plain {
     padding: unset;
