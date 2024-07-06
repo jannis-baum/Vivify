@@ -18,3 +18,8 @@
 .ipynb-output-error {
     background-color: rgba(255, 0, 0, 0.1);
 }
+
+.ipynb-output-plain {
+    padding: unset;
+    background-color: unset;
+}
