@@ -38,6 +38,10 @@ function escapeHTML(raw: string): string {
     return raw.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+function executionCount(count: ICell['execution_count']): string {
+    return contain(`[${count?.toString() ?? ' '}]:`, 'execution-count');
+}
+
 const renderNotebook: Renderer = (content: string): string => {
     const nb = JSON.parse(content) as INotebookContent;
     const language = nb.metadata.kernelspec?.language ?? nb.metadata.language_info?.name;
@@ -73,7 +77,10 @@ const renderNotebook: Renderer = (content: string): string => {
             }
             case 'execute_result': {
                 const displayData = (output as IExecuteResult).data;
-                return renderDisplayData(displayData);
+                return contain(
+                    [executionCount(output.execution_count), renderDisplayData(displayData)],
+                    'output-execution-result',
+                );
             }
             default:
                 return '';
@@ -85,9 +92,8 @@ const renderNotebook: Renderer = (content: string): string => {
 
         switch (cell.cell_type) {
             case 'code':
-                const executionCount = cell.execution_count?.toString() ?? ' ';
                 const content = [
-                    contain(`In [${executionCount}]:`, 'execution-count'),
+                    executionCount(cell.execution_count),
                     renderMarkdown(`\`\`\`${language}\n${source}\n\`\`\``),
                 ];
                 if (Array.isArray(cell.outputs)) {

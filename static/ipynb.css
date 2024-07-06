@@ -1,6 +1,5 @@
-*[class^="ipynb-cell-"] {
-    position: relative;
-}
+*[class^="ipynb-cell-"] { position: relative; }
+.ipynb-output-execution-result { position: relative; }
 
 .ipynb-execution-count {
     font-family: monospace;
@@ -9,6 +8,7 @@
     top: 1rem;
     left: -1rem;
 }
+.ipynb-output-execution-result > .ipynb-execution-count { top: 0 }
 
 .ipynb-output-stream {
     padding: unset;
