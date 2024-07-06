@@ -6,7 +6,11 @@ function joinMultilineString(str: MultilineString): string {
     return Array.isArray(str) ? str.join('') : str;
 }
 
-function contain(content: string, classNames: string | string[], tag: string = 'div'): string {
+function contain(
+    content: MultilineString,
+    classNames: string | string[],
+    tag: string = 'div',
+): string {
     function prefix(classNames: string | string[]): string {
         if (Array.isArray(classNames)) {
             return classNames.map((c) => prefix(c)).join(' ');
@@ -15,7 +19,7 @@ function contain(content: string, classNames: string | string[], tag: string = '
     }
     classNames = prefix(classNames);
 
-    return `<${tag} class="${classNames}">${content}</${tag}>`;
+    return `<${tag} class="${classNames}">${joinMultilineString(content)}</${tag}>`;
 }
 
 const renderNotebook: Renderer = (content: string): string => {
@@ -27,7 +31,14 @@ const renderNotebook: Renderer = (content: string): string => {
 
         switch (cell.cell_type) {
             case 'code':
-                return contain(renderMarkdown(`\`\`\`${language}\n${source}\n\`\`\``), 'cell-code');
+                const executionCount = cell.execution_count?.toString() ?? ' ';
+                return contain(
+                    [
+                        contain(`In [${executionCount}]:`, 'execution-count'),
+                        renderMarkdown(`\`\`\`${language}\n${source}\n\`\`\``),
+                    ],
+                    'cell-code',
+                );
             case 'markdown':
                 return contain(renderMarkdown(source), 'cell-markdown');
             default:

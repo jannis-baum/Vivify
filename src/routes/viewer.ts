@@ -73,6 +73,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 <title>${title}</title>
                 <link rel="stylesheet" type="text/css" href="/static/style.css"/>
                 <link rel="stylesheet" type="text/css" href="/static/highlight.css">
+                <link rel="stylesheet" type="text/css" href="/static/ipynb.css">
                 <link rel="stylesheet" type="text/css" href="/static/katex/katex.css">
                 <style>
                   ${config.styles}

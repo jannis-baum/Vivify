@@ -1,0 +1,13 @@
+*[class^="ipynb-cell-"] {
+    position: relative;
+}
+
+.ipynb-execution-count {
+    font-family: monospace;
+    position: absolute;
+    transform: translateX(-100%);
+    top: 1rem;
+    left: -1rem;
+}
+
+
