@@ -3,7 +3,7 @@
   "repository": "https://github.com/jannis-baum/vivify.git",
   "author": "Jannis Baum",
   "scripts": {
-    "dev": "VIV_TIMEOUT=0 VIV_PORT=3000 nodemon --exec ts-node ./src/app.ts",
+    "dev": "VIV_TIMEOUT=0 VIV_PORT=3000 NODE_ENV=development nodemon --exec ts-node ./src/app.ts",
     "viv": "VIV_PORT=3000 ./viv",
     "lint": "eslint src static"
   },
