@@ -78,7 +78,7 @@ $(EXE_PATH_LINUX): viv
 # ------------------------------------------------------------------------------
 # MARK: configured installation ------------------------------------------------
 
-.PHONY: install
+.PHONY: install uninstall
 
 # include .env.mk from ./configure
 _MK_DIR=$(dir $(abspath $(firstword $(MAKEFILE_LIST))))
@@ -104,10 +104,16 @@ $(INSTALL_EXE): $(BUILD_EXE)
 	rm -rf $(INSTALL_EXE)
 	cp $(BUILD_EXE) $(INSTALL_EXE)
 
+uninstall:
+	rm -rf $(INSTALL_SERVER) $(INSTALL_EXE)
+
 else
 
 install:
 	@ echo "Please run ./configure <install_dir> to define the install target"
+
+uninstall:
+	@ echo "Please run ./configure <install_dir> to define the uninstall target"
 
 endif
 # <<< endif
