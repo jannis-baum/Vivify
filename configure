@@ -10,4 +10,5 @@ case "$OSTYPE" in
     *) SYSTEM=linux;;
 esac
 
-echo "INSTALL_DIR=$1\nSYSTEM=$SYSTEM" > .env.mk
+echo "INSTALL_DIR=$1" > .env.mk
+echo "SYSTEM=$SYSTEM" >> .env.mk
