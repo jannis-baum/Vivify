@@ -67,8 +67,7 @@ $(SERVER_PATH_LINUX): $(BUNDLE_PATH) sea-config.json
 	cp $(shell command -v node) $(SERVER_PATH_LINUX)
 	chmod +w $(SERVER_PATH_LINUX)
 	node_modules/.bin/postject $(SERVER_PATH_LINUX) NODE_SEA_BLOB $(BUILD_DIR)/sea-prep.blob \
-			  --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2 \
-			  --macho-segment-name NODE_SEA
+			  --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
 	chmod -w $(SERVER_PATH_LINUX)
 
 $(EXE_PATH_LINUX): viv
