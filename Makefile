@@ -14,6 +14,10 @@ EXE_PATH_MACOS=$(BUILD_DIR_MACOS)/$(EXE_NAME)
 SERVER_PATH_LINUX=$(BUILD_DIR_LINUX)/$(SERVER_NAME)
 EXE_PATH_LINUX=$(BUILD_DIR_LINUX)/$(EXE_NAME)
 
+.PHONY: instruct-build
+instruct-build:
+	@ echo 'Please run `make macos` or `make linux` to build the project'
+
 # ------------------------------------------------------------------------------
 # MARK: platform-independent build items ---------------------------------------
 
@@ -74,7 +78,6 @@ $(EXE_PATH_LINUX): viv
 # ------------------------------------------------------------------------------
 # MARK: configured installation ------------------------------------------------
 
-.DEFAULT_GOAL := install
 .PHONY: install
 
 # include .env.mk from ./configure
