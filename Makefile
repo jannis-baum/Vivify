@@ -74,6 +74,9 @@ $(EXE_PATH_LINUX): viv
 # ------------------------------------------------------------------------------
 # MARK: configured installation ------------------------------------------------
 
+.DEFAULT_GOAL := install
+.PHONY: install
+
 # include .env.mk from ./configure
 _MK_DIR=$(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 # - prefix is used to ignore errors if the file does not exist
@@ -88,7 +91,6 @@ BUILD_SERVER=$(BUILD_DIR)/$(SYSTEM)/$(SERVER_NAME)
 INSTALL_EXE=$(INSTALL_DIR)/$(EXE_NAME)
 BUILD_EXE=$(BUILD_DIR)/$(SYSTEM)/$(EXE_NAME)
 
-.PHONY: install
 install: $(INSTALL_SERVER) $(INSTALL_EXE)
 
 $(INSTALL_SERVER): $(BUILD_SERVER)
@@ -98,6 +100,11 @@ $(INSTALL_SERVER): $(BUILD_SERVER)
 $(INSTALL_EXE): $(BUILD_EXE)
 	rm -rf $(INSTALL_EXE)
 	cp $(BUILD_EXE) $(INSTALL_EXE)
+
+else
+
+install:
+	@ echo "Please run ./configure <install_dir> to define the install target"
 
 endif
 # <<< endif
