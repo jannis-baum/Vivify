@@ -113,6 +113,7 @@ directory as an argument! See below for installation options.
 - make sure you have [`jq`](https://github.com/jqlang/jq),
   [`yarn`](https://yarnpkg.com), `make` and `zip` installed
 - clone the repository
+- run `yarn`
 - run `./configure <install_dir>`
 - run `make install`
 
