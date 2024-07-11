@@ -94,7 +94,7 @@ following optional keys:
 ## Installation
 
 Once you have Vivify installed, use it by running `viv` with any text file or
-directory as an argument!
+directory as an argument! See below for installation options.
 
 ### Packaged
 
@@ -107,6 +107,15 @@ directory as an argument!
   release](https://github.com/jannis-baum/vivify/releases) for your system
   (macOS or Linux)
 - add the two executables to your `$PATH`
+
+### Compile yourself
+
+- make sure you have [`jq`](https://github.com/jqlang/jq),
+  [`yarn`](https://yarnpkg.com), `make` and `zip` installed
+- clone the repository
+- run `yarn`
+- run `./configure <install_dir>`
+- run `make install`
 
 ## Get help
 

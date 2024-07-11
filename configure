@@ -1,0 +1,14 @@
+#/bin/sh
+
+if [ -z "$1" ]; then
+    echo "Usage: $0 <install_dir>"
+    exit 1
+fi
+
+case "$OSTYPE" in
+    darwin*) SYSTEM=macos;;
+    *) SYSTEM=linux;;
+esac
+
+echo "INSTALL_DIR=$1" > .env.mk
+echo "SYSTEM=$SYSTEM" >> .env.mk

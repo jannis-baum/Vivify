@@ -7,12 +7,12 @@ export const registerAsyncInit = (f: () => Promise<void>) => {
 };
 
 import { createServer } from 'http';
-import path from 'path';
 
 import express from 'express';
 
 import { router as healthRouter } from './routes/health';
 import { router as viewerRouter } from './routes/viewer';
+import { router as staticRouter } from './routes/static';
 import { setupSockets } from './sockets';
 import { urlToPath } from './utils/path';
 
@@ -24,7 +24,7 @@ app.use((req, res, next) => {
     res.locals.filepath = urlToPath(req.path);
     next();
 });
-app.use('/static', express.static(path.join(__dirname, '../static')));
+app.use('/static', staticRouter);
 app.use('/health', healthRouter);
 app.use('/viewer', viewerRouter);
 
