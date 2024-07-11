@@ -22,7 +22,7 @@ export const pcomponents = (path: string) => {
 
 export const urlToPath = (url: string) => {
     const path = decodeURIComponent(url.replace(/^\/(viewer|health)/, ''))
-        .replace(/^~/, homedir())
+        .replace(/^\/~/, homedir())
         .replace(/\/+$/, '');
     return path === '' ? '/' : path;
 };
