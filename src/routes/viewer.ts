@@ -73,7 +73,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 </div>
             </body>
             <script>
-                window.VIV_PORT = "${process.env['VIV_PORT']}";
+                window.VIV_PORT = "${config.port}";
                 window.VIV_PATH = "${req.path}";
             </script>
             <script type="text/javascript" src="/static/client.js"></script>

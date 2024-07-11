@@ -15,8 +15,7 @@ import { router as viewerRouter } from './routes/viewer';
 import { router as staticRouter } from './routes/static';
 import { setupSockets } from './sockets';
 import { urlToPath } from './utils/path';
-
-process.env['VIV_PORT'] = process.env['VIV_PORT'] ?? '31622';
+import config from './parser/config';
 
 const app = express();
 app.use(express.json());
@@ -30,9 +29,9 @@ app.use('/viewer', viewerRouter);
 
 const server = createServer(app);
 
-server.listen(process.env['VIV_PORT'], async () => {
+server.listen(config.port, async () => {
     await Promise.all(asyncInits.map(async (i) => await i()));
-    console.log(`App is listening on port ${process.env['VIV_PORT']}!`);
+    console.log(`App is listening on port ${config.port}!`);
 });
 
 let shutdownTimer: NodeJS.Timeout | null = null;
