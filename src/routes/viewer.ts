@@ -7,7 +7,7 @@ import { messageClientsAt } from '../app';
 import config from '../parser/config';
 import renderMarkdown from '../parser/markdown';
 import { pathToURL, pcomponents, pmime } from '../utils/path';
-import renderFile, { pathHeading } from '../parser/parser';
+import renderTextFile, { pathHeading } from '../parser/parser';
 
 export const router = Router();
 
@@ -51,7 +51,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                     return;
                 }
 
-                body = renderFile(data.toString(), path);
+                body = renderTextFile(data.toString(), path);
             }
         } catch {
             res.status(404).send('File not found.');
@@ -98,7 +98,7 @@ router.post(/.*/, async (req: Request, res: Response) => {
     const { content, cursor } = req.body;
 
     if (content) {
-        const rendered = renderFile(content, path);
+        const rendered = renderTextFile(content, path);
         liveContent.set(path, rendered);
         messageClientsAt(path, `UPDATE: ${rendered}`);
     }

@@ -8,15 +8,24 @@ export type Renderer = (content: string) => string;
 export const pathHeading: Renderer = (path: string) => `# \`${path.replace(homedir(), '~')}\``;
 
 const mdExtensions = config.mdExtensions ?? ['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn'];
-function renderer(fileEnding: string | undefined): Renderer | undefined {
+function renderer(
+    fileEnding: string | undefined,
+): { render: Renderer; contentType: string } | undefined {
     if (!fileEnding) return undefined;
-    if (mdExtensions.includes(fileEnding)) return renderMarkdown;
-    if (fileEnding === 'ipynb') return renderNotebook;
+    if (mdExtensions.includes(fileEnding)) {
+        return { render: renderMarkdown, contentType: 'markdown' };
+    }
+    if (fileEnding === 'ipynb') {
+        return { render: renderNotebook, contentType: 'ipynb' };
+    }
 }
 
-export default function renderFile(content: string, path: string): string {
+export default function renderTextFile(content: string, path: string): string {
     const fileEnding = path?.split('.')?.at(-1);
-    const render = renderer(fileEnding);
-    if (render) return render(content);
-    return renderMarkdown(`${pathHeading(path!)}\n\n\`\`\`${fileEnding}\n${content}\n\`\`\``);
+    const renderInformation = renderer(fileEnding);
+    if (renderInformation === undefined) {
+        return renderMarkdown(`${pathHeading(path!)}\n\n\`\`\`${fileEnding}\n${content}\n\`\`\``);
+    }
+    const { render, contentType } = renderInformation;
+    return `<div class="content-${contentType}">${render(content)}</div>`;
 }
