@@ -1,3 +1,5 @@
+.content-ipynb { max-width: 1200px; }
+
 *[class^="ipynb-cell-"] { position: relative; }
 .ipynb-output-execution-result { position: relative; }
 

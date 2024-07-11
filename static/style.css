@@ -7,10 +7,15 @@ html {
 
 body {
     box-sizing: border-box;
-    max-width: 900px;
-    margin: auto;
     padding: 2rem 4rem;
 }
+
+/* default to 900px for all content types */
+*[class^="content-"] {
+    max-width: 900px;
+    margin: auto;
+} 
+.content-txt { max-width: 1200px; }
 
 /* --------------------------------------------------------------------------
  * HEADINGS ----------------------------------------------------------------- */
