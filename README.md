@@ -1,14 +1,18 @@
 # Vivify
 
-Vivify brings your (Markdown) files to life in the browser!
+Vivify brings your files to life in the browser! Vivify is primarily made to
+render Markdown and Jupyter Notebooks, but will also serve as a directory
+browser and let you view code files with syntax highlighting. See below for
+features!
 
 ## Features
 
-- various [Markdown features](#markdown)
+- view Markdown with various [extended features](#markdown)
 - links to other files: [relative links like in
   GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#relative-links)
   as well as absolute file links
-- view non-markdown files with code syntax highlighting
+- view Jupyter Notebooks
+- view other plain text files with code syntax highlighting
 - view & navigate directories, hidden "back to parent directory" button at the
   top-left of the file viewer
 - easy to integrate with any editor for live synchronization (see [editor
@@ -21,18 +25,21 @@ If you need any additional features, feel free to [open an
 issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
 [contribute](CONTRIBUTING.md)!
 
-### Markdown
+### Extended Markdown
 
 - heading/anchor links
-- [Katex math](https://katex.org)
-- [GitHub-style
-  task-lists](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#task-lists)
-- [GitHub-style emojis like
-  `:smile:`](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#using-emojis)
+- [KaTeX math](https://katex.org)
 - syntax highlighting for code
+- GitHub Markdown features:
+  - [task-lists](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#task-lists)
+  - [emojis like
+    `:smile:`](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#using-emojis)
+  - automatic linkification
+- Pandoc Markdown features:
+  - [definition/description
+    lists](https://pandoc.org/MANUAL.html#extension-definition_lists)
+  - [footnotes](https://pandoc.org/MANUAL.html#footnotes)
 - [graphviz/dot graphs](https://graphviz.org/doc/info/lang.html)
-- [Pandoc-style definition/description
-  lists](https://pandoc.org/MANUAL.html#extension-definition_lists)
 
 ### Editor Support
 
