@@ -38,12 +38,11 @@ let shutdownTimer: NodeJS.Timeout | null = null;
 export const { clientsAt, messageClientsAt } = setupSockets(
     server,
     () => {
-        const timeout = parseInt(process.env['VIV_TIMEOUT'] ?? '10000');
-        if (timeout > 0)
+        if (config.timeout > 0)
             shutdownTimer = setInterval(() => {
-                console.log(`No clients for ${timeout}ms, shutting down.`);
+                console.log(`No clients for ${config.timeout}ms, shutting down.`);
                 process.exit(0);
-            }, timeout);
+            }, config.timeout);
     },
     () => {
         if (shutdownTimer) clearInterval(shutdownTimer);

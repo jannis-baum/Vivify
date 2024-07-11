@@ -9,19 +9,24 @@ type Config = {
     katexOptions?: any;
     pageTitle?: string;
     mdExtensions: string[];
+    timeout: number;
 };
 
 const defaultConfig: Config = {
     port: 31622,
     mdExtensions: ['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn'],
+    timeout: 10000,
 };
+
+const envConfigs: [string, keyof Config][] = [
+    ['VIV_PORT', 'port'],
+    ['VIV_TIMEOUT', 'timeout'],
+];
 
 const configPaths = [
     path.join(homedir(), '.vivify', 'config.json'),
     path.join(homedir(), '.vivify.json'),
 ];
-
-const envConfigs: [[string, keyof Config]] = [['VIV_PORT', 'port']];
 
 const getConfig = (): Config => {
     let config = undefined;
