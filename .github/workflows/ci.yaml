@@ -42,7 +42,7 @@ jobs:
           cd build/linux
           zip -r vivify-linux.zip *
       - name: upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: vivify-linux
           path: build/linux/vivify-linux.zip
@@ -63,7 +63,7 @@ jobs:
           cd build/macos
           zip -r vivify-macos.zip *
       - name: upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: vivify-macos
           path: build/macos/vivify-macos.zip
@@ -75,13 +75,13 @@ jobs:
     steps:
       - name: download linux artifact
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: vivify-linux
           path: .
       - name: download macos artifact
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: vivify-macos
           path: .
