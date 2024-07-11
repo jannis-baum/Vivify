@@ -1,13 +1,12 @@
-import { Dirent, lstatSync, readdirSync, readFileSync } from 'fs';
+import { lstatSync, readFileSync } from 'fs';
 import { dirname as pdirname, join as pjoin } from 'path';
 
 import { Request, Response, Router } from 'express';
 
 import { messageClientsAt } from '../app';
 import config from '../parser/config';
-import renderMarkdown from '../parser/markdown';
 import { pathToURL, pcomponents, pmime } from '../utils/path';
-import renderTextFile, { pathHeading } from '../parser/parser';
+import { renderDirectory, renderTextFile } from '../parser/parser';
 
 export const router = Router();
 
@@ -23,11 +22,6 @@ const pageTitle = (path: string) => {
     } else return pjoin(...comps.slice(-2));
 };
 
-const dirListItem = (item: Dirent, path: string) =>
-    `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}"><a href="${pathToURL(
-        pjoin(path, item.name),
-    )}">${item.name}</a></li>`;
-
 router.get(/.*/, async (req: Request, res: Response) => {
     const path = res.locals.filepath;
 
@@ -35,13 +29,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
     if (!body) {
         try {
             if (lstatSync(path).isDirectory()) {
-                const list = readdirSync(path, { withFileTypes: true })
-                    .sort((a, b) => +b.isDirectory() - +a.isDirectory())
-                    .map((item) => dirListItem(item, path))
-                    .join('\n');
-                body = renderMarkdown(
-                    `${pathHeading(path)}\n\n<ul class="dir-list">\n${list}\n</ul>`,
-                );
+                body = renderDirectory(path);
             } else {
                 const data = readFileSync(path);
                 const type = pmime(path);
