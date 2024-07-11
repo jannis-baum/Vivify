@@ -12,12 +12,11 @@ const pathHeading: Renderer = (path: string) => `# \`${path.replace(homedir(), '
 const wrap = (contentType: string, content: string) =>
     `<div class="content-${contentType}">${content}</div>`;
 
-const mdExtensions = config.mdExtensions ?? ['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn'];
 function textRenderer(
     fileEnding: string | undefined,
 ): { render: Renderer; contentType: string } | undefined {
     if (!fileEnding) return undefined;
-    if (mdExtensions.includes(fileEnding)) {
+    if (config.mdExtensions.includes(fileEnding)) {
         return { render: renderMarkdown, contentType: 'markdown' };
     }
     if (fileEnding === 'ipynb') {

@@ -8,11 +8,12 @@ type Config = {
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     katexOptions?: any;
     pageTitle?: string;
-    mdExtensions?: string[];
+    mdExtensions: string[];
 };
 
 const defaultConfig: Config = {
     port: 31622,
+    mdExtensions: ['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn'],
 };
 
 const configPaths = [
