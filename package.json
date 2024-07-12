@@ -4,7 +4,7 @@
   "author": "Jannis Baum",
   "scripts": {
     "dev": "VIV_TIMEOUT=0 VIV_PORT=3000 NODE_ENV=development nodemon --exec node --loader ts-node/esm src/app.ts",
-    "viv": "VIV_PORT=3000 ./viv",
+    "viv": "VIV_PORT=3000 node --loader ts-node/esm src/app.ts",
     "lint": "eslint src static"
   },
   "type": "module",
@@ -23,6 +23,7 @@
     "markdown-it-task-lists": "^2.1.1",
     "markdown-it-texmath": "^1.0.0",
     "node-stream-zip": "^1.15.0",
+    "open": "^10.1.0",
     "tmp": "^0.2.3",
     "uuid": "^10.0.0",
     "ws": "^8.18.0"

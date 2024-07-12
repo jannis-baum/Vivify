@@ -1,55 +1,13 @@
 #!/bin/sh
 
 print_usage() {
-    echo "viv [--help] file"
-    echo "View file in browser and lazily start vivify-server"
+    echo "viv [--help] files/directories"
+    echo "View files/directories in browser and lazily start vivify-server"
 }
 
-if [ "$#" -ne 1 -o "$1" = "-h" -o "$1" = "--help" ]; then
+if [ "$#" -lt 1 -o "$1" = "-h" -o "$1" = "--help" ]; then
     print_usage
     exit 1
 fi
 
-if ! [ -f "$1" ] && ! [ -d "$1" ]; then
-    echo "$1 not found"
-    exit 1
-fi
-
-if which jq 1>/dev/null 2>/dev/null; then
-    test -f ~/.vivify.json && VIV_CONFIG=~/.vivify.json
-    test -f ~/.vivify/config.json && VIV_CONFIG=~/.vivify/config.json
-
-    if [ -n "$VIV_CONFIG" ]; then
-        [ -z "$VIV_PORT" ]    && export VIV_PORT="`jq -r '.port' "$VIV_CONFIG" | sed 's/^null$//'`"
-        [ -z "$VIV_TIMEOUT" ] && export VIV_TIMEOUT="`jq -r '.timeout' "$VIV_CONFIG" | sed 's/^null$//'`"
-        [ -z "$VIV_OPEN" ]    && export VIV_OPEN="`jq -r '.openCmd' "$VIV_CONFIG" | sed 's/^null$//'`"
-    fi
-fi
-
-if [ -z "$VIV_OPEN" ]; then
-    which open 1>/dev/null 2>/dev/null && VIV_OPEN="open"
-    which xdg-open 1>/dev/null 2>/dev/null && VIV_OPEN="xdg-open"
-
-    if [ -z "$VIV_OPEN" ]; then
-        echo 'Please specify an "open" command in ~/.vivify/config.json, ~/.vivify.json, or $VIV_OPEN'
-        exit 1
-    fi
-fi
-
-[ -z "$VIV_PORT" ] && VIV_PORT=31622
-VIV_ADDR=http://localhost:$VIV_PORT
-[ -z "$VIV_CMD" ] && VIV_CMD=vivify-server
-
-if ! curl --fail-with-body -v $VIV_ADDR/health 1>/dev/null 2>/dev/null; then
-    echo "Launching server ..."
-    nohup $VIV_CMD 1>/dev/null 2>/dev/null &
-    while ! curl --fail-with-body -v $VIV_ADDR/health 1>/dev/null 2>/dev/null; do
-        sleep 0.1
-    done
-fi
-
-FILE=`realpath "$1" \
-    | tr -d "\n" \
-    | jq --slurp --raw-input --raw-output @uri \
-    | sed 's|%2F|/|g'`
-$VIV_OPEN "$VIV_ADDR/viewer$FILE"
+nohup vivify-server $@ 1>/dev/null 2>/dev/null &
