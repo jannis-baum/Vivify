@@ -1,10 +1,10 @@
 import { Dirent, readdirSync } from 'fs';
 import { homedir } from 'os';
 import { join as pjoin } from 'path';
-import { pathToURL } from '../utils/path';
-import config from './config';
-import renderNotebook from './ipynb';
-import renderMarkdown from './markdown';
+import { pathToURL } from '../utils/path.js';
+import config from './config.js';
+import renderNotebook from './ipynb.js';
+import renderMarkdown from './markdown.js';
 
 export type Renderer = (content: string) => string;
 

@@ -3,10 +3,10 @@ import { dirname as pdirname, join as pjoin } from 'path';
 
 import { Request, Response, Router } from 'express';
 
-import { messageClientsAt } from '../app';
-import config from '../parser/config';
-import { pathToURL, pcomponents, pmime } from '../utils/path';
-import { renderDirectory, renderTextFile } from '../parser/parser';
+import { messageClientsAt } from '../app.js';
+import config from '../parser/config.js';
+import { pathToURL, pcomponents, pmime } from '../utils/path.js';
+import { renderDirectory, renderTextFile } from '../parser/parser.js';
 
 export const router = Router();
 

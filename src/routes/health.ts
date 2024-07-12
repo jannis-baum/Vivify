@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 
-import { clientsAt } from '../app';
+import { clientsAt } from '../app.js';
 
 export const router = Router();
 

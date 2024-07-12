@@ -10,9 +10,12 @@ import {
     MultilineString,
     IExecuteResult,
 } from '@jupyterlab/nbformat';
-import renderAnsi from './ansi';
-import renderMarkdown from './markdown';
-import { Renderer } from './parser';
+import renderMarkdown from './markdown.js';
+import { Renderer } from './parser.js';
+import { AnsiUp } from 'ansi_up';
+
+const ansiup = new AnsiUp();
+const renderAnsi: Renderer = (content: string) => ansiup.ansi_to_html(content);
 
 function joinMultilineString(str: MultilineString): string {
     return Array.isArray(str) ? str.join('') : str;

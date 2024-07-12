@@ -1,9 +1,9 @@
-import ws from 'ws';
+import { WebSocketServer, WebSocket } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import { Server } from 'http';
 
 interface SocketData {
-    socket: ws;
+    socket: WebSocket;
     alive: boolean;
     path?: string;
 }
@@ -11,7 +11,7 @@ interface SocketData {
 export function setupSockets(server: Server, onNoClients: () => void, onFirstClient: () => void) {
     onNoClients();
 
-    const wss = new ws.Server({ server });
+    const wss = new WebSocketServer({ server });
     const sockets = new Map<string, SocketData>();
 
     wss.on('connection', (socket) => {

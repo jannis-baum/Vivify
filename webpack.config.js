@@ -1,28 +1,22 @@
-const path = require('path');
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-module.exports = {
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const buildDir = path.resolve(__dirname, 'build');
+
+export default {
     mode: 'production',
     entry: {
-        main: './src/app.ts',
+        main: path.resolve(buildDir, 'dist', 'app.js'),
     },
     output: {
-        path: path.resolve(__dirname, './build'),
+        path: buildDir,
         filename: 'bundle.js',
+        chunkFormat: 'module',
     },
-    resolve: {
-        extensions: ['.ts', '.js'],
-    },
-    module: {
-        rules: [
-            {
-                test: /\.ts?$/,
-                loader: 'ts-loader',
-            },
-        ],
+    externals: {
+        'utf-8-validate': 'esm utf-8-validate',
+        bufferutil: 'esm bufferutil',
     },
     target: 'node',
-    externals: {
-        'utf-8-validate': 'commonjs utf-8-validate',
-        bufferutil: 'commonjs bufferutil',
-    },
 };

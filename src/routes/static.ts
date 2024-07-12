@@ -1,13 +1,11 @@
-import StreamZip from 'node-stream-zip';
-import tmp from 'tmp';
 import { Router } from 'express';
-import { readFile } from 'fs/promises';
-import { dirname as pdirname, join as pjoin } from 'path';
 import { writeFileSync } from 'fs';
-
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { isSea, getAsset } = require('node:sea');
-/* eslint-enable @typescript-eslint/no-var-requires */
+import { readFile } from 'fs/promises';
+import StreamZip from 'node-stream-zip';
+import { getAsset, isSea } from 'node:sea';
+import { dirname as pdirname, join as pjoin } from 'path';
+import tmp from 'tmp';
+import { fileURLToPath } from 'url';
 
 tmp.setGracefulCleanup();
 
@@ -29,7 +27,10 @@ class StaticProvider {
 
             this._content = (path) => zip.entryData(`static${path}`);
         } else {
-            const staticDir = pjoin(pdirname(pdirname(__dirname)), 'static');
+            const staticDir = pjoin(
+                pdirname(pdirname(pdirname(fileURLToPath(import.meta.url)))),
+                'static',
+            );
             this._content = (path) => readFile(pjoin(staticDir, path));
         }
     }

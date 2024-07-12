@@ -1,21 +1,13 @@
-// here anything that needs to be initialized asynchronously once can register
-// to run at startup
-// this needs to be declared and exported first!
-const asyncInits = new Array<() => Promise<void>>();
-export const registerAsyncInit = (f: () => Promise<void>) => {
-    asyncInits.push(f);
-};
-
 import { createServer } from 'http';
 
 import express from 'express';
 
-import { router as healthRouter } from './routes/health';
-import { router as viewerRouter } from './routes/viewer';
-import { router as staticRouter } from './routes/static';
-import { setupSockets } from './sockets';
-import { urlToPath } from './utils/path';
-import config from './parser/config';
+import { router as healthRouter } from './routes/health.js';
+import { router as viewerRouter } from './routes/viewer.js';
+import { router as staticRouter } from './routes/static.js';
+import { setupSockets } from './sockets.js';
+import { urlToPath } from './utils/path.js';
+import config from './parser/config.js';
 
 const app = express();
 app.use(express.json());
@@ -30,7 +22,6 @@ app.use('/viewer', viewerRouter);
 const server = createServer(app);
 
 server.listen(config.port, async () => {
-    await Promise.all(asyncInits.map(async (i) => await i()));
     console.log(`App is listening on port ${config.port}!`);
 });
 
