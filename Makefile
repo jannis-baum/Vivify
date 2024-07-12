@@ -24,7 +24,7 @@ instruct-build:
 $(STATIC_PATH): $(shell find static -type f)
 	mkdir -p $(BUILD_DIR)
 	rm -rf $(STATIC_PATH)
-	zip -X -r $(STATIC_PATH) static
+	tar --auto-compress --create --file $(STATIC_PATH) static
 
 $(BUNDLE_PATH): $(shell find src -type f) webpack.config.js tsconfig.json package.json yarn.lock $(STATIC_PATH)
 	node_modules/.bin/webpack
