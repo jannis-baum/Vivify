@@ -34,15 +34,11 @@ jobs:
         run: |
           yarn
           make linux
-      - name: package
-        run: |
-          cd build/linux
-          zip -r vivify-linux.zip *
       - name: upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: vivify-linux
-          path: build/linux/vivify-linux.zip
+          path: build/linux/*
 
   build-macos:
     name: Build MacOS
@@ -55,15 +51,11 @@ jobs:
         run: |
           yarn
           make macos
-      - name: package
-        run: |
-          cd build/macos
-          zip -r vivify-macos.zip *
       - name: upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: vivify-macos
-          path: build/macos/vivify-macos.zip
+          path: build/macos/*
 
   release:
     name: Release
