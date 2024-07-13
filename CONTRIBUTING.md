@@ -30,3 +30,9 @@ yarn viv
 instead of your installed Vivify executable. This will (1) connect to the
 development server on port 3000 instead of running the installed server, and (2)
 use the `viv` executable in the repository.
+
+## Testing rendering
+
+You can files to test Vivify's rendering/parsing capabilities in the
+[`tests/`](tests/) directory. Please make sure to add to this in case you add
+anything new related to this.
