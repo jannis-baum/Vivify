@@ -2,6 +2,41 @@
 
 Use this file to test extended Markdown rendering capabilities.
 
+https://www.markdownguide.org/extended-syntax/
+
+## Table
+
+| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | Title       |
+| Paragraph   | Text        |
+
+| Syntax      | Description | Test Text     |
+| :---        |    :----:   |          ---: |
+| Header      | Title       | Here's this   |
+| Paragraph   | Text        | And more      |
+| Table       | Rectangular | Hehe          |
+
+## Fenced code block
+
+With syntax highlighting:
+
+```html
+<html>
+  <head>
+  </head>
+  <body>
+    <p style="font-size: 1000px">This is some really huge text!</p>
+  </body>
+</html>
+```
+
+## Custom heading ID
+
+### My Great Heading {#custom-id}
+
+[Custom heading ID](#custom-id)
+
 ## Definition list
 
 dog
@@ -17,7 +52,7 @@ cat
 Paragraphs in definition:
 
 term
-    
+
 :   This is the first paragraph.
 
     This is the second paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue egestas est at maximus. Ut blandit ligula nec iaculis dignissim. Duis ut diam nibh. Curabitur sed consectetur lacus. Integer fringilla metus quis justo condimentum iaculis. Vivamus arcu metus, luctus id posuere eget, rutrum eu neque. Donec a lectus mauris. Etiam magna eros, commodo ut lectus id, finibus sodales est. Suspendisse quis rhoncus purus.
@@ -34,6 +69,16 @@ There's no markdown syntax for this, but technically multiple terms for one defi
         developed by the Mozilla Corporation and hundreds of volunteers.</dd>
 </dl>
 
+## Strikethrough
+
+~~The world is flat.~~ We now know that the world is round.
+
+## Task list
+
+- [x] Write the press release
+- [ ] Update the website
+- [ ] Contact the media
+
 ## Emoji
 
 [Complete list of github emoji](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
@@ -44,33 +89,31 @@ That is so funny! :joy:
 
 :cowboy_hat_face::nerd_face:
 
-## kbd tag
+## Highlight
 
-While not a markdown syntax, this has a default style:
+I need to highlight these ==very important words==.
 
-Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy, and <kbd>Ctrl</kbd> + <kbd>V</kbd> to paste!
+## Subscript
 
-## Math
+H~2~O
 
-Let's define the Normal distribution $N(x; \mu, \sigma^2)$ as follows.
+## Superscript
 
-$$
-N(x; \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \cdot \exp\left(-\frac{\left(x - \mu\right)^2}{\sigma^2}\right)
-$$
+X^2^
 
-## Graphviz/Dot
+## Automatic URL linking
 
-```graphviz
-digraph {
-  rankdir = LR
-  A -> B
-}
-```
+Without any formatting, URLs should still become links:
 
-## Task lists
+https://www.markdownguide.org
 
-- [x] completed
-- [ ] not completed
+fake@example.com
+
+Link should not be created in backtics:
+
+`https://www.markdownguide.org`
+
+`fake@example.com`
 
 ## Footnote
 

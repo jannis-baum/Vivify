@@ -2,9 +2,7 @@
 
 Use this file to test basic Markdown rendering capabilities.
 
-You may find this useful for tweaking styles as well.
-
-Most examples are copied from https://www.markdownguide.org
+https://www.markdownguide.org/basic-syntax/
 
 ## Header
 
@@ -61,10 +59,6 @@ This text is __*really important*__.
 This text is **_really important_**.
 
 This is really***very***important text.
-
-## Strikethrough
-
-~~The world is flat.~~ We now know that the world is round.
 
 ## Blockquote
 
@@ -150,26 +144,14 @@ This is really***very***important text.
 
 At the command prompt, type `emacs`.
 
-Indented code block:
+Code block:
 
     <html>
       <head>
       </head>
     </html>
 
-Triple backticks (fenced code block) and syntax highlighting:
-
-```html
-<html>
-  <head>
-  </head>
-  <body>
-    <p style="font-size: 1000px">This is some really huge text!</p>
-  </body>
-</html>
-```
-
-## Horizontal Rule
+## Horizontal rule
 
 Hi
 
@@ -202,18 +184,6 @@ In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, fill
 
 [1]: <https://en.wikipedia.org/wiki/Hobbit#Lifestyle> "Hobbit lifestyles"
 
-Auto-linkification:
-
-https://www.markdownguide.org
-
-fake@example.com
-
-Link should not be created in backtics:
-
-`https://www.markdownguide.org`
-
-`fake@example.com`
-
 ## Image
 
 ![The San Juan Mountains are beautiful!](images/san-juan-mountains.png "San Juan Mountains")
@@ -221,16 +191,3 @@ Link should not be created in backtics:
 This image is a link, you can click on it:
 
 [![An old rock in the desert](images/shiprock.png "Shiprock, New Mexico by Beau Rogers")](https://www.flickr.com/photos/beaurogers/31833779864/in/photolist-Qv3rFw-34mt9F-a9Cmfy-5Ha3Zi-9msKdv-o3hgjr-hWpUte-4WMsJ1-KUQ8N-deshUb-vssBD-6CQci6-8AFCiD-zsJWT-nNfsgB-dPDwZJ-bn9JGn-5HtSXY-6CUhAL-a4UTXB-ugPum-KUPSo-fBLNm-6CUmpy-4WMsc9-8a7D3T-83KJev-6CQ2bK-nNusHJ-a78rQH-nw3NvT-7aq2qf-8wwBso-3nNceh-ugSKP-4mh4kh-bbeeqH-a7biME-q3PtTf-brFpgb-cg38zw-bXMZc-nJPELD-f58Lmo-bXMYG-bz8AAi-bxNtNT-bXMYi-bXMY6-bXMYv)
-
-## Table
-
-| Syntax      | Description |
-| ----------- | ----------- |
-| Header      | Title       |
-| Paragraph   | Text        |
-
-| Syntax      | Description | Test Text     |
-| :---        |    :----:   |          ---: |
-| Header      | Title       | Here's this   |
-| Paragraph   | Text        | And more      |
-| Table       | Rectangular | Hehe          |
