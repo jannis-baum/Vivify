@@ -1,0 +1,29 @@
+.content-ipynb { max-width: 1200px; }
+
+*[class^="ipynb-cell-"] { position: relative; }
+.ipynb-output-execution-result {
+    position: relative;
+    overflow-x: auto;
+}
+
+.ipynb-execution-count {
+    font-family: monospace;
+    position: absolute;
+    transform: translateX(-100%);
+    top: 1rem;
+    left: -1rem;
+}
+.ipynb-output-execution-result > .ipynb-execution-count { top: 0 }
+
+*[class^="ipynb-output-stream-"] {
+    padding: unset;
+    background-color: unset;
+}
+.ipynb-output-stream-stderr { background-color: rgba(255, 0, 0, 0.1); }
+
+.ipynb-output-error { background-color: rgba(255, 0, 0, 0.1); }
+
+.ipynb-output-plain {
+    padding: unset;
+    background-color: unset;
+}

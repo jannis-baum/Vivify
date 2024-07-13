@@ -1,12 +1,12 @@
-import { Dirent, lstatSync, readdirSync, readFileSync } from 'fs';
+import { lstatSync, readFileSync } from 'fs';
 import { dirname as pdirname, join as pjoin } from 'path';
 
 import { Request, Response, Router } from 'express';
 
 import { messageClientsAt } from '../app';
 import config from '../parser/config';
-import parse, { pathHeading } from '../parser/parser';
 import { pathToURL, pcomponents, pmime } from '../utils/path';
+import { renderDirectory, renderTextFile } from '../parser/parser';
 
 export const router = Router();
 
@@ -22,11 +22,6 @@ const pageTitle = (path: string) => {
     } else return pjoin(...comps.slice(-2));
 };
 
-const dirListItem = (item: Dirent, path: string) =>
-    `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}"><a href="${pathToURL(
-        pjoin(path, item.name),
-    )}">${item.name}</a></li>`;
-
 router.get(/.*/, async (req: Request, res: Response) => {
     const path = res.locals.filepath;
 
@@ -34,21 +29,17 @@ router.get(/.*/, async (req: Request, res: Response) => {
     if (!body) {
         try {
             if (lstatSync(path).isDirectory()) {
-                const list = readdirSync(path, { withFileTypes: true })
-                    .sort((a, b) => +b.isDirectory() - +a.isDirectory())
-                    .map((item) => dirListItem(item, path))
-                    .join('\n');
-                body = parse(`${pathHeading(path)}\n\n<ul class="dir-list">\n${list}\n</ul>`);
+                body = renderDirectory(path);
             } else {
                 const data = readFileSync(path);
                 const type = pmime(path);
 
-                if (!type.startsWith('text/')) {
+                if (!(type.startsWith('text/') || type === 'application/json')) {
                     res.setHeader('Content-Type', type).send(data);
                     return;
                 }
 
-                body = parse(data.toString(), path);
+                body = renderTextFile(data.toString(), path);
             }
         } catch {
             res.status(404).send('File not found.');
@@ -70,6 +61,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 <title>${title}</title>
                 <link rel="stylesheet" type="text/css" href="/static/style.css"/>
                 <link rel="stylesheet" type="text/css" href="/static/highlight.css">
+                <link rel="stylesheet" type="text/css" href="/static/ipynb.css">
                 <link rel="stylesheet" type="text/css" href="/static/katex/katex.css">
                 <style>
                   ${config.styles}
@@ -94,9 +86,9 @@ router.post(/.*/, async (req: Request, res: Response) => {
     const { content, cursor } = req.body;
 
     if (content) {
-        const parsed = parse(content, path);
-        liveContent.set(path, parsed);
-        messageClientsAt(path, `UPDATE: ${parsed}`);
+        const rendered = renderTextFile(content, path);
+        liveContent.set(path, rendered);
+        messageClientsAt(path, `UPDATE: ${rendered}`);
     }
     if (cursor) messageClientsAt(path, `SCROLL: ${cursor}`);
 
