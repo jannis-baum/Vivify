@@ -119,8 +119,8 @@ directory as an argument! See below for installation options.
 
 ## Get help
 
-Is something not working or do you have any questions? [Open an
-issue](https://github.com/jannis-baum/vivify/issues/new/choose)!
+Is something not working or do you have any questions? [Start a
+discussion!](https://github.com/jannis-baum/vivify/discussions/new?category=q-a)!
 
 ## Acknowledgments
 
