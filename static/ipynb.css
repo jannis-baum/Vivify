@@ -3,7 +3,7 @@
 *[class^="ipynb-cell-"] { position: relative; }
 .ipynb-output-execution-result {
     position: relative;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 .ipynb-execution-count {
