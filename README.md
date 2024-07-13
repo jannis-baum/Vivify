@@ -7,10 +7,7 @@ features!
 
 ## Features
 
-- view Markdown with various [extended features](#markdown)
-- links to other files: [relative links like in
-  GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#relative-links)
-  as well as absolute file links
+- view Markdown with various [features](#markdown-features)
 - view Jupyter Notebooks
 - view other plain text files with code syntax highlighting
 - view & navigate directories, hidden "back to parent directory" button at the
@@ -25,21 +22,16 @@ If you need any additional features, feel free to [open an
 issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
 [contribute](CONTRIBUTING.md)!
 
-### Extended Markdown
+### Markdown features
 
-- heading/anchor links
+- full [basic](https://www.markdownguide.org/basic-syntax/) and
+  [extended](https://www.markdownguide.org/extended-syntax/) syntax support
 - [KaTeX math](https://katex.org)
-- syntax highlighting for code
-- GitHub Markdown features:
-  - [task-lists](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#task-lists)
-  - [emojis like
-    `:smile:`](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#using-emojis)
-  - automatic linkification
-- Pandoc Markdown features:
-  - [definition/description
-    lists](https://pandoc.org/MANUAL.html#extension-definition_lists)
-  - [footnotes](https://pandoc.org/MANUAL.html#footnotes)
 - [graphviz/dot graphs](https://graphviz.org/doc/info/lang.html)
+- `<kbd>` tags, e.g. to style keyboard shortcuts
+- links to other files: [relative links like in
+  GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#relative-links)
+  as well as absolute file links
 
 ### Editor Support
 
