@@ -1,11 +1,12 @@
 import { lstatSync, readFileSync } from 'fs';
 import { dirname as pdirname, join as pjoin } from 'path';
+import { homedir } from 'os';
 
 import { Request, Response, Router } from 'express';
 
 import { messageClientsAt } from '../app.js';
 import config from '../parser/config.js';
-import { pathToURL, pcomponents, pmime } from '../utils/path.js';
+import { absPath, pathToURL, pcomponents, pmime, preferredPath } from '../utils/path.js';
 import { renderDirectory, renderTextFile } from '../parser/parser.js';
 
 export const router = Router();
@@ -13,7 +14,7 @@ export const router = Router();
 const liveContent = new Map<string, string>();
 
 const pageTitle = (path: string) => {
-    const comps = pcomponents(path);
+    const comps = pcomponents(preferredPath(path));
     if (config.pageTitle) {
         return eval(`
             const components = ${JSON.stringify(comps)};
@@ -21,6 +22,16 @@ const pageTitle = (path: string) => {
         `);
     } else return pjoin(...comps.slice(-2));
 };
+
+if (config.preferHomeTilde) {
+    router.use((req, res, next) => {
+        if (req.method === 'GET' && req.path.startsWith(homedir())) {
+            res.redirect(req.path.replace(homedir(), '/~'));
+        } else {
+            next();
+        }
+    });
+}
 
 router.get(/.*/, async (req: Request, res: Response) => {
     const path = res.locals.filepath;
@@ -74,7 +85,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
             </body>
             <script>
                 window.VIV_PORT = "${config.port}";
-                window.VIV_PATH = "${req.path}";
+                window.VIV_PATH = "${absPath(req.path)}";
             </script>
             <script type="text/javascript" src="/static/client.js"></script>
         </html>

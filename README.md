@@ -94,6 +94,9 @@ following optional keys:
   files will be displayed as monospaced text with code highlighting if
   available. Default Markdown extensions are `['markdown', 'md', 'mdown',
   'mdwn', 'mkd', 'mkdn']`
+- **`"preferHomeTilde"`**\
+  Prefer using `~` as a placeholder for your home directory in URLs as well as
+  the `compoments` for `"pageTitle"` (default is `true`)
 
 ## Installation
 

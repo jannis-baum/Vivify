@@ -9,7 +9,7 @@ import { router as healthRouter } from './routes/health.js';
 import { router as staticRouter } from './routes/static.js';
 import { router as viewerRouter } from './routes/viewer.js';
 import { setupSockets } from './sockets.js';
-import { pathToURL, urlToPath } from './utils/path.js';
+import { pathToURL, preferredPath, urlToPath } from './utils/path.js';
 import { existsSync } from 'fs';
 
 const app = express();
@@ -48,8 +48,8 @@ const openArgs = async () => {
                 console.log(`File not found: ${path}`);
                 return;
             }
-            const absolute = presolve(path);
-            const url = `${address}${pathToURL(absolute)}`;
+            const target = preferredPath(presolve(path));
+            const url = `${address}${pathToURL(target)}`;
             await open(url);
         }),
     );

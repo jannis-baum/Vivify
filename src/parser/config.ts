@@ -10,12 +10,14 @@ type Config = {
     pageTitle?: string;
     mdExtensions: string[];
     timeout: number;
+    preferHomeTilde: boolean;
 };
 
 const defaultConfig: Config = {
     port: 31622,
     mdExtensions: ['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn'],
     timeout: 10000,
+    preferHomeTilde: true,
 };
 
 const envConfigs: [string, keyof Config][] = [
