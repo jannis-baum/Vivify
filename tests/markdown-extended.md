@@ -50,6 +50,28 @@ While not a markdown syntax, this has a default style:
 
 Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy, and <kbd>Ctrl</kbd> + <kbd>V</kbd> to paste!
 
+## Math
+
+Let's define the Normal distribution $N(x; \mu, \sigma^2)$ as follows.
+
+$$
+N(x; \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \cdot \exp\left(-\frac{\left(x - \mu\right)^2}{\sigma^2}\right)
+$$
+
+## Graphviz/Dot
+
+```graphviz
+digraph {
+  rankdir = LR
+  A -> B
+}
+```
+
+## Task lists
+
+- [x] completed
+- [ ] not completed
+
 ## Footnote
 
 Here's a simple footnote,[^1] and here's a longer one.[^bignote]
