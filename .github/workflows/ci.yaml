@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: vivify-linux
-          path: build/linux/*
+          path: build/linux
 
   build-macos:
     name: Build MacOS
@@ -55,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: vivify-macos
-          path: build/macos/*
+          path: build/macos
 
   release:
     name: Release
@@ -67,13 +67,19 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: vivify-linux
-          path: .
+          path: ./vivify-linux
       - name: download macos artifact
         if: startsWith(github.ref, 'refs/tags/v')
         uses: actions/download-artifact@v4
         with:
           name: vivify-macos
-          path: .
+          path: ./vivify-macos
+      - name: fix permissions & archive
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          chmod +x ./vivify-linux/* ./vivify-macos/*
+          zip -r vivify-linux.zip vivify-linux
+          zip -r vivify-macos.zip vivify-macos
       - name: release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
