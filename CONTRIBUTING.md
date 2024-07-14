@@ -33,6 +33,6 @@ use the `viv` executable in the repository.
 
 ## Testing rendering
 
-You can files to test Vivify's rendering/parsing capabilities in the
+You can find files to test Vivify's rendering/parsing capabilities in the
 [`tests/`](tests/) directory. Please make sure to add to this in case you add
 anything new related to this.
