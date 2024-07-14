@@ -35,7 +35,7 @@ server.listen(process.env['VIV_PORT'], async () => {
     console.log(`App is listening on port ${process.env['VIV_PORT']}!`);
 });
 
-let shutdownTimer: NodeJS.Timer | null = null;
+let shutdownTimer: NodeJS.Timeout | null = null;
 export const { clientsAt, messageClientsAt } = setupSockets(
     server,
     () => {
