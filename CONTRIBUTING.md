@@ -36,3 +36,13 @@ use the `viv` executable in the repository.
 You can find files to test Vivify's rendering/parsing capabilities in the
 [`tests/`](tests/) directory. Please make sure to add to this in case you add
 anything new related to this.
+
+## Writing Markdown
+
+We use
+[markdownlint](https://github.com/DavidAnson/markdownlint?tab=readme-ov-file) in
+its default configuration to ensure consistent style across Markdown files. You
+can install [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2)
+to lint your files locally with `yarn lint-markdown` or rely on on your editor,
+e.g. with [coc-markdownlint](https://github.com/fannheyward/coc-markdownlint)
+for Vim with coc.nvim.

@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "VIV_TIMEOUT=0 VIV_PORT=3000 NODE_ENV=development nodemon --exec node --loader ts-node/esm src/app.ts",
     "viv": "VIV_PORT=3000 node --loader ts-node/esm src/app.ts",
-    "lint": "eslint src static"
+    "lint": "eslint src static",
+    "lint-markdown": "markdownlint-cli2 --config .github/.markdownlint-cli2.yaml"
   },
   "type": "module",
   "dependencies": {
