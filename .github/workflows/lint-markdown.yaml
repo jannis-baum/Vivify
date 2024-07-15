@@ -1,0 +1,18 @@
+name: Lint Markdown
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - '**.md'
+
+jobs:
+  lint:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          config: .github/.markdownlint-cli2.yaml
