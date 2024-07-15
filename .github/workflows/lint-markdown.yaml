@@ -6,6 +6,9 @@ on:
       - '**'
     paths:
       - '**.md'
+  pull_request:
+    branches:
+      - main
 
 jobs:
   lint:
