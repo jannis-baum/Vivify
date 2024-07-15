@@ -65,6 +65,7 @@ following optional keys:
   variable `VIV_TIMEOUT` (default is 10000)
 - **`"katexOptions"`**\
   [available KaTeX options](https://katex.org/docs/options.html), such as
+
   ```json
   {
     "errorColor": "#cc0000",
@@ -73,6 +74,7 @@ following optional keys:
     }
   }
   ```
+
 - **`"pageTitle"`**\
   JavaScript code that will be evaluated to determine the viewer's page title.
   Here, the variable `components` is set to a string array of path components
