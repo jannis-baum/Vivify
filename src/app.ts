@@ -40,22 +40,24 @@ export const { clientsAt, messageClientsAt } = setupSockets(
 );
 
 const address = `http://localhost:${config.port}`;
-const openArgs = () => {
-    for (const path of process.argv.slice(2)) {
-        if (path.startsWith('-')) continue;
-        if (!existsSync(path)) {
-            console.log(`File not found: ${path}`);
-            continue;
-        }
-        const absolute = presolve(path);
-        const url = `${address}${pathToURL(absolute)}`;
-        open(url);
-    }
+const openArgs = async () => {
+    await Promise.all(
+        process.argv.slice(2).map(async (path) => {
+            if (path.startsWith('-')) return;
+            if (!existsSync(path)) {
+                console.log(`File not found: ${path}`);
+                return;
+            }
+            const absolute = presolve(path);
+            const url = `${address}${pathToURL(absolute)}`;
+            await open(url);
+        }),
+    );
 };
 
-get(`${address}/health`, () => {
+get(`${address}/health`, async () => {
     // server is already running
-    openArgs();
+    await openArgs();
     process.exit(0);
 }).on('error', () => {
     // server is not running so we start it
