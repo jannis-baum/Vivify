@@ -1,10 +1,10 @@
 import { Dirent, readdirSync } from 'fs';
 import { homedir } from 'os';
 import { join as pjoin } from 'path';
-import { pathToURL } from '../utils/path';
-import config from './config';
-import renderNotebook from './ipynb';
-import renderMarkdown from './markdown';
+import { pathToURL } from '../utils/path.js';
+import config from './config.js';
+import renderNotebook from './ipynb.js';
+import renderMarkdown from './markdown.js';
 
 export type Renderer = (content: string) => string;
 
@@ -12,12 +12,11 @@ const pathHeading: Renderer = (path: string) => `# \`${path.replace(homedir(), '
 const wrap = (contentType: string, content: string) =>
     `<div class="content-${contentType}">${content}</div>`;
 
-const mdExtensions = config.mdExtensions ?? ['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn'];
 function textRenderer(
     fileEnding: string | undefined,
 ): { render: Renderer; contentType: string } | undefined {
     if (!fileEnding) return undefined;
-    if (mdExtensions.includes(fileEnding)) {
+    if (config.mdExtensions.includes(fileEnding)) {
         return { render: renderMarkdown, contentType: 'markdown' };
     }
     if (fileEnding === 'ipynb') {

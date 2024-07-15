@@ -1,22 +1,16 @@
-// here anything that needs to be initialized asynchronously once can register
-// to run at startup
-// this needs to be declared and exported first!
-const asyncInits = new Array<() => Promise<void>>();
-export const registerAsyncInit = (f: () => Promise<void>) => {
-    asyncInits.push(f);
-};
-
-import { createServer } from 'http';
+import { createServer, get } from 'http';
+import { resolve as presolve } from 'path';
 
 import express from 'express';
+import open from 'open';
 
-import { router as healthRouter } from './routes/health';
-import { router as viewerRouter } from './routes/viewer';
-import { router as staticRouter } from './routes/static';
-import { setupSockets } from './sockets';
-import { urlToPath } from './utils/path';
-
-process.env['VIV_PORT'] = process.env['VIV_PORT'] ?? '31622';
+import config from './parser/config.js';
+import { router as healthRouter } from './routes/health.js';
+import { router as staticRouter } from './routes/static.js';
+import { router as viewerRouter } from './routes/viewer.js';
+import { setupSockets } from './sockets.js';
+import { pathToURL, urlToPath } from './utils/path.js';
+import { existsSync } from 'fs';
 
 const app = express();
 app.use(express.json());
@@ -30,23 +24,45 @@ app.use('/viewer', viewerRouter);
 
 const server = createServer(app);
 
-server.listen(process.env['VIV_PORT'], async () => {
-    await Promise.all(asyncInits.map(async (i) => await i()));
-    console.log(`App is listening on port ${process.env['VIV_PORT']}!`);
-});
-
 let shutdownTimer: NodeJS.Timeout | null = null;
 export const { clientsAt, messageClientsAt } = setupSockets(
     server,
     () => {
-        const timeout = parseInt(process.env['VIV_TIMEOUT'] ?? '10000');
-        if (timeout > 0)
+        if (config.timeout > 0)
             shutdownTimer = setInterval(() => {
-                console.log(`No clients for ${timeout}ms, shutting down.`);
+                console.log(`No clients for ${config.timeout}ms, shutting down.`);
                 process.exit(0);
-            }, timeout);
+            }, config.timeout);
     },
     () => {
         if (shutdownTimer) clearInterval(shutdownTimer);
     },
 );
+
+const address = `http://localhost:${config.port}`;
+const openArgs = async () => {
+    await Promise.all(
+        process.argv.slice(2).map(async (path) => {
+            if (path.startsWith('-')) return;
+            if (!existsSync(path)) {
+                console.log(`File not found: ${path}`);
+                return;
+            }
+            const absolute = presolve(path);
+            const url = `${address}${pathToURL(absolute)}`;
+            await open(url);
+        }),
+    );
+};
+
+get(`${address}/health`, async () => {
+    // server is already running
+    await openArgs();
+    process.exit(0);
+}).on('error', () => {
+    // server is not running so we start it
+    server.listen(config.port, async () => {
+        console.log(`App is listening on port ${config.port}!`);
+        openArgs();
+    });
+});

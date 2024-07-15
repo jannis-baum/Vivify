@@ -1,13 +1,10 @@
 import { instance } from '@viz-js/viz';
 import MarkdownIt from 'markdown-it';
 
-import { registerAsyncInit } from '../app';
-
 let viz: Awaited<ReturnType<typeof instance>> | undefined = undefined;
-const init = async () => {
+(async () => {
     viz = await instance();
-};
-registerAsyncInit(init);
+})();
 
 function renderDot(str: string) {
     if (!viz) return '<p>Please reload the page to see graphs rendered.</p>';

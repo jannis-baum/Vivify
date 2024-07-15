@@ -2,6 +2,7 @@ BUILD_DIR=build
 BUILD_DIR_MACOS=$(BUILD_DIR)/macos
 BUILD_DIR_LINUX=$(BUILD_DIR)/linux
 
+DIST_PATH=$(BUILD_DIR)/dist
 BUNDLE_PATH=$(BUILD_DIR)/bundle.js
 STATIC_PATH=$(BUILD_DIR)/static.zip
 
@@ -26,7 +27,11 @@ $(STATIC_PATH): $(shell find static -type f)
 	rm -rf $(STATIC_PATH)
 	zip -X -r $(STATIC_PATH) static
 
-$(BUNDLE_PATH): $(shell find src -type f) webpack.config.js tsconfig.json package.json yarn.lock $(STATIC_PATH)
+$(DIST_PATH): $(shell find src -type f) tsconfig.json package.json yarn.lock
+	node_modules/.bin/tsc
+	touch $(DIST_PATH)
+
+$(BUNDLE_PATH): webpack.config.js $(STATIC_PATH) $(DIST_PATH)
 	node_modules/.bin/webpack
 	touch $(BUNDLE_PATH)
 

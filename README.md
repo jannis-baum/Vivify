@@ -63,10 +63,6 @@ following optional keys:
   how long the server should wait in ms before shutting down after
   the last client disconnected; this will be overwritten by the environment
   variable `VIV_TIMEOUT` (default is 10000)
-- **`"openCmd"`**\
-  the command `viv` uses to open your browser at a given URL; this
-  will be overwritten by the environment variable `VIV_OPEN` (default will try
-  `open` and fall back to `xdg-open`)
 - **`"katexOptions"`**\
   [available KaTeX options](https://katex.org/docs/options.html), such as
   ```json
@@ -101,7 +97,6 @@ directory as an argument! See below for installation options.
 
 ### Manual
 
-- make sure you have [`jq`](https://github.com/jqlang/jq) installed
 - download & unpack the [latest
   release](https://github.com/jannis-baum/vivify/releases) for your system
   (macOS or Linux)
@@ -109,8 +104,7 @@ directory as an argument! See below for installation options.
 
 ### Compile yourself
 
-- make sure you have [`jq`](https://github.com/jqlang/jq),
-  [`yarn`](https://yarnpkg.com), `make` and `zip` installed
+- make sure you have [`yarn`](https://yarnpkg.com), `make` and `zip` installed
 - clone the repository
 - run `yarn`
 - run `./configure <install_dir>`
