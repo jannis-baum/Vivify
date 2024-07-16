@@ -4,6 +4,7 @@ import path from 'path';
 
 type Config = {
     styles?: string;
+    scripts?: string;
     port: number;
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     katexOptions?: any;
@@ -57,8 +58,9 @@ const getConfig = (): Config => {
 
     if (config === undefined) return defaultConfig;
 
-    // get styles
+    // get styles & scripts
     config.styles = getFileContents(config.styles);
+    config.scripts = getFileContents(config.scripts);
 
     // fill missing values from default config
     for (const [key, value] of Object.entries(defaultConfig)) {

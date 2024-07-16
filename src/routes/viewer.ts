@@ -74,15 +74,14 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 <link rel="stylesheet" type="text/css" href="/static/highlight.css">
                 <link rel="stylesheet" type="text/css" href="/static/ipynb.css">
                 <link rel="stylesheet" type="text/css" href="/static/katex/katex.css">
-                <style>
-                  ${config.styles}
-                </style>
+                ${config.styles ? `<style type="text/css">${config.styles}</style>` : ''}
             <body>
                 <a id="parent-dir" href="${pathToURL(pdirname(path))}">↩</a>
                 <div id="body-content">
                     ${body}
                 </div>
             </body>
+            ${config.scripts ? `<script type="text/javascript">${config.scripts}</script>` : ''}
             <script>
                 window.VIV_PORT = "${config.port}";
                 window.VIV_PATH = "${absPath(req.path)}";
