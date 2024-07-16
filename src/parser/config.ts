@@ -5,12 +5,13 @@ import path from 'path';
 type Config = {
     styles?: string;
     scripts?: string;
+    dirListIgnore?: string[];
     port: number;
+    timeout: number;
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     katexOptions?: any;
-    pageTitle?: string;
     mdExtensions: string[];
-    timeout: number;
+    pageTitle?: string;
     preferHomeTilde: boolean;
 };
 
@@ -47,7 +48,7 @@ const getFileContents = (paths: string[] | string | undefined): string => {
 
 const getConfig = (): Config => {
     let config = undefined;
-    // greedily get config
+    // greedily find config
     for (const cp of configPaths) {
         if (!fs.existsSync(cp)) continue;
         try {
@@ -58,9 +59,12 @@ const getConfig = (): Config => {
 
     if (config === undefined) return defaultConfig;
 
-    // get styles & scripts
+    // get styles, scripts and ignore files
     config.styles = getFileContents(config.styles);
     config.scripts = getFileContents(config.scripts);
+    config.dirListIgnore = getFileContents(config.dirListIgnore)
+        .split('\n')
+        .filter((pattern) => pattern !== '' && pattern[0] !== '#');
 
     // fill missing values from default config
     for (const [key, value] of Object.entries(defaultConfig)) {

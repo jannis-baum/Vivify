@@ -1,10 +1,11 @@
-import { Dirent, readdirSync } from 'fs';
+import { Dirent } from 'fs';
 import { homedir } from 'os';
 import { join as pjoin } from 'path';
 import { pathToURL } from '../utils/path.js';
 import config from './config.js';
 import renderNotebook from './ipynb.js';
 import renderMarkdown from './markdown.js';
+import { globSync } from 'glob';
 
 export type Renderer = (content: string) => string;
 
@@ -43,8 +44,15 @@ const dirListItem = (item: Dirent, path: string) =>
     )}">${item.name}</a></li>`;
 
 export function renderDirectory(path: string): string {
-    const list = readdirSync(path, { withFileTypes: true })
-        .sort((a, b) => +b.isDirectory() - +a.isDirectory())
+    const list = globSync('*', {
+        cwd: path,
+        withFileTypes: true,
+        ignore: config.dirListIgnore,
+        dot: true,
+        maxDepth: 1,
+    })
+        // sort directories first and alphabetically in one combined smart step
+        .sort((a, b) => +b.isDirectory() - +a.isDirectory() || a.name.localeCompare(b.name))
         .map((item) => dirListItem(item, path))
         .join('\n');
     return wrap(
