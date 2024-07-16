@@ -38,7 +38,7 @@ export function renderTextFile(content: string, path: string): string {
 }
 
 const dirListItem = (item: Dirent, path: string) =>
-    `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}"><a href="${pathToURL(
+    `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}" name="${item.name}"><a href="${pathToURL(
         pjoin(path, item.name),
     )}">${item.name}</a></li>`;
 
