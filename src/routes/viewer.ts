@@ -26,7 +26,7 @@ const pageTitle = (path: string) => {
 if (config.preferHomeTilde) {
     router.use((req, res, next) => {
         if (req.method === 'GET' && req.path.startsWith(homedir())) {
-            res.redirect(req.path.replace(homedir(), '/~'));
+            res.redirect(req.baseUrl + req.path.replace(homedir(), '/~'));
         } else {
             next();
         }
