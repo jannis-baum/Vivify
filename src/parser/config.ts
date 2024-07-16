@@ -10,8 +10,8 @@ type Config = {
     timeout: number;
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     katexOptions?: any;
-    mdExtensions: string[];
     pageTitle?: string;
+    mdExtensions: string[];
     preferHomeTilde: boolean;
 };
 
