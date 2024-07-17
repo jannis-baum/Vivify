@@ -11,13 +11,6 @@ const mdit = new MarkdownIt({
     linkify: true,
 });
 
-mdit.use(anchor, {
-    permalink: anchor.permalink.ariaHidden({
-        placement: 'before',
-    }),
-});
-mdit.use(graphviz);
-
 // MARK: markdown-it plugins that don't have types; unfortunately we can't
 // ts-expect-error for blocks so this is ugly:
 // https://github.com/Microsoft/TypeScript/issues/19573
@@ -55,6 +48,19 @@ mdit.use(sup);
 /* @ts-expect-error: markdown-it modules aren't typed */
 import mark from 'markdown-it-mark';
 mdit.use(mark);
+/* @ts-expect-error: markdown-it modules aren't typed */
+import attributes from 'markdown-it-attrs';
+mdit.use(attributes);
+
+// MARK: untyped plugins done
+
+// anchor has to be added after attribute plugin for ids to work
+mdit.use(anchor, {
+    permalink: anchor.permalink.ariaHidden({
+        placement: 'before',
+    }),
+});
+mdit.use(graphviz);
 
 const renderMarkdown: Renderer = (content: string) => {
     return mdit.render(content);
