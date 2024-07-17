@@ -28,3 +28,7 @@ digraph {
 While not a markdown syntax, this has a default style:
 
 Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy, and <kbd>Ctrl</kbd> + <kbd>V</kbd> to paste!
+
+## Custom attributes
+
+This paragraph has a red background color.{style=background-color:red}
