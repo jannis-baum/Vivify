@@ -46,6 +46,12 @@ mdit.use(texMath, {
 /* @ts-expect-error: markdown-it modules aren't typed */
 import defList from 'markdown-it-deflist';
 mdit.use(defList);
+/* @ts-expect-error: markdown-it modules aren't typed */
+import sub from 'markdown-it-sub';
+mdit.use(sub);
+/* @ts-expect-error: markdown-it modules aren't typed */
+import sup from 'markdown-it-sup';
+mdit.use(sup);
 
 const renderMarkdown: Renderer = (content: string) => {
     return mdit.render(content);
