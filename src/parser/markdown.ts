@@ -52,6 +52,9 @@ mdit.use(sub);
 /* @ts-expect-error: markdown-it modules aren't typed */
 import sup from 'markdown-it-sup';
 mdit.use(sup);
+/* @ts-expect-error: markdown-it modules aren't typed */
+import mark from 'markdown-it-mark';
+mdit.use(mark);
 
 const renderMarkdown: Renderer = (content: string) => {
     return mdit.render(content);

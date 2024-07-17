@@ -89,9 +89,9 @@ That is so funny! :joy:
 
 :cowboy_hat_face::nerd_face:
 
-## Highlight
+## Highlight/Mark
 
-I need to highlight these ==very important words==.
+I need to highlight/mark these ==very important words==.
 
 ## Subscript
 
