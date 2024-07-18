@@ -95,7 +95,8 @@ directory as an argument! See below for installation options.
 
 ### Packaged
 
-- [AUR](https://aur.archlinux.org/packages/vivify), e.g. install with `yay -S vivify`
+- [Homebrew](https://brew.sh): `brew install jannis-baum/tap/vivify`
+- [AUR](https://aur.archlinux.org/packages/vivify): e.g. `yay -S vivify`
 
 ### Manual
 
