@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ "$(git rev-parse --abbrev-ref HEAD)" != "main" ]; then
     echo "Releases should only be made from branch main"

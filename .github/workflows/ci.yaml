@@ -65,27 +65,46 @@ jobs:
     needs: [build-linux, build-macos]
     runs-on: ubuntu-latest
     steps:
+      # we check out the repo to get information from tags
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
       - name: download linux artifact
-        if: startsWith(github.ref, 'refs/tags/v')
         uses: actions/download-artifact@v4
         with:
           name: vivify-linux
           path: ./vivify-linux
       - name: download macos artifact
-        if: startsWith(github.ref, 'refs/tags/v')
         uses: actions/download-artifact@v4
         with:
           name: vivify-macos
           path: ./vivify-macos
       - name: fix permissions & archive
-        if: startsWith(github.ref, 'refs/tags/v')
         run: |
           chmod +x ./vivify-linux/* ./vivify-macos/*
-          zip -r vivify-linux.zip vivify-linux
-          zip -r vivify-macos.zip vivify-macos
+          tar -czf vivify-linux.tar.gz vivify-linux
+          tar -czf vivify-macos.tar.gz vivify-macos
+      - name: build release notes
+        run: |
+          echo -e "## What's changed\n" \
+              > release.md
+          git tag -l --format="%(contents:subject)" ${{ github.ref }} \
+              >> release.md
+          echo -e "\n**Full changelog**: https://github.com/jannis-baum/vivify/compare/$(git tag --sort=version:refname | tail -2 | head -1)...${{ github.ref }}" \
+              >> release.md
+          echo -e '\n**SHA256 checksums**\\' \
+              >> release.md
+          echo -e "Linux: \`$(sha256sum vivify-linux.tar.gz | cut -d' ' -f1)\`\\" \
+              >> release.md
+          echo -e "macOS: \`$(sha256sum vivify-macos.tar.gz | cut -d' ' -f1)\`" \
+              >> release.md
+      - name: print release notes for logs
+        run: cat release.md
       - name: release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          generate_release_notes: true
-          files: vivify-*.zip
+          body_path: release.md
+          files: vivify-*.tar.gz
