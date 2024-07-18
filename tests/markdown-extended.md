@@ -91,7 +91,18 @@ That is so funny! :joy:
 
 ## Highlight/Mark
 
-I need to highlight/mark these ==very important words==.
+I need to highlight/mark these ==very important words==. There can also be
+longer highlighted sections which may be relevant for testing styles:
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, ==sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Amet justo donec enim diam
+vulputate ut pharetra sit amet. Neque egestas congue quisque egestas diam in.
+Risus at ultrices mi tempus imperdiet nulla malesuada pellentesque elit. Massa
+placerat duis ultricies lacus sed turpis tincidunt id aliquet. Lacus sed viverra
+tellus in hac habitasse platea dictumst. Facilisi morbi tempus iaculis urna id.
+Feugiat in fermentum posuere urna. Ultricies tristique nulla aliquet enim
+tortor. Vitae congue mauris rhoncus aenean.== Mi eget mauris pharetra et ultrices
+neque. Tincidunt vitae semper quis lectus nulla.
 
 ## Subscript
 
