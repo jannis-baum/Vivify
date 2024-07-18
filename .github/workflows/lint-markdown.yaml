@@ -3,9 +3,9 @@ name: Lint Markdown
 on:
   push:
     branches:
-      - '**'
-    paths:
-      - '**.md'
+      - main
+    tags:
+      - 'v*'
   pull_request:
     branches:
       - main
