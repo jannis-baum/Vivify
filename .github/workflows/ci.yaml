@@ -90,7 +90,7 @@ jobs:
         run: |
           echo -e "## What's changed\n" \
               > release.md
-          git tag -l --format="%(contents:subject)" ${{ github.ref }} \
+          git tag -l --format="%(contents)" ${{ github.ref_name }} | sed '/^-----BEGIN PGP SIGNATURE-----/,$d' \
               >> release.md
           echo -e "\n**Full changelog**: https://github.com/jannis-baum/vivify/compare/$(git tag --sort=version:refname | tail -2 | head -1)...${{ github.ref }}" \
               >> release.md
