@@ -36,7 +36,7 @@ jobs:
       - name: build
         run: |
           yarn
-          make linux
+          VIV_VERSION="${{ github.ref_name }}" make linux
       - name: upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -53,7 +53,7 @@ jobs:
       - name: build
         run: |
           yarn
-          make macos
+          VIV_VERSION="${{ github.ref_name }}" make macos
       - name: upload artifact
         uses: actions/upload-artifact@v4
         with:

@@ -30,7 +30,7 @@ export const { clientsAt, messageClientsAt } = setupSockets(
     () => {
         if (config.timeout > 0)
             shutdownTimer = setInterval(() => {
-                console.log(`No clients for ${config.timeout}ms, shutting down.`);
+                // timeout when no clients are connected
                 process.exit(0);
             }, config.timeout);
     },
@@ -40,29 +40,48 @@ export const { clientsAt, messageClientsAt } = setupSockets(
 );
 
 const address = `http://localhost:${config.port}`;
-const openArgs = async () => {
-    await Promise.all(
-        process.argv.slice(2).map(async (path) => {
-            if (path.startsWith('-')) return;
-            if (!existsSync(path)) {
-                console.log(`File not found: ${path}`);
-                return;
+const handleArgs = async () => {
+    try {
+        const args = process.argv.slice(2);
+        const options = args.filter((arg) => arg.startsWith('-'));
+        for (const option of options) {
+            switch (option) {
+                case '-v':
+                case '--version':
+                    console.log(`vivify-server ${process.env.VERSION ?? 'dev'}`);
+                    break;
+                default:
+                    console.log(`unknown option "${option}"`);
             }
-            const target = preferredPath(presolve(path));
-            const url = `${address}${pathToURL(target)}`;
-            await open(url);
-        }),
-    );
+        }
+
+        const paths = args.filter((arg) => !arg.startsWith('-'));
+        await Promise.all(
+            paths.map(async (path) => {
+                if (!existsSync(path)) {
+                    console.log(`File not found: ${path}`);
+                    return;
+                }
+                const target = preferredPath(presolve(path));
+                const url = `${address}${pathToURL(target)}`;
+                await open(url);
+            }),
+        );
+    } finally {
+        if (process.env['NODE_ENV'] !== 'development') {
+            // - viv executable waits for this string and then stops printing
+            //   vivify-server's output and terminates
+            // - the string itself is not shown to the user
+            console.log('STARTUP COMPLETE');
+        }
+    }
 };
 
 get(`${address}/health`, async () => {
     // server is already running
-    await openArgs();
+    await handleArgs();
     process.exit(0);
 }).on('error', () => {
     // server is not running so we start it
-    server.listen(config.port, async () => {
-        console.log(`App is listening on port ${config.port}!`);
-        openArgs();
-    });
+    server.listen(config.port, handleArgs);
 });

@@ -15,6 +15,8 @@ EXE_PATH_MACOS=$(BUILD_DIR_MACOS)/$(EXE_NAME)
 SERVER_PATH_LINUX=$(BUILD_DIR_LINUX)/$(SERVER_NAME)
 EXE_PATH_LINUX=$(BUILD_DIR_LINUX)/$(EXE_NAME)
 
+VIV_VERSION ?= $(shell git describe --tags --always --dirty)
+
 .PHONY: instruct-build
 instruct-build:
 	@ echo 'Please run `make macos` or `make linux` to build the project'
@@ -32,7 +34,7 @@ $(DIST_PATH): $(shell find src -type f) tsconfig.json package.json yarn.lock
 	touch $(DIST_PATH)
 
 $(BUNDLE_PATH): webpack.config.js $(STATIC_PATH) $(DIST_PATH)
-	node_modules/.bin/webpack
+	VIV_VERSION=$(VIV_VERSION) node_modules/.bin/webpack
 	touch $(BUNDLE_PATH)
 
 # ------------------------------------------------------------------------------
