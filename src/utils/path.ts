@@ -1,6 +1,7 @@
 import { execSync } from 'child_process';
 import { homedir } from 'os';
 import { basename as pbasename, dirname as pdirname, parse as pparse } from 'path';
+import config from '../parser/config.js';
 
 export const pmime = (path: string) => execSync(`file --mime-type -b '${path}'`).toString().trim();
 
@@ -9,7 +10,7 @@ export const pcomponents = (path: string) => {
     const components = new Array<string>();
     // directory
     let dir = parsed.dir;
-    while (dir !== '/' && dir !== '') {
+    while (dir !== '/' && dir !== '.') {
         components.unshift(pbasename(dir));
         dir = pdirname(dir);
     }
@@ -20,12 +21,17 @@ export const pcomponents = (path: string) => {
     return components;
 };
 
+export const absPath = (path: string) => path.replace(/^\/~/, homedir()).replace(/\/+$/, '');
+
 export const urlToPath = (url: string) => {
-    const path = decodeURIComponent(url.replace(/^\/(viewer|health)/, ''))
-        .replace(/^\/~/, homedir())
-        .replace(/\/+$/, '');
+    const path = absPath(decodeURIComponent(url.replace(/^\/(viewer|health)/, '')));
     return path === '' ? '/' : path;
 };
 
-export const pathToURL = (path: string, route: string = 'viewer') =>
-    `/${route}${encodeURIComponent(path).replaceAll('%2F', '/')}`;
+export const pathToURL = (path: string, route: string = 'viewer') => {
+    const withoutPrefix = path.startsWith('/') ? path.slice(1) : path;
+    return `/${route}/${encodeURIComponent(withoutPrefix).replaceAll('%2F', '/')}`;
+};
+
+export const preferredPath = (path: string): string =>
+    config.preferHomeTilde && path.startsWith(homedir()) ? path.replace(homedir(), '~') : path;

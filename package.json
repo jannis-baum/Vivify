@@ -13,6 +13,7 @@
     "@viz-js/viz": "^3.7.0",
     "ansi_up": "^6.0.2",
     "express": "^4.19.2",
+    "glob": "10.4.5",
     "highlight.js": "^11.10.0",
     "katex": "^0.16.11",
     "markdown-it": "^14.1.0",

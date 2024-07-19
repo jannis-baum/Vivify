@@ -4,18 +4,22 @@ import path from 'path';
 
 type Config = {
     styles?: string;
+    scripts?: string;
+    dirListIgnore?: string[];
     port: number;
+    timeout: number;
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     katexOptions?: any;
     pageTitle?: string;
     mdExtensions: string[];
-    timeout: number;
+    preferHomeTilde: boolean;
 };
 
 const defaultConfig: Config = {
     port: 31622,
     mdExtensions: ['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn'],
     timeout: 10000,
+    preferHomeTilde: true,
 };
 
 const envConfigs: [string, keyof Config][] = [
@@ -28,9 +32,23 @@ const configPaths = [
     path.join(homedir(), '.vivify.json'),
 ];
 
+// read contents of file at paths or files at paths
+const getFileContents = (paths: string[] | string | undefined): string => {
+    if (paths === undefined) return '';
+    const getFileContent = (p: string): string => {
+        const resolved = p[0] === '~' ? path.join(homedir(), p.slice(1)) : p;
+        return fs.existsSync(resolved) ? fs.readFileSync(resolved, 'utf8') : '';
+    };
+
+    if (Array.isArray(paths)) {
+        return paths.map(getFileContent).join('\n');
+    }
+    return getFileContent(paths);
+};
+
 const getConfig = (): Config => {
     let config = undefined;
-    // greedily get config
+    // greedily find config
     for (const cp of configPaths) {
         if (!fs.existsSync(cp)) continue;
         try {
@@ -41,12 +59,13 @@ const getConfig = (): Config => {
 
     if (config === undefined) return defaultConfig;
 
-    // get styles
-    if (config.styles && config.styles.length > 0) {
-        const stylePath =
-            config.styles[0] === '~' ? path.join(homedir(), config.styles.slice(1)) : config.styles;
-        config.styles = fs.existsSync(stylePath) ? fs.readFileSync(stylePath, 'utf8') : '';
-    }
+    // get styles, scripts and ignore files
+    config.styles = getFileContents(config.styles);
+    config.scripts = getFileContents(config.scripts);
+    config.dirListIgnore = getFileContents(config.dirListIgnore)
+        .split('\n')
+        .filter((pattern) => pattern !== '' && pattern[0] !== '#');
+
     // fill missing values from default config
     for (const [key, value] of Object.entries(defaultConfig)) {
         if (config[key] === undefined) config[key] = value;
