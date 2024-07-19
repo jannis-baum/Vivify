@@ -10,4 +10,19 @@ if [ "$#" -lt 1 -o "$1" = "-h" -o "$1" = "--help" ]; then
     exit 1
 fi
 
-nohup vivify-server $@ 1>/dev/null 2>/dev/null &
+output=`mktemp`
+cleanup() {
+    rm -f "$output"
+}
+trap cleanup EXIT
+
+nohup vivify-server $@ > "$output" 2> /dev/null &
+
+# print stdout of vivify-server until STARTUP COMPLETE is found
+tail -f "$output" | while read line; do
+    if echo "$line" | grep -q "STARTUP COMPLETE"; then
+        pkill -P $$ tail
+        break
+    fi
+    echo "$line"
+done

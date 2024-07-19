@@ -30,7 +30,7 @@ export const { clientsAt, messageClientsAt } = setupSockets(
     () => {
         if (config.timeout > 0)
             shutdownTimer = setInterval(() => {
-                console.log(`No clients for ${config.timeout}ms, shutting down.`);
+                // timeout when no clients are connected
                 process.exit(0);
             }, config.timeout);
     },
@@ -40,7 +40,7 @@ export const { clientsAt, messageClientsAt } = setupSockets(
 );
 
 const address = `http://localhost:${config.port}`;
-const openArgs = async () => {
+const handleArgs = async () => {
     await Promise.all(
         process.argv.slice(2).map(async (path) => {
             if (path.startsWith('-')) return;
@@ -53,16 +53,19 @@ const openArgs = async () => {
             await open(url);
         }),
     );
+    if (process.env['NODE_ENV'] !== 'development') {
+        // - viv executable waits for this string and then stops printing
+        //   vivify-server's output and terminates
+        // - the string itself is not shown to the user
+        console.log('STARTUP COMPLETE');
+    }
 };
 
 get(`${address}/health`, async () => {
     // server is already running
-    await openArgs();
+    await handleArgs();
     process.exit(0);
 }).on('error', () => {
     // server is not running so we start it
-    server.listen(config.port, async () => {
-        console.log(`App is listening on port ${config.port}!`);
-        openArgs();
-    });
+    server.listen(config.port, handleArgs);
 });
