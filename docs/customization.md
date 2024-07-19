@@ -41,10 +41,10 @@ following optional keys:
 - **`"pageTitle"`**\
   JavaScript code that will be evaluated to determine the viewer's page title.
   Here, the variable `components` is set to a string array of path components
-  for the current file, e.g. `['/', 'Users', 'you', 'file.txt']`. If this
+  for the current file, e.g. `['~', 'some', 'path', 'file.txt']`. If this
   evaluation fails, the title will be *custom title error* and you will see the
   error message on the page. The default title are the last two components
-  joined with the path separator, e.g.  `you/file.txt`
+  joined with the path separator, e.g.  `path/file.txt`
 - **`"mdExtensions"`**\
   An array of file extensions that Vivify will render as Markdown. All other
   files (except for Jupyter Notebooks) will be displayed as monospaced text with
@@ -52,4 +52,4 @@ following optional keys:
   `['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn']`
 - **`"preferHomeTilde"`**\
   Prefer using `~` as a placeholder for your home directory in URLs as well as
-  the `compoments` for `"pageTitle"` (default is `true`)
+  the `components` for `"pageTitle"` (default is `true`)
