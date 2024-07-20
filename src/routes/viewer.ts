@@ -6,7 +6,7 @@ import { Request, Response, Router } from 'express';
 
 import { messageClientsAt } from '../app.js';
 import config from '../parser/config.js';
-import { absPath, pcomponents, pmime, preferredPath } from '../utils/path.js';
+import { absPath, isTextFile, pcomponents, preferredPath } from '../utils/path.js';
 import { renderDirectory, renderTextFile } from '../parser/parser.js';
 
 export const router = Router();
@@ -43,9 +43,9 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 body = renderDirectory(path);
             } else {
                 const data = readFileSync(path);
-                const type = pmime(path);
+                const [isPlainText, type] = isTextFile(path);
 
-                if (!(type.startsWith('text/') || type === 'application/json')) {
+                if (!isPlainText) {
                     res.setHeader('Content-Type', type).send(data);
                     return;
                 }
@@ -90,10 +90,23 @@ router.get(/.*/, async (req: Request, res: Response) => {
     `);
 });
 
+// POST:
+// - `cursor`: scroll to corresponding line in source file
+// - `content`: set content for live viewer
+// - `reload`: set live content to file content (overwrites `content`)
 router.post(/.*/, async (req: Request, res: Response) => {
     const path = res.locals.filepath;
-    const { content, cursor } = req.body;
+    const { cursor, reload } = req.body;
+    let { content } = req.body;
 
+    if (reload) {
+        const [isPlainText] = isTextFile(path);
+        if (!isPlainText) {
+            res.status(400).send('Reload is only permitted on plain text files');
+            return;
+        }
+        content = readFileSync(path).toString();
+    }
     if (content) {
         const rendered = renderTextFile(content, path);
         liveContent.set(path, rendered);
