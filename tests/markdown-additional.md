@@ -49,3 +49,8 @@ This paragraph has a red background color.{style=background-color:red}
 
 > [!CAUTION]
 > Do not do this and that!
+
+With a custom title:
+
+> [!NOTE] Foo bar
+> Hello
