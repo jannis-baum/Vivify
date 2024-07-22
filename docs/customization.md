@@ -3,6 +3,8 @@
 Vivify offers various configuration options. It aims to have sensible defaults
 while being built for maximal customizability.
 
+## Configuration file
+
 Vivify will look for an optional config file at `~/.vivify/config.json` and
 `~/.vivify.json`. This file should contain a JSON object that can have the
 following optional keys:
@@ -19,13 +21,9 @@ following optional keys:
   A path to a file with globs to ignore in Vivify's directory viewer, or an
   array of multiple paths to ignore files. The syntax here is the same as in
   `.gitignore` files.
-- **`"port"`**\
-  The port Vivify's server should run on; this will be overwritten by
-  the environment variable `VIV_PORT` (default is 31622)
 - **`"timeout"`**\
   How long the server should wait in milliseconds before shutting down after the
-  last client disconnected; this will be overwritten by the environment variable
-  `VIV_TIMEOUT` (default is 10000)
+  last client disconnected (default is 10000)
 - **`"pageTitle"`**\
   JavaScript code that will be evaluated to determine the viewer's page title.
   Here, the variable `components` is set to a string array of path components
@@ -63,3 +61,14 @@ following optional keys:
     "includeLevel": [2, 3]
   }
   ```
+
+## Environment variables
+
+In addition to these config file entries, the following options can be set
+through environment variables.
+
+- **`VIV_PORT`**\
+  The port Vivify's server should run on (default is 31622)
+- **`VIV_TIMEOUT`**\
+  Same as `"timeout"` from config file above but takes precedence over the
+  setting in the config file
