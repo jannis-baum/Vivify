@@ -1,3 +1,18 @@
+function viv_scrollTo(value) {
+    let line = parseInt(value);
+    while (line) {
+        const targets = document.querySelectorAll(`[data-source-line="${line - 1}"]`);
+        if (targets.length) {
+            targets[0].scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+            });
+            break;
+        }
+        line -= 1;
+    }
+}
+
 const ws = new WebSocket(`ws://localhost:${window.VIV_PORT}`);
 
 ws.addEventListener('open', () => {
@@ -15,18 +30,7 @@ ws.addEventListener('message', (event) => {
             document.getElementById('body-content').innerHTML = value;
             break;
         case 'SCROLL':
-            let line = parseInt(value);
-            while (line) {
-                const targets = document.querySelectorAll(`[data-source-line="${line - 1}"]`);
-                if (targets.length) {
-                    targets[0].scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'nearest',
-                    });
-                    break;
-                }
-                line -= 1;
-            }
+            viv_scrollTo(value);
             break;
         case 'RELOAD':
             window.location.reload();
