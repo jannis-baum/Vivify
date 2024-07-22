@@ -40,3 +40,7 @@ ws.addEventListener('message', (event) => {
             break;
     }
 });
+
+// remove query parameters from URL so that opening the same file will direct to
+// the same browser window even if it was initially opened at a given position
+history.replaceState(null, '', window.location.origin + window.location.pathname);
