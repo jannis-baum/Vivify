@@ -4,7 +4,7 @@ import { homedir } from 'os';
 
 import { Request, Response, Router } from 'express';
 
-import { messageClientsAt } from '../app.js';
+import { clientsAt, messageClients } from '../app.js';
 import config from '../parser/config.js';
 import { absPath, isTextFile, pcomponents, preferredPath } from '../utils/path.js';
 import { renderDirectory, renderTextFile } from '../parser/parser.js';
@@ -109,24 +109,35 @@ router.post(/.*/, async (req: Request, res: Response) => {
         }
         content = readFileSync(path).toString();
     }
+    const clients = clientsAt(path);
     if (content) {
         const rendered = renderTextFile(content, path);
         liveContent.set(path, rendered);
-        messageClientsAt(path, `UPDATE: ${rendered}`);
+        messageClients(clients, `UPDATE: ${rendered}`);
     }
-    if (cursor) messageClientsAt(path, `SCROLL: ${cursor}`);
+    if (cursor) messageClients(clients, `SCROLL: ${cursor}`);
 
-    res.end();
+    res.send({ clients: clients.length });
 });
 
 router.delete(/.*/, async (req: Request, res: Response) => {
     const path = req.path;
+    let clientCount = 0;
+
     if (path === '/') {
         const paths = [...liveContent.keys()];
         liveContent.clear();
-        paths.forEach((path) => messageClientsAt(path, 'RELOAD: 1'));
+        clientCount = paths.reduce<number>((count, path) => {
+            const clients = clientsAt(path);
+            messageClients(clients, 'RELOAD: 1');
+            return count + clients.length;
+        }, 0);
     } else {
-        liveContent.delete(path) && messageClientsAt(path, 'RELOAD: 1');
+        const clients = clientsAt(path);
+        if (liveContent.delete(path)) {
+            messageClients(clients, 'RELOAD: 1');
+            clientCount = clients.length;
+        }
     }
-    res.end();
+    res.send({ clients: clientCount });
 });

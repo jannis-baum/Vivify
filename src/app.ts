@@ -25,7 +25,7 @@ app.use('/viewer', viewerRouter);
 const server = createServer(app);
 
 let shutdownTimer: NodeJS.Timeout | null = null;
-export const { clientsAt, messageClientsAt } = setupSockets(
+export const { clientsAt, messageClients } = setupSockets(
     server,
     () => {
         if (config.timeout > 0)

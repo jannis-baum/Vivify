@@ -57,8 +57,8 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
     wss.on('close', () => clearInterval(interval));
 
     const clientsAt = (p: string) => [...sockets.values()].filter(({ path }) => path == p);
-    const messageClientsAt = (p: string, message: string) =>
-        clientsAt(p).forEach(({ socket }) => socket.send(message));
+    const messageClients = (clients: SocketData[], message: string) =>
+        clients.forEach(({ socket }) => socket.send(message));
 
-    return { clientsAt, messageClientsAt };
+    return { clientsAt, messageClients };
 }
