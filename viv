@@ -1,8 +1,8 @@
 #!/bin/sh
 
 print_usage() {
-    echo "viv [--help] files/directories"
-    echo "View files/directories in browser and lazily start vivify-server"
+    echo "viv [--help] file/directory"
+    echo "View file/directory in browser and lazily start vivify-server"
 }
 
 if [ "$#" -lt 1 -o "$1" = "-h" -o "$1" = "--help" ]; then
