@@ -54,6 +54,9 @@ mdit.use(attributes);
 
 // MARK: untyped plugins done
 
+import githubAlerts from 'markdown-it-github-alerts';
+mdit.use(githubAlerts);
+
 // anchor has to be added after attribute plugin for ids to work
 mdit.use(anchor, {
     permalink: anchor.permalink.ariaHidden({
