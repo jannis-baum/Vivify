@@ -35,6 +35,7 @@ if (config.preferHomeTilde) {
 
 router.get(/.*/, async (req: Request, res: Response) => {
     const path = res.locals.filepath;
+    const { cursor } = req.query;
 
     let body = liveContent.get(path);
     if (!body) {
@@ -86,6 +87,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
             </script>
             ${config.scripts ? `<script type="text/javascript">${config.scripts}</script>` : ''}
             <script type="text/javascript" src="/static/client.js"></script>
+            ${cursor !== undefined ? `<script type="text/javascript" defer>viv_scrollTo(${cursor})</script>` : ''}
         </html>
     `);
 });
