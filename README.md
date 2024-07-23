@@ -79,6 +79,10 @@ directory as an argument! See below for installation options.
 - run `./configure <install_dir>`
 - run `make install`
 
+> [!TIP]  
+> If you are having trouble building Vivify, or you'd like more detailed build
+> instructions, see our [CONTRIBUTING](docs/CONTRIBUTING.md) page
+
 ## Get help
 
 Is something not working or do you have any questions? [Start a
