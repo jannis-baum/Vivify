@@ -14,6 +14,14 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
     const wss = new WebSocketServer({ server });
     const sockets = new Map<string, SocketData>();
 
+    const terminateSocket = (id: string) => {
+        const socket = sockets.get(id);
+        if (!socket) return;
+        socket.socket.terminate();
+        sockets.delete(id);
+        if (!sockets.size) onNoClients();
+    };
+
     wss.on('connection', (socket) => {
         if (sockets.size === 0) onFirstClient();
         const id = uuidv4();
@@ -39,18 +47,20 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
                     break;
             }
         });
+
+        socket.on('close', () => {
+            terminateSocket(id);
+        });
     });
 
     const interval = setInterval(() => {
         wss.clients.forEach((ws) => ws.ping());
-        for (const [id, { socket, alive }] of sockets) {
+        for (const [id, { alive }] of sockets) {
             if (alive) {
                 sockets.get(id)!.alive = false;
                 continue;
             }
-            socket.terminate();
-            sockets.delete(id);
-            if (!sockets.size) onNoClients();
+            terminateSocket(id);
         }
     }, 1000);
 
