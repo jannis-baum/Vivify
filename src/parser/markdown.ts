@@ -2,6 +2,7 @@ import MarkdownIt from 'markdown-it';
 import anchor from 'markdown-it-anchor';
 import highlight from './highlight.js';
 import graphviz from './dot.js';
+import githubAlerts from 'markdown-it-github-alerts';
 import config from './config.js';
 import { Renderer } from './parser.js';
 
@@ -15,40 +16,40 @@ const mdit = new MarkdownIt({
 // ts-expect-error for blocks so this is ugly:
 // https://github.com/Microsoft/TypeScript/issues/19573
 
-/* @ts-expect-error: markdown-it modules aren't typed */
+/* @ts-expect-error: module not typed */
 import { full as emoji } from 'markdown-it-emoji';
 mdit.use(emoji);
-/* @ts-expect-error: markdown-it modules aren't typed */
+/* @ts-expect-error: module not typed */
 import taskLists from 'markdown-it-task-lists';
 mdit.use(taskLists);
-/* @ts-expect-error: markdown-it modules aren't typed */
+/* @ts-expect-error: module not typed */
 import footNote from 'markdown-it-footnote';
 mdit.use(footNote);
-/* @ts-expect-error: markdown-it modules aren't typed */
+/* @ts-expect-error: most module not typed */
 import lineNumbers from 'markdown-it-inject-linenumbers';
 mdit.use(lineNumbers);
-/* @ts-expect-error: markdown-it modules aren't typed */
+/* @ts-expect-error: module not typed */
 import texMath from 'markdown-it-texmath';
-/* @ts-expect-error: markdown-it modules aren't typed */
+/* @ts-expect-error: module not typed */
 import katex from 'katex';
 mdit.use(texMath, {
     engine: katex,
     delimiters: 'dollars',
     katexOptions: config.katexOptions,
 });
-/* @ts-expect-error: markdown-it modules aren't typed */
+/* @ts-expect-error: module not typed */
 import defList from 'markdown-it-deflist';
 mdit.use(defList);
-/* @ts-expect-error: markdown-it modules aren't typed */
+/* @ts-expect-error: module not typed */
 import sub from 'markdown-it-sub';
 mdit.use(sub);
-/* @ts-expect-error: markdown-it modules aren't typed */
+/* @ts-expect-error: module not typed */
 import sup from 'markdown-it-sup';
 mdit.use(sup);
-/* @ts-expect-error: markdown-it modules aren't typed */
+/* @ts-expect-error: module not typed */
 import mark from 'markdown-it-mark';
 mdit.use(mark);
-/* @ts-expect-error: markdown-it modules aren't typed */
+/* @ts-expect-error: module not typed */
 import attributes from 'markdown-it-attrs';
 mdit.use(attributes);
 
@@ -61,6 +62,7 @@ mdit.use(anchor, {
     }),
 });
 mdit.use(graphviz);
+mdit.use(githubAlerts);
 
 const renderMarkdown: Renderer = (content: string) => {
     return mdit.render(content);

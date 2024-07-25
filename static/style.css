@@ -1,3 +1,11 @@
+:root {
+    --color-alert-note: #a5d5fe;
+    --color-alert-tip: #b4fa72;
+    --color-alert-important: #ff8ffd;
+    --color-alert-warning: #ffaf00;
+    --color-alert-caution: #ff5f5f;
+}
+
 html {
     background-color: black;
     color: #aaa;
@@ -122,7 +130,6 @@ section.footnotes {
 
 /* --------------------------------------------------------------------------
  * DEFIITION LISTS ---------------------------------------------------------- */
-
 dl {
     display: flex;
     flex-flow: row wrap;
@@ -159,18 +166,73 @@ dt + dt + dd {
 }                        /* Self height - margin - padding */
 
 /* --------------------------------------------------------------------------
+ * QUOTES AND ALERTS--------------------------------------------------------- */
+blockquote {
+    padding: 0 1rem;
+    color: #6a6a6a;
+    border-left: .25rem solid #353535;
+    margin-left: 0;
+}
+/* GitHub-style alerts */
+.markdown-alert {
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+}
+.markdown-alert > :first-child {
+    margin-top: 0;
+}
+.markdown-alert > :last-child {
+    margin-bottom: 0;
+}
+.markdown-alert .markdown-alert-title {
+    display: flex;
+    font-weight: 500;
+    align-items: center;
+    line-height: 1;
+}
+.markdown-alert .markdown-alert-title .octicon {
+    margin-right: 0.5rem;
+    display: inline-block;
+    overflow: visible !important;
+    vertical-align: text-bottom;
+    fill: currentColor;
+}
+.markdown-alert-note {
+    border-left: .25rem solid var(--color-alert-note);
+}
+.markdown-alert-note .markdown-alert-title {
+    color: var(--color-alert-note);
+}
+.markdown-alert-tip {
+    border-left: .25rem solid var(--color-alert-tip);
+}
+.markdown-alert-tip .markdown-alert-title {
+    color: var(--color-alert-tip);
+}
+.markdown-alert-important {
+    border-left: .25rem solid var(--color-alert-important);
+}
+.markdown-alert-important .markdown-alert-title {
+    color: var(--color-alert-important);
+}
+.markdown-alert-warning {
+    border-left: .25rem solid var(--color-alert-warning);
+}
+.markdown-alert-warning .markdown-alert-title {
+    color: var(--color-alert-warning);
+}
+.markdown-alert-caution {
+    border-left: .25rem solid var(--color-alert-caution);
+}
+.markdown-alert-caution .markdown-alert-title {
+    color: var(--color-alert-caution);
+}
+/* --------------------------------------------------------------------------
  * MISCELLANEOUS ------------------------------------------------------------ */
 /* headings */
 h1, h2 {
     border-bottom: 0.2px solid #444;
     padding-bottom: 0.75rem;
-}
-/* quotes */
-blockquote {
-    padding: 0 1em;
-    color: #6a6a6a;
-    border-left: .25em solid #353535;
-    margin-left: 0
 }
 /* images */
 img, svg { max-width: 100%; }
@@ -186,13 +248,20 @@ kbd {
 
 /* highlight/mark */
 mark {
-  background-color: rgba(255, 255, 175, 0.8);
-  color: #222;
+    background-color: rgba(255, 255, 175, 0.8);
+    color: #222;
 }
 
 /* --------------------------------------------------------------------------
  * LIGHT MODE --------------------------------------------------------------- */
 @media (prefers-color-scheme: light) {
+    :root {
+        --color-alert-note: #0969da;
+        --color-alert-tip: #1a7f37;
+        --color-alert-important: #8250df;
+        --color-alert-warning: #bf8700;
+        --color-alert-caution: #cf222e;
+    }
     html {
         background-color: white;
         color: #1f2328;
