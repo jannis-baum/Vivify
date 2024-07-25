@@ -7,29 +7,87 @@ sure you follow the steps below:
 - Use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
   with `#<your issue number>` as the context for all commits
 - Make sure you are not adding any merge commits to your branch
-- Open a pull request & wait for a review!🩵
+- Open a pull request, include the issue it relates to in the body, for example:
+  `Closes #69`
+- Wait for a review! 🩵
 
-## Developing environment
+For more information on how to get started, read on!
 
-After installing all dependencies with `yarn`, you can run
+## Setting Up Your Build Environment
 
-```sh
-yarn dev
-```
+First install the required build dependencies using your system package manager
 
-to run the development server for Vivify on port 3000 that will (1)
-automatically reload when you make changes to the code, and (2), unlike the
-installed version, not shut down when there are no connected clients.
+- yarn
+- make
+- zip
 
-With the development server running, use
+Next you need to make sure you have Node.js installed
 
-```sh
-yarn viv
-```
+Node.js may be available with your OS or in your distro package manager.
+Alternatively you can install the latest version of Node.js using **[Node
+Version Manager](https://github.com/nvm-sh/nvm)** (**nvm**)
 
-instead of your installed Vivify executable. This will (1) connect to the
-development server on port 3000 instead of running the installed server, and (2)
-use the `viv` executable in the repository.
+> [!NOTE]
+> The version of **Node.js** shipped with some Linux distributions will fail to
+> build **Vivify**, in that case you should refer to the **nvm** documentation
+> to install the latest version
+
+## Running Vivify for Development
+
+First clone and open the **Vivify** repository, then run `yarn` to download
+Node.js dependencies
+
+    yarn
+
+**Vivify** has a development mode that will:-
+
+1. Run the server on port `3000` instead of the usual port of `31622`;
+2. Automatically reload when you make changes to the code; and
+3. Unlike the installed version, not shut down when there are no connected
+   clients.
+
+To run the **Vivify** server in development mode:-
+
+    yarn dev
+
+Once the development server is running, you can connect as many instances as you
+like:-
+
+    yarn viv .
+
+ Using `yarn viv` will connect to the development server on port 3000  
+
+> [!TIP]
+> You can replace `.` with any file or directory
+
+## Installing Vivify
+
+To install **Vivify** for use outside of your development environment, first
+define your install location by running the configuration script that takes an
+install path as a parameter: `./configure <install-dir>`
+
+For example:-
+
+    ./configure ~/.local/bin
+
+Then run `make install` to build and install **Vivify**
+
+    make install
+
+Once installed you can launch **viv** by calling `viv <some-file-or-directory>`
+
+> [!TIP]  
+> Ideally the install location should be included in your $PATH variable
+
+## Troubleshooting
+
+### Build Error: Could not find the sentinel NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
+
+Cause: This happens on some Linux distros when using the distro packaged
+versions of Node.js
+
+Resolution: Install the latest version of Node.js using nvm, See the
+**Installing Node.js** section above
 
 ## Testing rendering
 
