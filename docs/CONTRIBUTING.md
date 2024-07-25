@@ -15,116 +15,69 @@ For more information on how to get started, read on!
 
 ## Setting Up Your Build Environment
 
-To build **Vivify** you need the following dependencies:-
+First install the required build dependencies using your system package manager
 
-**MacOS:**
+- yarn
+- make
+- zip
 
-    TODO: Mac instructions
+Next you need to make sure you have Node.js installed
 
-**Arch Linux/Manjaro:**
-
-    sudo pacman -S --needed yarn make zip
-
-**Fedora and derivatives:**
-
-    sudo dnf install yarn make zip
-
-> [!NOTE]
-> The version of **Node.js** shipped with some Linux distributions will fail to
-> build **Vivify**, see the section below to install the latest node from **nvm**
-
-## Installing Node.js
-
-Node.js may be available with your OS or in your distros package manager.
+Node.js may be available with your OS or in your distro package manager.
 Alternatively you can install the latest version of Node.js using **[Node
 Version Manager](https://github.com/nvm-sh/nvm)** (**nvm**)
 
-To install **nvm** use:-
-
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-
-You will then need to reload your terminal by either closing it and opening a
-new one or by re-sourcing your run commands (bash eg: `source ~/.bashrc`)
-
-Now you can install the latest version of Node.js:-
-
-    nvm install node
-
-> [!TIP]
-> You can return to the system version of node using `nvm use system`
->
-> For more details on nvm usage or for troubleshooting installing nvm, visit the
-> nvm [Documentation][1] page
->
-> [1]:<https://github.com/nvm-sh/nvm?tab=readme-ov-file#node-version-manager--->
-
-## Building Vivify
-
-First clone and open the **Vivify** repository
-
-    git clone https://github.com/jannis-baum/Vivify.git
-    cd Vivify
-
-Run `yarn` to download all node dependencies
-
-    yarn
-
-Then build **Vivify** by running `make <OS-family>` where *OS-family* is your
-operating system (Linux or MacOS)
-
-**MacOS:**
-
-    make macos
-
-**Linux:**
-
-    make linux
-
-If you want to install **Vivify** for use outside of your development
-environmentm you can use `make install` but first you need to run the
-`configure <install-dir>` script, eg:-
-
-    ./configure ~/.local/bin
-    make install
-
-Once installed you can launch **viv** by calling `viv <some-path-or-file>`
-
-> [!TIP]  
-> Ideally the install location should be included in your $PATH variable
+> [!NOTE]
+> The version of **Node.js** shipped with some Linux distributions will fail to
+> build **Vivify**, in that case you should refer to the **nvm** documentation
+> to install the latest version
 
 ## Running Vivify for Development
 
-Once you have built **Vivify** or installed it using the pre-built binaries, you
-can then run the **Vivify** server in development mode to try it out with
-live-updates as you are coding.
+First clone and open the **Vivify** repository, then run `yarn` to download
+Node.js dependencies
 
-Using `yarn dev` to run **Vivify** in dev mode will:-
+    yarn
 
-1. Run `vivify-server` on port `3000` instead of the usual port of `31622` so
-   they can be run side by side;
+**Vivify** has a development mode that will:-
+
+1. Run the server on port `3000` instead of the usual port of `31622`;
 2. Automatically reload when you make changes to the code; and
 3. Unlike the installed version, not shut down when there are no connected
    clients.
 
-First, use `yarn` to make sure all node dependencies are up to date
-
-    yarn
-
-Then start the **Vivify** server in dev mode
+To run the **Vivify** server in development mode:-
 
     yarn dev
 
 Once the development server is running, you can connect as many instances as you
-like using:-
+like:-
 
     yarn viv .
 
+ Using `yarn viv` will connect to the development server on port 3000  
+
 > [!TIP]
-> Using `yarn viv` will connect to the development server on port 3000 instead
-> of running the installed server, and will use the viv executable in the
-> repository
->
-> You can replace `.` with any path or filename
+> You can replace `.` with any file or directory
+
+## Installing Vivify
+
+To install **Vivify** for use outside of your development environment, first
+define your install location by running the configuration script that takes an
+install path as a parameter: `./configure <install-dir>`
+
+For example:-
+
+    ./configure ~/.local/bin
+
+Then run `make install` to build and install **Vivify**
+
+    make install
+
+Once installed you can launch **viv** by calling `viv <some-file-or-directory>`
+
+> [!TIP]  
+> Ideally the install location should be included in your $PATH variable
 
 ## Troubleshooting
 
