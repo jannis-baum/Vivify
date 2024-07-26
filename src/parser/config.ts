@@ -57,7 +57,8 @@ const getConfig = (): Config => {
         } catch {}
     }
 
-    if (config === undefined) return defaultConfig;
+    // revert to default config if no config found
+    config = config ?? defaultConfig;
 
     // get styles, scripts and ignore files
     config.styles = getFileContents(config.styles);
