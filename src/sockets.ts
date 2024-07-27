@@ -84,6 +84,7 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
             messageQueue.set(path, [message]);
         }
     };
+    const deleteQueue = (path: string) => messageQueue.delete(path);
 
-    return { clientsAt, messageClients, queueMessage };
+    return { clientsAt, messageClients, queueMessage, deleteQueue };
 }

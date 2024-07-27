@@ -21,7 +21,12 @@ const openTarget = async (path: string, scroll: string | undefined) => {
             value: scroll,
         });
     }
-    await open(`${address}${pathToURL(preferredPath(resolvedPath))}`);
+    try {
+        await open(`${address}${pathToURL(preferredPath(resolvedPath))}`);
+    } catch {
+        // clear query if open failed
+        await axios.post(`${address}/_queue`, { path: resolvedPath });
+    }
 };
 
 export const handleArgs = async () => {

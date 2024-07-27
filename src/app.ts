@@ -25,7 +25,7 @@ app.use('/_queue', queueRouter);
 const server = createServer(app);
 
 let shutdownTimer: NodeJS.Timeout | null = null;
-export const { clientsAt, messageClients, queueMessage } = setupSockets(
+export const { clientsAt, messageClients, queueMessage, deleteQueue } = setupSockets(
     server,
     () => {
         if (config.timeout > 0)

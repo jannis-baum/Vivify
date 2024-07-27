@@ -1,17 +1,22 @@
 import { Request, Response, Router } from 'express';
-import { queueMessage } from '../app.js';
-
-export const router = Router();
+import { deleteQueue, queueMessage } from '../app.js';
 
 // this route should only be used internally between vivify processes
+export const router = Router();
+
 router.post('/', async (req: Request, res: Response) => {
     const { path, command, value } = req.body;
 
-    if (!path || !command || !value) {
+    if (!path) {
         res.status(400).send('Bad request.');
         return;
     }
 
-    queueMessage(path, `${command}: ${value}`);
+    if (!command) {
+        deleteQueue(path);
+    } else {
+        queueMessage(path, `${command}: ${value}`);
+    }
+
     res.end();
 });
