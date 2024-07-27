@@ -86,8 +86,9 @@ Once installed you can launch **viv** by calling `viv <some-file-or-directory>`
 Cause: This happens on some Linux distros when using the distro packaged
 versions of Node.js
 
-Resolution: Install the latest version of Node.js using nvm, See the
-**Installing Node.js** section above
+Resolution: Install the latest version of Node.js using nvm, See the section
+above:
+[**Setting Up Your Build Environment**](#setting-up-your-build-environment)
 
 ## Testing rendering
 
