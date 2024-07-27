@@ -3,6 +3,7 @@ import { queueMessage } from '../app.js';
 
 export const router = Router();
 
+// this route should only be used internally between vivify processes
 router.post('/', async (req: Request, res: Response) => {
     const { path, command, value } = req.body;
 

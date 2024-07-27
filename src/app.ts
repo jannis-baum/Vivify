@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 app.use('/static', staticRouter);
 app.use('/health', healthRouter);
 app.use('/viewer', viewerRouter);
-app.use('/queue', queueRouter);
+app.use('/_queue', queueRouter);
 
 const server = createServer(app);
 

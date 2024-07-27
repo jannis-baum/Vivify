@@ -15,7 +15,7 @@ const openTarget = async (path: string, scroll: string | undefined) => {
 
     const resolvedPath = presolve(path);
     if (scroll !== undefined) {
-        await axios.post(`${address}/queue`, {
+        await axios.post(`${address}/_queue`, {
             path: resolvedPath,
             command: 'SCROLL',
             value: scroll,
