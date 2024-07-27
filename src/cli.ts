@@ -1,8 +1,6 @@
 import { existsSync } from 'fs';
 import { resolve as presolve } from 'path';
 import config from './parser/config.js';
-import open from 'open';
-import { pathToURL, preferredPath } from './utils/path.js';
 import axios from 'axios';
 
 export const address = `http://localhost:${config.port}`;
@@ -14,19 +12,11 @@ const openTarget = async (path: string, scroll: string | undefined) => {
     }
 
     const resolvedPath = presolve(path);
-    if (scroll !== undefined) {
-        await axios.post(`${address}/_queue`, {
-            path: resolvedPath,
-            command: 'SCROLL',
-            value: scroll,
-        });
-    }
-    try {
-        await open(`${address}${pathToURL(preferredPath(resolvedPath))}`);
-    } catch {
-        // clear query if open failed
-        await axios.post(`${address}/_queue`, { path: resolvedPath });
-    }
+    await axios.post(`${address}/_open`, {
+        path: resolvedPath,
+        command: scroll !== undefined ? 'SCROLL' : undefined,
+        value: scroll,
+    });
 };
 
 export const handleArgs = async () => {

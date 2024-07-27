@@ -13,8 +13,8 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
 
     const wss = new WebSocketServer({ server });
     const sockets = new Map<string, SocketData>();
-    // queue of initial messages to be sent to new clients
-    const messageQueue = new Map<string, string[]>();
+    // queue of initial message to be sent to new clients
+    const messageQueue = new Map<string, string>();
 
     const terminateSocket = (id: string) => {
         const socket = sockets.get(id);
@@ -46,10 +46,10 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
             switch (key) {
                 case 'PATH':
                     sockets.get(id)!.path = value;
-                    const messages = messageQueue.get(value);
-                    if (messages) {
+                    const message = messageQueue.get(value);
+                    if (message) {
                         messageQueue.delete(value);
-                        messages.forEach((msg) => socket.send(msg));
+                        socket.send(message);
                     }
                     break;
             }
@@ -76,15 +76,9 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
     const clientsAt = (p: string) => [...sockets.values()].filter(({ path }) => path == p);
     const messageClients = (clients: SocketData[], message: string) =>
         clients.forEach(({ socket }) => socket.send(message));
-    const queueMessage = (path: string, message: string) => {
-        const messages = messageQueue.get(path);
-        if (messages) {
-            messages.push(message);
-        } else {
-            messageQueue.set(path, [message]);
-        }
-    };
-    const deleteQueue = (path: string) => messageQueue.delete(path);
 
-    return { clientsAt, messageClients, queueMessage, deleteQueue };
+    const queueMessage = (path: string, message: string) => messageQueue.set(path, message);
+    const deleteQueuedMessage = (path: string) => messageQueue.delete(path);
+
+    return { clientsAt, messageClients, queueMessage, deleteQueuedMessage };
 }

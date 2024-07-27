@@ -6,7 +6,7 @@ import config from './parser/config.js';
 import { router as healthRouter } from './routes/health.js';
 import { router as staticRouter } from './routes/static.js';
 import { router as viewerRouter } from './routes/viewer.js';
-import { router as queueRouter } from './routes/queue.js';
+import { router as openRouter } from './routes/_open.js';
 import { setupSockets } from './sockets.js';
 import { urlToPath } from './utils/path.js';
 import { address, handleArgs } from './cli.js';
@@ -20,12 +20,12 @@ app.use((req, res, next) => {
 app.use('/static', staticRouter);
 app.use('/health', healthRouter);
 app.use('/viewer', viewerRouter);
-app.use('/_queue', queueRouter);
+app.use('/_open', openRouter);
 
 const server = createServer(app);
 
 let shutdownTimer: NodeJS.Timeout | null = null;
-export const { clientsAt, messageClients, queueMessage, deleteQueue } = setupSockets(
+export const { clientsAt, messageClients, queueMessage, deleteQueuedMessage } = setupSockets(
     server,
     () => {
         if (config.timeout > 0)
