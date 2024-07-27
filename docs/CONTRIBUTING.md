@@ -3,13 +3,25 @@
 Contributions are very welcome! If you would like to contribute, please make
 sure you follow the steps below:
 
-- Make sure there is an issue corresponding to what you are working on
+- Make sure there is an issue corresponding to what you are working on, and name
+  your branch`issue/<issue-number>-<hyphenated-name-of-issue>`, e.g.
+
+  ```plain
+  issue/134-add-branch-naming-convention
+  ```
+
+  for issue #134 "Add branch naming convention"
 - Use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
-  with `#<your issue number>` as the context for all commits
-- Make sure you are not adding any merge commits to your branch
-- Open a pull request, include the issue it relates to in the body, for example:
-  `Closes #69`
-- Wait for a review! 🩵
+  with `#<issue-number>` as the context for all commits, e.g.
+
+  ```plain
+  docs(#134): mention convention in CONTRIBUTING.md
+  ```
+
+- Make sure there are no merge commits on your branch
+- Open a pull request, include the issue it relates to in the body, e.g. `Closes
+  #69`
+- Wait for a review!
 
 For more information on how to get started, read on!
 
@@ -37,7 +49,9 @@ Version Manager](https://github.com/nvm-sh/nvm)** (**nvm**)
 First clone and open the **Vivify** repository, then run `yarn` to download
 Node.js dependencies
 
-    yarn
+```sh
+yarn
+```
 
 **Vivify** has a development mode that will:-
 
@@ -48,12 +62,16 @@ Node.js dependencies
 
 To run the **Vivify** server in development mode:-
 
-    yarn dev
+```sh
+yarn dev
+```
 
 Once the development server is running, you can connect as many instances as you
 like:-
 
-    yarn viv .
+```sh
+yarn viv .
+```
 
  Using `yarn viv` will connect to the development server on port 3000  
 
@@ -68,16 +86,20 @@ install path as a parameter: `./configure <install-dir>`
 
 For example:-
 
-    ./configure ~/.local/bin
+```sh
+./configure ~/.local/bin
+```
 
 Then run `make install` to build and install **Vivify**
 
-    make install
+```sh
+make install
+```
 
 Once installed you can launch **viv** by calling `viv <some-file-or-directory>`
 
 > [!TIP]  
-> Ideally the install location should be included in your $PATH variable
+> Ideally the install location should be included in your `$PATH` variable
 
 ## Troubleshooting
 
