@@ -12,7 +12,12 @@ sure you follow the steps below:
 
   for issue #134 "Add branch naming convention"
 - Use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
-  with `#<your issue number>` as the context for all commits
+  with `#<issue-number>` as the context for all commits, e.g.
+
+  ```plain
+  docs(#134): mention convention in CONTRIBUTING.md
+  ```
+
 - Make sure you are not adding any merge commits to your branch
 - Open a pull request, include the issue it relates to in the body, for example:
   `Closes #69`
