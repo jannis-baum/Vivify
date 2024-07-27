@@ -3,7 +3,14 @@
 Contributions are very welcome! If you would like to contribute, please make
 sure you follow the steps below:
 
-- Make sure there is an issue corresponding to what you are working on
+- Make sure there is an issue corresponding to what you are working on, and name
+  your branch`issue/<issue-number>-<hyphenated-name-of-issue>`, e.g.
+
+  ```plain
+  issue/134-add-branch-naming-convention
+  ```
+
+  for issue #134 "Add branch naming convention"
 - Use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
   with `#<your issue number>` as the context for all commits
 - Make sure you are not adding any merge commits to your branch
