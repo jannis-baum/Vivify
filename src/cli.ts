@@ -8,33 +8,20 @@ import axios from 'axios';
 export const address = `http://localhost:${config.port}`;
 
 const openTarget = async (path: string, scroll: string | undefined) => {
-    // scroll position is zero-char seperated because that
-    // character is not allowed in file paths
     if (!existsSync(path)) {
         console.log(`File not found: ${path}`);
         return;
     }
 
     const resolvedPath = presolve(path);
-    const absoluteURL = `${address}${pathToURL(resolvedPath)}`;
-    const preferredURL = `${address}${pathToURL(preferredPath(resolvedPath))}`;
-    // if scroll position is provided
     if (scroll !== undefined) {
-        // we send scroll request to clients
-        const {
-            data: { clients },
-        } = await axios.post<{ clients: number }>(absoluteURL, {
-            cursor: scroll,
+        await axios.post(`${address}/queue`, {
+            path: resolvedPath,
+            command: 'SCROLL',
+            value: scroll,
         });
-        // if there were clients, we can just open the plain
-        // URL/existing tab because it will have scrolled
-        if (!clients) {
-            // if not we open a new tab at the scroll position
-            await open(preferredURL + `?cursor=${scroll}`);
-            return;
-        }
     }
-    await open(preferredURL, { newInstance: false });
+    await open(`${address}${pathToURL(preferredPath(resolvedPath))}`);
 };
 
 export const handleArgs = async () => {
