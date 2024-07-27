@@ -18,10 +18,10 @@ sure you follow the steps below:
   docs(#134): mention convention in CONTRIBUTING.md
   ```
 
-- Make sure you are not adding any merge commits to your branch
-- Open a pull request, include the issue it relates to in the body, for example:
-  `Closes #69`
-- Wait for a review! 🩵
+- Make sure there are no merge commits on your branch
+- Open a pull request, include the issue it relates to in the body, e.g. `Closes
+  #69`
+- Wait for a review!
 
 For more information on how to get started, read on!
 
