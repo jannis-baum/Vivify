@@ -49,7 +49,9 @@ Version Manager](https://github.com/nvm-sh/nvm)** (**nvm**)
 First clone and open the **Vivify** repository, then run `yarn` to download
 Node.js dependencies
 
-    yarn
+```sh
+yarn
+```
 
 **Vivify** has a development mode that will:-
 
@@ -60,12 +62,16 @@ Node.js dependencies
 
 To run the **Vivify** server in development mode:-
 
-    yarn dev
+```sh
+yarn dev
+```
 
 Once the development server is running, you can connect as many instances as you
 like:-
 
-    yarn viv .
+```sh
+yarn viv .
+```
 
  Using `yarn viv` will connect to the development server on port 3000  
 
@@ -80,16 +86,20 @@ install path as a parameter: `./configure <install-dir>`
 
 For example:-
 
-    ./configure ~/.local/bin
+```sh
+./configure ~/.local/bin
+```
 
 Then run `make install` to build and install **Vivify**
 
-    make install
+```sh
+make install
+```
 
 Once installed you can launch **viv** by calling `viv <some-file-or-directory>`
 
 > [!TIP]  
-> Ideally the install location should be included in your $PATH variable
+> Ideally the install location should be included in your `$PATH` variable
 
 ## Troubleshooting
 
