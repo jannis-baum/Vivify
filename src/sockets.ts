@@ -13,6 +13,8 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
 
     const wss = new WebSocketServer({ server });
     const sockets = new Map<string, SocketData>();
+    // queue of initial messages to be sent to new clients
+    const messageQueue = new Map<string, string[]>();
 
     const terminateSocket = (id: string) => {
         const socket = sockets.get(id);
@@ -44,6 +46,11 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
             switch (key) {
                 case 'PATH':
                     sockets.get(id)!.path = value;
+                    const messages = messageQueue.get(value);
+                    if (messages) {
+                        messageQueue.delete(value);
+                        messages.forEach((msg) => socket.send(msg));
+                    }
                     break;
             }
         });
@@ -69,6 +76,14 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
     const clientsAt = (p: string) => [...sockets.values()].filter(({ path }) => path == p);
     const messageClients = (clients: SocketData[], message: string) =>
         clients.forEach(({ socket }) => socket.send(message));
+    const queueMessage = (path: string, message: string) => {
+        const messages = messageQueue.get(path);
+        if (messages) {
+            messages.push(message);
+        } else {
+            messageQueue.set(path, [message]);
+        }
+    };
 
-    return { clientsAt, messageClients };
+    return { clientsAt, messageClients, queueMessage };
 }
