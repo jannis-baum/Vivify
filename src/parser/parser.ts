@@ -1,6 +1,6 @@
 import { Dirent } from 'fs';
 import { homedir } from 'os';
-import { join as pjoin } from 'path';
+import { join as pjoin, dirname as pdirname, basename as pbasename } from 'path';
 import { pathToURL } from '../utils/path.js';
 import config from './config.js';
 import renderNotebook from './ipynb.js';
@@ -43,6 +43,13 @@ const dirListItem = (item: Dirent, path: string) =>
         pjoin(path, item.name),
     )}">${item.name}</a></li>`;
 
+function dirUpItem(path: string): string {
+    if (pbasename(path) == '') {
+        return ''; // Show nothing when already at root directory
+    }
+    return `<li class="dir-list-directory"><a href="${pathToURL(pdirname(path))}">.. (${pbasename(pdirname(path)) || '/'})</a></li>`;
+}
+
 export function renderDirectory(path: string): string {
     const list = globSync('*', {
         cwd: path,
@@ -57,6 +64,8 @@ export function renderDirectory(path: string): string {
         .join('\n');
     return wrap(
         'directory',
-        renderMarkdown(`${pathHeading(path)}\n\n<ul class="dir-list">\n${list}\n</ul>`),
+        renderMarkdown(
+            `${pathHeading(path)}\n\n<ul class="dir-list">\n${dirUpItem(path)}\n${list}\n</ul>`,
+        ),
     );
 }
