@@ -1,12 +1,12 @@
 import { lstatSync, readFileSync } from 'fs';
-import { dirname as pdirname, join as pjoin } from 'path';
+import { join as pjoin } from 'path';
 import { homedir } from 'os';
 
 import { Request, Response, Router } from 'express';
 
 import { messageClientsAt } from '../app.js';
 import config from '../parser/config.js';
-import { absPath, pathToURL, pcomponents, pmime, preferredPath } from '../utils/path.js';
+import { absPath, pcomponents, pmime, preferredPath } from '../utils/path.js';
 import { renderDirectory, renderTextFile } from '../parser/parser.js';
 
 export const router = Router();
@@ -76,7 +76,6 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 <link rel="stylesheet" type="text/css" href="/static/katex/katex.css">
                 ${config.styles ? `<style type="text/css">${config.styles}</style>` : ''}
             <body>
-                <a id="parent-dir" href="${pathToURL(pdirname(path))}">↩</a>
                 <div id="body-content">
                     ${body}
                 </div>
