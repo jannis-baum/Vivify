@@ -14,9 +14,9 @@ const pathHeading: Renderer = (path: string) => `# \`${path.replace(homedir(), '
 function wrap(contentType: string, content: string, linkPath?: string): string {
     let link = '';
     if (typeof linkPath !== 'undefined') {
-        link = `\n<a id="header-up-link" href="${pathToURL(linkPath)}">◂ ${
+        link = `\n<div id="top-nav">\n<a href="${pathToURL(linkPath)}">◂ ${
             pbasename(linkPath) || '/'
-        }</a>`;
+        }</a>\n</div>`;
     }
     return `<div class="content-${contentType}">${link}\n${content}</div>`;
 }
