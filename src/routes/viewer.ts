@@ -52,8 +52,8 @@ router.get(/.*/, async (req: Request, res: Response) => {
 
                 body = renderTextFile(data.toString(), path);
             }
-        } catch {
-            res.status(404).send('File not found.');
+        } catch (error) {
+            res.status(500).send(String(error));
             return;
         }
     }
