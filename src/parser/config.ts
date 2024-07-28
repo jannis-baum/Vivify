@@ -8,11 +8,14 @@ type Config = {
     dirListIgnore?: string[];
     port: number;
     timeout: number;
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-    katexOptions?: any;
     pageTitle?: string;
     mdExtensions: string[];
     preferHomeTilde: boolean;
+    // markdown-it plugin options
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    katexOptions?: any;
+    tocOptions?: any;
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 };
 
 const defaultConfig: Config = {

@@ -27,6 +27,7 @@
     "markdown-it-mark": "^4.0.0",
     "markdown-it-sub": "^2.0.0",
     "markdown-it-sup": "^2.0.0",
+    "markdown-it-table-of-contents": "^0.6.0",
     "markdown-it-task-lists": "^2.1.1",
     "markdown-it-texmath": "^1.0.0",
     "node-stream-zip": "^1.15.0",

@@ -26,18 +26,6 @@ following optional keys:
   How long the server should wait in milliseconds before shutting down after the
   last client disconnected; this will be overwritten by the environment variable
   `VIV_TIMEOUT` (default is 10000)
-- **`"katexOptions"`**\
-  [Available KaTeX options](https://katex.org/docs/options.html), such as
-
-  ```json
-  {
-    "errorColor": "#cc0000",
-    "macros": {
-      "\\RR": "\\mathbb{R}"
-    }
-  }
-  ```
-
 - **`"pageTitle"`**\
   JavaScript code that will be evaluated to determine the viewer's page title.
   Here, the variable `components` is set to a string array of path components
@@ -53,3 +41,25 @@ following optional keys:
 - **`"preferHomeTilde"`**\
   Prefer using `~` as a placeholder for your home directory in URLs as well as
   the `components` for `"pageTitle"` (default is `true`)
+- **`"katexOptions"`**\
+  [Available KaTeX options](https://katex.org/docs/options.html), such as
+
+  ```json
+  {
+    "errorColor": "#cc0000",
+    "macros": {
+      "\\RR": "\\mathbb{R}"
+    }
+  }
+  ```
+
+- **`"tocOptions"`**\
+  [Available options for the table of
+  contents](https://www.npmjs.com/package/markdown-it-table-of-contents?activeTab=readme#options),
+  such as
+
+  ```json
+  {
+    "includeLevel": [2, 3]
+  }
+  ```

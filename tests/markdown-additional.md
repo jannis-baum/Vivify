@@ -1,6 +1,8 @@
 # Additional Markdown test file
 
-Test various other Markdown syntax here.
+Test various other Markdown syntax here, starting with the table of contents
+
+[[toc]]
 
 ## Relative file link
 
