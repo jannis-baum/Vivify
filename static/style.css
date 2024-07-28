@@ -61,6 +61,7 @@ h3:hover a.header-anchor, h4:hover a.header-anchor,
 h5:hover a.header-anchor, h6:hover a.header-anchor {
     opacity: 1;
 }
+a#top-nav-up:before { content: '◂'}
 
 /* --------------------------------------------------------------------------
  * TABLES ------------------------------------------------------------------- */
