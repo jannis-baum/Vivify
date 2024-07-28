@@ -28,12 +28,13 @@ issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
   [extended](https://www.markdownguide.org/extended-syntax/) syntax support
 - [KaTeX math](https://katex.org)
 - [graphviz/dot graphs](https://graphviz.org/doc/info/lang.html)
-- `<kbd>` tags, e.g. to style keyboard shortcuts
 - links to other files: [relative links like in
   GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#relative-links)
   as well as absolute file links
 - [add styles, classes, ids or other attributes directly from
   Markdown](https://github.com/arve0/markdown-it-attrs?tab=readme-ov-file#examples)
+- table of contents with `[[toc]]`
+- `<kbd>` tags, e.g. to style keyboard shortcuts
 
 You can find examples for all supported features in the files in the
 [`tests/`](tests) directory. In case you are looking at these on GitHub, keep in
