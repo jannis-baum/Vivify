@@ -54,7 +54,7 @@ import attributes from 'markdown-it-attrs';
 mdit.use(attributes);
 /* @ts-expect-error: module not typed */
 import toc from 'markdown-it-table-of-contents';
-mdit.use(toc);
+mdit.use(toc, config.tocOptions);
 
 // MARK: untyped plugins done
 
