@@ -10,8 +10,16 @@ import { globSync } from 'glob';
 export type Renderer = (content: string) => string;
 
 const pathHeading: Renderer = (path: string) => `# \`${path.replace(homedir(), '~')}\``;
-const wrap = (contentType: string, content: string) =>
-    `<div class="content-${contentType}">${content}</div>`;
+
+function wrap(contentType: string, content: string, linkPath?: string): string {
+    let link = '';
+    if (typeof linkPath !== 'undefined') {
+        link = `\n<a id="header-up-link" href="${pathToURL(linkPath)}">◂ ${
+            pbasename(linkPath) || '/'
+        }</a>`;
+    }
+    return `<div class="content-${contentType}">${link}\n${content}</div>`;
+}
 
 function textRenderer(
     fileEnding: string | undefined,
@@ -32,10 +40,11 @@ export function renderTextFile(content: string, path: string): string {
         return wrap(
             'txt',
             renderMarkdown(`${pathHeading(path!)}\n\n\`\`\`${fileEnding}\n${content}\n\`\`\``),
+            pdirname(path),
         );
     }
     const { render, contentType } = renderInformation;
-    return wrap(contentType, render(content));
+    return wrap(contentType, render(content), pdirname(path));
 }
 
 const dirListItem = (item: Dirent, path: string) =>

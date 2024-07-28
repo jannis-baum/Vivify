@@ -71,6 +71,11 @@ a#parent-dir {
     opacity: 0;
 }
 a#parent-dir:hover { opacity: 1; }
+a#header-up-link {
+    float: right;
+    margin-top: 1.1rem;
+    margin-left: 1.1rem;
+}
 
 /* --------------------------------------------------------------------------
  * TABLES ------------------------------------------------------------------- */
