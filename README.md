@@ -28,6 +28,8 @@ issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
   [extended](https://www.markdownguide.org/extended-syntax/) syntax support
 - [KaTeX math](https://katex.org)
 - [graphviz/dot graphs](https://graphviz.org/doc/info/lang.html)
+- [GitHub alert
+  blocks](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts)
 - links to other files: [relative links like in
   GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#relative-links)
   as well as absolute file links
