@@ -61,16 +61,7 @@ h3:hover a.header-anchor, h4:hover a.header-anchor,
 h5:hover a.header-anchor, h6:hover a.header-anchor {
     opacity: 1;
 }
-a#parent-dir {
-    position: fixed;
-    height: 3rem; width: 3rem;
-    line-height: 3rem; text-align: center;
-    background-color: #333;
-    border-radius: 9999px;
-    left: 2rem; top: 2rem;
-    opacity: 0;
-}
-a#parent-dir:hover { opacity: 1; }
+a#top-nav-up:before { content: '◂'}
 
 /* --------------------------------------------------------------------------
  * TABLES ------------------------------------------------------------------- */
