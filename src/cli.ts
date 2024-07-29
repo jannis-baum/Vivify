@@ -30,10 +30,11 @@ export const handleArgs = async () => {
                 parsed[arg] = value;
             }
         };
+        let parseOptions = true;
 
         for (let i = 0; i < args.length; i++) {
             const arg = args[i];
-            if (!arg.startsWith('-')) {
+            if (!(arg.startsWith('-') && parseOptions)) {
                 setArg('target', arg);
                 continue;
             }
@@ -45,6 +46,9 @@ export const handleArgs = async () => {
                 case '-s':
                 case '--scroll':
                     setArg('scroll', args[++i]);
+                    break;
+                case '--':
+                    parseOptions = false;
                     break;
                 default:
                     console.log(`Unknown option "${arg}"`);
