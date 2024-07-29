@@ -45,7 +45,7 @@ following optional keys:
   [Available KaTeX options](https://katex.org/docs/options.html), such as
 
   ```json
-  {
+  "katexOptions": {
     "errorColor": "#cc0000",
     "macros": {
       "\\RR": "\\mathbb{R}"
@@ -59,7 +59,7 @@ following optional keys:
   such as
 
   ```json
-  {
+  "tocOptions": {
     "includeLevel": [2, 3]
   }
   ```
