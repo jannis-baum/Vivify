@@ -1,14 +1,17 @@
 #!/bin/sh
 
 print_usage() {
-    echo "usage: viv [--scroll n] file/directory"
-    echo ""
-    echo "View file/directory in your browser with Vivify."
-    echo ""
-    echo "options:"
-    echo "  --help              show this help message and exit"
-    echo "  --version           show version information"
-    echo "  -s n, --scroll n    for markdown files, scroll so that content at source line n is visible"
+    cat <<EOF
+usage: viv [--scroll n] file/directory
+
+View file/directory in your browser with Vivify.
+
+options:
+  --help              show this help message and exit
+  --version           show version information
+  -s n, --scroll n    for markdown files, scroll so that content at source line
+                      n is visible
+EOF
 }
 
 if [ "$#" -lt 1 -o "$1" = "-h" -o "$1" = "--help" ]; then
