@@ -20,6 +20,14 @@ jobs:
       - run: yarn
       - run: yarn lint
 
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: yarn
+      - run: yarn test
+
   build-linux:
     name: Build Linux
     needs: [lint]
