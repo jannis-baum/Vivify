@@ -2,15 +2,13 @@
 
 print_usage() {
     cat <<EOF
-usage: viv [--scroll n] file/directory
+usage: viv path [path ...]
 
 View file/directory in your browser with Vivify.
 
 options:
   --help              show this help message and exit
   --version           show version information
-  -s n, --scroll n    for markdown files, scroll so that content at source line
-                      n is visible
 EOF
 }
 
