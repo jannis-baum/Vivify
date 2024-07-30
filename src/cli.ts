@@ -5,14 +5,16 @@ import axios from 'axios';
 
 export const address = `http://localhost:${config.port}`;
 
-const getPathAndLine = (target: string): { path: string | undefined; line: number | undefined } => {
+export const getPathAndLine = (
+    target: string,
+): { path: string | undefined; line: number | undefined } => {
     const exp = /^(?<path>(?:.*?)(?<!\\)(?:\\\\)*)(?::(?<line>\d+))?$/;
     const groups = target.match(exp)?.groups;
-    if (groups === undefined || !('path' in groups)) {
+    if (groups === undefined || !groups['path']) {
         return { path: undefined, line: undefined };
     }
     const path = groups['path'].replace('\\:', ':').replace('\\\\', '\\');
-    const line = 'line' in groups ? parseInt(groups['line']) : undefined;
+    const line = groups['line'] ? parseInt(groups['line']) : undefined;
     return { path, line };
 };
 
