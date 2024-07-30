@@ -115,8 +115,8 @@ above:
 ## Testing rendering
 
 You can find files to test Vivify's rendering/parsing capabilities in the
-[`tests/`](tests/) directory. Please make sure to add to this in case you add
-anything new related to this.
+[`tests/rendering`](tests/rendering) directory. Please make sure to add to this
+in case you add anything new related to this.
 
 ## Writing Markdown
 

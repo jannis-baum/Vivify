@@ -39,9 +39,9 @@ issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
 - `<kbd>` tags, e.g. to style keyboard shortcuts
 
 You can find examples for all supported features in the files in the
-[`tests/`](tests) directory. In case you are looking at these on GitHub, keep in
-mind that GitHub doesn't support some of the features that Vivify supports so
-some things may look off.
+[`tests/rendering`](tests/rendering) directory. In case you are looking at these
+on GitHub, keep in mind that GitHub doesn't support some of the features that
+Vivify supports so some things may look off.
 
 ### Editor Support
 
