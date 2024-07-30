@@ -2,7 +2,7 @@ import fs from 'fs';
 import { homedir } from 'os';
 import path from 'path';
 
-// NOTE: this does type not directly correspond to the config file: see
+// NOTE: this type does not directly correspond to the config file: see
 // defaultConfig, envConfigs and configFileBlocked
 type Config = {
     styles?: string;
