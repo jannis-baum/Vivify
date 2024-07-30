@@ -5,7 +5,23 @@ import axios from 'axios';
 
 export const address = `http://localhost:${config.port}`;
 
-const openTarget = async (path: string, scroll: string | undefined) => {
+const getPathAndLine = (target: string): { path: string | undefined; line: number | undefined } => {
+    const exp = /^(?<path>(?:.*?)(?<!\\)(?:\\\\)*)(?::(?<line>\d+))?$/;
+    const groups = target.match(exp)?.groups;
+    if (groups === undefined || !('path' in groups)) {
+        return { path: undefined, line: undefined };
+    }
+    const path = groups['path'].replace('\\:', ':').replace('\\\\', '\\');
+    const line = 'line' in groups ? parseInt(groups['line']) : undefined;
+    return { path, line };
+};
+
+const openTarget = async (target: string) => {
+    const { path, line } = getPathAndLine(target);
+    if (!path) {
+        console.log(`Invalid target: ${target}`);
+        return;
+    }
     if (!existsSync(path)) {
         console.log(`File not found: ${path}`);
         return;
@@ -14,38 +30,27 @@ const openTarget = async (path: string, scroll: string | undefined) => {
     const resolvedPath = presolve(path);
     await axios.post(`${address}/_open`, {
         path: resolvedPath,
-        command: scroll !== undefined ? 'SCROLL' : undefined,
-        value: scroll,
+        command: line !== undefined ? 'SCROLL' : undefined,
+        value: line,
     });
 };
 
 export const handleArgs = async () => {
     try {
         const args = process.argv.slice(2);
-        const parsed: { target?: string; scroll?: string } = {};
-        const setArg = (arg: keyof typeof parsed, value: string) => {
-            if (arg in parsed) {
-                console.log(`Duplicate argument for "${arg}", skipping`);
-            } else {
-                parsed[arg] = value;
-            }
-        };
+        const positional: string[] = [];
         let parseOptions = true;
 
         for (let i = 0; i < args.length; i++) {
             const arg = args[i];
             if (!(arg.startsWith('-') && parseOptions)) {
-                setArg('target', arg);
+                positional.push(arg);
                 continue;
             }
             switch (arg) {
                 case '-v':
                 case '--version':
                     console.log(`vivify-server ${process.env.VERSION ?? 'dev'}`);
-                    break;
-                case '-s':
-                case '--scroll':
-                    setArg('scroll', args[++i]);
                     break;
                 case '--':
                     parseOptions = false;
@@ -54,9 +59,7 @@ export const handleArgs = async () => {
                     console.log(`Unknown option "${arg}"`);
             }
         }
-        if (parsed.target) {
-            await openTarget(parsed.target, parsed.scroll);
-        }
+        await Promise.all(positional.map((target) => openTarget(target)));
     } finally {
         if (process.env['NODE_ENV'] !== 'development') {
             // - viv executable waits for this string and then stops printing
