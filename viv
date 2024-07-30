@@ -2,10 +2,14 @@
 
 print_usage() {
     cat <<EOF
-usage: viv path [path ...]
+usage: viv target [target ...]
 
 View file/directory in your browser with Vivify.
 
+arguments:
+  target              Path to file or directory to view. For Markdown, you can
+                      suffix with :n to scroll to the content at line n in the
+                      source file
 options:
   --help              show this help message and exit
   --version           show version information
