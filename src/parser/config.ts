@@ -56,7 +56,7 @@ const getFileContents = (paths: string[] | string | undefined): string => {
     return getFileContent(paths);
 };
 
-const getConfig = (): Config => {
+const config = ((): Config => {
     let config = undefined;
     // greedily find config
     for (const cp of configPaths) {
@@ -90,6 +90,8 @@ const getConfig = (): Config => {
         if (process.env[env]) config[key] = process.env[env];
     }
     return config;
-};
+})();
 
-export default getConfig();
+export default config;
+
+export const address = `http://localhost:${config.port}`;

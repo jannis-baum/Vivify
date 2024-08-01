@@ -2,14 +2,14 @@ import { createServer, get } from 'http';
 
 import express from 'express';
 
-import config from './parser/config.js';
+import config, { address } from './parser/config.js';
 import { router as healthRouter } from './routes/health.js';
 import { router as staticRouter } from './routes/static.js';
 import { router as viewerRouter } from './routes/viewer.js';
 import { router as openRouter } from './routes/_open.js';
 import { setupSockets } from './sockets.js';
 import { urlToPath } from './utils/path.js';
-import { address, handleArgs } from './cli.js';
+import { handleArgs } from './cli.js';
 
 const app = express();
 app.use(express.json());

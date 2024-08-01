@@ -1,12 +1,11 @@
-import { existsSync } from 'fs';
-import { resolve as presolve } from 'path';
-import config from './parser/config.js';
 import axios from 'axios';
-import { pathToURL, preferredPath } from './utils/path.js';
+import { existsSync } from 'fs';
 import open from 'open';
+import { resolve as presolve } from 'path';
+import { address } from './parser/config.js';
+import { pathToURL, preferredPath } from './utils/path.js';
 
-export const address = `http://localhost:${config.port}`;
-
+// exported for unit test
 export const getPathAndLine = (
     target: string,
 ): { path: string | undefined; line: number | undefined } => {
@@ -53,13 +52,13 @@ const openTarget = async (target: string) => {
 export const handleArgs = async () => {
     try {
         const args = process.argv.slice(2);
-        const positional: string[] = [];
+        const positionals: string[] = [];
         let parseOptions = true;
 
         for (let i = 0; i < args.length; i++) {
             const arg = args[i];
             if (!(arg.startsWith('-') && parseOptions)) {
-                positional.push(arg);
+                positionals.push(arg);
                 continue;
             }
             switch (arg) {
@@ -74,7 +73,7 @@ export const handleArgs = async () => {
                     console.log(`Unknown option "${arg}"`);
             }
         }
-        await Promise.all(positional.map((target) => openTarget(target)));
+        await Promise.all(positionals.map((target) => openTarget(target)));
     } finally {
         if (process.env['NODE_ENV'] !== 'development') {
             // - viv executable waits for this string and then stops printing
