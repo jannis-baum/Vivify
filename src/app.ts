@@ -25,7 +25,7 @@ app.use('/_open', openRouter);
 const server = createServer(app);
 
 let shutdownTimer: NodeJS.Timeout | null = null;
-export const { clientsAt, messageClients, queueMessage, deleteQueuedMessage } = setupSockets(
+export const { clientsAt, messageClients, openAndMessage } = setupSockets(
     server,
     () => {
         if (config.timeout > 0)

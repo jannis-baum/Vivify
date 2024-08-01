@@ -2,6 +2,8 @@ import { existsSync } from 'fs';
 import { resolve as presolve } from 'path';
 import config from './parser/config.js';
 import axios from 'axios';
+import { pathToURL, preferredPath } from './utils/path.js';
+import open from 'open';
 
 export const address = `http://localhost:${config.port}`;
 
@@ -18,6 +20,9 @@ export const getPathAndLine = (
     return { path, line };
 };
 
+export const openFileAt = async (path: string) =>
+    open(`${address}${pathToURL(preferredPath(path))}`);
+
 const openTarget = async (target: string) => {
     const { path, line } = getPathAndLine(target);
     if (!path) {
@@ -30,11 +35,19 @@ const openTarget = async (target: string) => {
     }
 
     const resolvedPath = presolve(path);
-    await axios.post(`${address}/_open`, {
-        path: resolvedPath,
-        command: line !== undefined ? 'SCROLL' : undefined,
-        value: line,
-    });
+    try {
+        if (line !== undefined) {
+            await axios.post(`${address}/_open`, {
+                path: resolvedPath,
+                command: 'SCROLL',
+                value: line,
+            });
+        } else {
+            await openFileAt(resolvedPath);
+        }
+    } catch {
+        console.log(`Failed to open ${target}`);
+    }
 };
 
 export const handleArgs = async () => {

@@ -1,6 +1,7 @@
 import { WebSocketServer, WebSocket } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import { Server } from 'http';
+import { openFileAt } from './cli.js';
 
 interface SocketData {
     socket: WebSocket;
@@ -13,8 +14,8 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
 
     const wss = new WebSocketServer({ server });
     const sockets = new Map<string, SocketData>();
-    // queue of initial message to be sent to new clients
-    const messageQueue = new Map<string, string>();
+    // queue of messages to be sent to clients after they have connected
+    const openQueue = new Map<string, { message: string; timeout: number }[]>();
 
     const terminateSocket = (id: string) => {
         const socket = sockets.get(id);
@@ -46,11 +47,19 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
             switch (key) {
                 case 'PATH':
                     sockets.get(id)!.path = value;
-                    const message = messageQueue.get(value);
-                    if (message) {
-                        messageQueue.delete(value);
-                        socket.send(message);
+                    const queue = openQueue.get(value);
+                    if (!queue) return;
+
+                    let message: string | undefined = undefined;
+                    while (queue.length) {
+                        const item = queue.shift();
+                        if (item && item.timeout > Date.now()) {
+                            message = item.message;
+                            break;
+                        }
                     }
+                    if (!queue.length) openQueue.delete(value);
+                    if (message) socket.send(message);
                     break;
             }
         });
@@ -77,8 +86,25 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
     const messageClients = (clients: SocketData[], message: string) =>
         clients.forEach(({ socket }) => socket.send(message));
 
-    const queueMessage = (path: string, message: string) => messageQueue.set(path, message);
-    const deleteQueuedMessage = (path: string) => messageQueue.delete(path);
+    // NOTE: The message queuing relies on the server running on the same
+    // machine that is used to view the files. if we ever want to consider
+    // having a "real" server with other machine(s) acting as client(s), we
+    // have to switch to query parameters instead of queued messages (this
+    // would currently not be smart anyways because the server's entire
+    // file system would be exposed).
+    // The reason we don't use query parameters is because this would not allow
+    // reusing the same tab when (re)opening a file on browsers that support it
+    // (e.g. Safari)
+    const openAndMessage = async (path: string, message: string) => {
+        const queue = openQueue.get(path);
+        const newItem = { message, timeout: Date.now() + 1000 };
+        if (queue) {
+            queue.push(newItem);
+        } else {
+            openQueue.set(path, [newItem]);
+        }
+        await openFileAt(path);
+    };
 
-    return { clientsAt, messageClients, queueMessage, deleteQueuedMessage };
+    return { clientsAt, messageClients, openAndMessage };
 }
