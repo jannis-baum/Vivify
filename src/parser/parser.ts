@@ -33,6 +33,9 @@ function textRenderer(
     }
 }
 
+export const shouldRender = (mime: string): boolean =>
+    mime.startsWith('text/') || mime === 'application/json';
+
 export function renderTextFile(content: string, path: string): string {
     const fileEnding = path?.split('.')?.at(-1);
     const renderInformation = textRenderer(fileEnding);

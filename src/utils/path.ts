@@ -35,8 +35,3 @@ export const pathToURL = (path: string, route: string = 'viewer') => {
 
 export const preferredPath = (path: string): string =>
     config.preferHomeTilde && path.startsWith(homedir()) ? path.replace(homedir(), '~') : path;
-
-export const isTextFile = (path: string): [boolean, string] => {
-    const type = pmime(path);
-    return [type.startsWith('text/') || type === 'application/json', type];
-};

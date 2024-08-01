@@ -6,8 +6,8 @@ import { Request, Response, Router } from 'express';
 
 import { clientsAt, messageClients } from '../app.js';
 import config from '../parser/config.js';
-import { absPath, isTextFile, pcomponents, preferredPath } from '../utils/path.js';
-import { renderDirectory, renderTextFile } from '../parser/parser.js';
+import { absPath, pcomponents, pmime, preferredPath } from '../utils/path.js';
+import { renderDirectory, renderTextFile, shouldRender } from '../parser/parser.js';
 
 export const router = Router();
 
@@ -43,10 +43,9 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 body = renderDirectory(path);
             } else {
                 const data = readFileSync(path);
-                const [isPlainText, type] = isTextFile(path);
-
-                if (!isPlainText) {
-                    res.setHeader('Content-Type', type).send(data);
+                const mime = pmime(path);
+                if (!shouldRender(mime)) {
+                    res.setHeader('Content-Type', mime).send(data);
                     return;
                 }
 
@@ -100,9 +99,9 @@ router.post(/.*/, async (req: Request, res: Response) => {
     let { content } = req.body;
 
     if (reload) {
-        const [isPlainText] = isTextFile(path);
-        if (!isPlainText) {
-            res.status(400).send('Reload is only permitted on plain text files');
+        const mime = pmime(path);
+        if (!shouldRender(mime)) {
+            res.status(400).send('Reload is only permitted on rendered files');
             return;
         }
         content = readFileSync(path).toString();
