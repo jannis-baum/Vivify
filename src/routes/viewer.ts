@@ -5,7 +5,7 @@ import { homedir } from 'os';
 import { Request, Response, Router } from 'express';
 
 import { clientsAt, messageClients } from '../app.js';
-import config from '../parser/config.js';
+import config from '../config.js';
 import { absPath, pcomponents, pmime, preferredPath } from '../utils/path.js';
 import { renderDirectory, renderTextFile, shouldRender } from '../parser/parser.js';
 

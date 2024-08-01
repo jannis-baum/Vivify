@@ -2,7 +2,7 @@ import { Dirent } from 'fs';
 import { homedir } from 'os';
 import { join as pjoin, dirname as pdirname, basename as pbasename } from 'path';
 import { pathToURL } from '../utils/path.js';
-import config from './config.js';
+import config from '../config.js';
 import renderNotebook from './ipynb.js';
 import renderMarkdown from './markdown.js';
 import { globSync } from 'glob';

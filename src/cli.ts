@@ -2,7 +2,7 @@ import axios from 'axios';
 import { existsSync } from 'fs';
 import open from 'open';
 import { resolve as presolve } from 'path';
-import { address } from './parser/config.js';
+import { address } from './config.js';
 import { pathToURL, preferredPath } from './utils/path.js';
 
 // exported for unit test

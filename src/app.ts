@@ -2,7 +2,7 @@ import { createServer, get } from 'http';
 
 import express from 'express';
 
-import config, { address } from './parser/config.js';
+import config, { address } from './config.js';
 import { router as healthRouter } from './routes/health.js';
 import { router as staticRouter } from './routes/static.js';
 import { router as viewerRouter } from './routes/viewer.js';
