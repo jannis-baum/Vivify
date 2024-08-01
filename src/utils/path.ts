@@ -21,10 +21,10 @@ export const pcomponents = (path: string) => {
     return components;
 };
 
-export const absPath = (path: string) => path.replace(/^\/~/, homedir()).replace(/\/+$/, '');
-
 export const urlToPath = (url: string) => {
-    const path = absPath(decodeURIComponent(url.replace(/^\/(viewer|health)/, '')));
+    const path = decodeURIComponent(url.replace(/^\/(viewer|health)/, ''))
+        .replace(/^\/~/, homedir())
+        .replace(/\/+$/, '');
     return path === '' ? '/' : path;
 };
 

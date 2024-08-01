@@ -6,7 +6,7 @@ import { Request, Response, Router } from 'express';
 
 import { clientsAt, messageClients } from '../app.js';
 import config from '../config.js';
-import { absPath, pcomponents, pmime, preferredPath } from '../utils/path.js';
+import { pcomponents, pmime, preferredPath, urlToPath } from '../utils/path.js';
 import { renderDirectory, renderTextFile, shouldRender } from '../parser/parser.js';
 
 export const router = Router();
@@ -81,7 +81,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
             </body>
             <script>
                 window.VIV_PORT = "${config.port}";
-                window.VIV_PATH = "${absPath(req.path)}";
+                window.VIV_PATH = "${urlToPath(req.path)}";
             </script>
             ${config.scripts ? `<script type="text/javascript">${config.scripts}</script>` : ''}
             <script type="text/javascript" src="/static/client.js"></script>
