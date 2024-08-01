@@ -76,6 +76,12 @@ jobs:
     needs: [build-linux, build-macos]
     runs-on: ubuntu-latest
     steps:
+      # we check out the repo to get information from tags
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
       # release binaries -------------------------------------------------------
       - name: download linux artifact
         uses: actions/download-artifact@v4
@@ -92,14 +98,7 @@ jobs:
           chmod +x ./vivify-linux/* ./vivify-macos/*
           tar -czf vivify-linux.tar.gz vivify-linux
           tar -czf vivify-macos.tar.gz vivify-macos
-
       # release notes ----------------------------------------------------------
-      # we check out the repo to get information from tags
-      - name: checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          fetch-tags: true
       # actions/checkout seems to have a bug where annotated tags are converted
       # to simple tags so we have to fetch them explicitly again
       # https://github.com/actions/checkout/issues/882
