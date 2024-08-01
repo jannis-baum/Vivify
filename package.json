@@ -6,12 +6,14 @@
     "dev": "VIV_TIMEOUT=0 VIV_PORT=3000 NODE_ENV=development nodemon --exec node --loader ts-node/esm src/app.ts",
     "viv": "VIV_PORT=3000 node --loader ts-node/esm src/app.ts",
     "lint": "eslint src static",
-    "lint-markdown": "markdownlint-cli2 --config .github/.markdownlint-cli2.yaml"
+    "lint-markdown": "markdownlint-cli2 --config .github/.markdownlint-cli2.yaml",
+    "test": "node --loader ts-node/esm tests/unit/cli.ts"
   },
   "type": "module",
   "dependencies": {
     "@viz-js/viz": "^3.7.0",
     "ansi_up": "^6.0.2",
+    "axios": "^1.7.2",
     "express": "^4.19.2",
     "glob": "10.4.5",
     "highlight.js": "^11.10.0",

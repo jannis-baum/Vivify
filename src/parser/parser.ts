@@ -2,7 +2,7 @@ import { Dirent } from 'fs';
 import { homedir } from 'os';
 import { join as pjoin, dirname as pdirname, basename as pbasename } from 'path';
 import { pathToURL } from '../utils/path.js';
-import config from './config.js';
+import config from '../config.js';
 import renderNotebook from './ipynb.js';
 import renderMarkdown from './markdown.js';
 import { globSync } from 'glob';
@@ -32,6 +32,9 @@ function textRenderer(
         return { render: renderNotebook, contentType: 'ipynb' };
     }
 }
+
+export const shouldRender = (mime: string): boolean =>
+    mime.startsWith('text/') || mime === 'application/json';
 
 export function renderTextFile(content: string, path: string): string {
     const fileEnding = path?.split('.')?.at(-1);

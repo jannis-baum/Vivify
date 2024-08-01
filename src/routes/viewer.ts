@@ -4,10 +4,10 @@ import { homedir } from 'os';
 
 import { Request, Response, Router } from 'express';
 
-import { messageClientsAt } from '../app.js';
-import config from '../parser/config.js';
+import { clientsAt, messageClients } from '../app.js';
+import config from '../config.js';
 import { absPath, pcomponents, pmime, preferredPath } from '../utils/path.js';
-import { renderDirectory, renderTextFile } from '../parser/parser.js';
+import { renderDirectory, renderTextFile, shouldRender } from '../parser/parser.js';
 
 export const router = Router();
 
@@ -26,7 +26,7 @@ const pageTitle = (path: string) => {
 if (config.preferHomeTilde) {
     router.use((req, res, next) => {
         if (req.method === 'GET' && req.path.startsWith(homedir())) {
-            res.redirect(req.baseUrl + req.path.replace(homedir(), '/~'));
+            res.redirect(req.originalUrl.replace(homedir(), '/~'));
         } else {
             next();
         }
@@ -43,10 +43,9 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 body = renderDirectory(path);
             } else {
                 const data = readFileSync(path);
-                const type = pmime(path);
-
-                if (!(type.startsWith('text/') || type === 'application/json')) {
-                    res.setHeader('Content-Type', type).send(data);
+                const mime = pmime(path);
+                if (!shouldRender(mime)) {
+                    res.setHeader('Content-Type', mime).send(data);
                     return;
                 }
 
@@ -90,28 +89,52 @@ router.get(/.*/, async (req: Request, res: Response) => {
     `);
 });
 
+// POST:
+// - `cursor`: scroll to corresponding line in source file
+// - `content`: set content for live viewer
+// - `reload`: set live content to file content (overwrites `content`)
 router.post(/.*/, async (req: Request, res: Response) => {
     const path = res.locals.filepath;
-    const { content, cursor } = req.body;
+    const { cursor, reload } = req.body;
+    let { content } = req.body;
 
+    if (reload) {
+        const mime = pmime(path);
+        if (!shouldRender(mime)) {
+            res.status(400).send('Reload is only permitted on rendered files');
+            return;
+        }
+        content = readFileSync(path).toString();
+    }
+    const clients = clientsAt(path);
     if (content) {
         const rendered = renderTextFile(content, path);
         liveContent.set(path, rendered);
-        messageClientsAt(path, `UPDATE: ${rendered}`);
+        messageClients(clients, `UPDATE: ${rendered}`);
     }
-    if (cursor) messageClientsAt(path, `SCROLL: ${cursor}`);
+    if (cursor) messageClients(clients, `SCROLL: ${cursor}`);
 
-    res.end();
+    res.send({ clients: clients.length });
 });
 
 router.delete(/.*/, async (req: Request, res: Response) => {
     const path = req.path;
+    let clientCount = 0;
+
     if (path === '/') {
         const paths = [...liveContent.keys()];
         liveContent.clear();
-        paths.forEach((path) => messageClientsAt(path, 'RELOAD: 1'));
+        clientCount = paths.reduce<number>((count, path) => {
+            const clients = clientsAt(path);
+            messageClients(clients, 'RELOAD: 1');
+            return count + clients.length;
+        }, 0);
     } else {
-        liveContent.delete(path) && messageClientsAt(path, 'RELOAD: 1');
+        const clients = clientsAt(path);
+        if (liveContent.delete(path)) {
+            messageClients(clients, 'RELOAD: 1');
+            clientCount = clients.length;
+        }
     }
-    res.end();
+    res.send({ clients: clientCount });
 });

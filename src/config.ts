@@ -2,6 +2,8 @@ import fs from 'fs';
 import { homedir } from 'os';
 import path from 'path';
 
+// NOTE: this type does not directly correspond to the config file: see
+// defaultConfig, envConfigs and configFileBlocked
 type Config = {
     styles?: string;
     scripts?: string;
@@ -18,6 +20,7 @@ type Config = {
     /* eslint-enable @typescript-eslint/no-explicit-any */
 };
 
+// fills in values from config file config that are not present
 const defaultConfig: Config = {
     port: 31622,
     mdExtensions: ['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn'],
@@ -25,10 +28,14 @@ const defaultConfig: Config = {
     preferHomeTilde: true,
 };
 
+// configs that are overwritten by environment variables
 const envConfigs: [string, keyof Config][] = [
     ['VIV_PORT', 'port'],
     ['VIV_TIMEOUT', 'timeout'],
 ];
+
+// configs that can't be set through the config file
+const configFileBlocked: (keyof Config)[] = ['port'];
 
 const configPaths = [
     path.join(homedir(), '.vivify', 'config.json'),
@@ -49,7 +56,7 @@ const getFileContents = (paths: string[] | string | undefined): string => {
     return getFileContent(paths);
 };
 
-const getConfig = (): Config => {
+const config = ((): Config => {
     let config = undefined;
     // greedily find config
     for (const cp of configPaths) {
@@ -62,6 +69,10 @@ const getConfig = (): Config => {
 
     // revert to default config if no config found
     config = config ?? defaultConfig;
+
+    for (const key of configFileBlocked) {
+        delete config[key];
+    }
 
     // get styles, scripts and ignore files
     config.styles = getFileContents(config.styles);
@@ -79,6 +90,8 @@ const getConfig = (): Config => {
         if (process.env[env]) config[key] = process.env[env];
     }
     return config;
-};
+})();
 
-export default getConfig();
+export default config;
+
+export const address = `http://localhost:${config.port}`;

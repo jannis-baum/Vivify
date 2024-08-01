@@ -20,6 +20,19 @@ jobs:
       - run: yarn
       - run: yarn lint
 
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      - name: checkout
+        uses: actions/checkout@v4
+      - run: yarn
+      - run: yarn test
+
   build-linux:
     name: Build Linux
     needs: [lint]

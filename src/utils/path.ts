@@ -1,7 +1,7 @@
 import { execSync } from 'child_process';
 import { homedir } from 'os';
 import { basename as pbasename, dirname as pdirname, parse as pparse } from 'path';
-import config from '../parser/config.js';
+import config from '../config.js';
 
 export const pmime = (path: string) => execSync(`file --mime-type -b '${path}'`).toString().trim();
 

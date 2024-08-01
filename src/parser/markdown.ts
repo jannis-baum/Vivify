@@ -3,7 +3,7 @@ import anchor from 'markdown-it-anchor';
 import highlight from './highlight.js';
 import graphviz from './dot.js';
 import githubAlerts from 'markdown-it-github-alerts';
-import config from './config.js';
+import config from '../config.js';
 import { Renderer } from './parser.js';
 
 const mdit = new MarkdownIt({
