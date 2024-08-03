@@ -43,7 +43,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 body = renderDirectory(path);
             } else {
                 const data = readFileSync(path);
-                const mime = pmime(path);
+                const mime = await pmime(path);
                 if (!shouldRender(mime)) {
                     res.setHeader('Content-Type', mime).send(data);
                     return;
@@ -99,7 +99,7 @@ router.post(/.*/, async (req: Request, res: Response) => {
     let { content } = req.body;
 
     if (reload) {
-        const mime = pmime(path);
+        const mime = await pmime(path);
         if (!shouldRender(mime)) {
             res.status(400).send('Reload is only permitted on rendered files');
             return;
@@ -107,7 +107,7 @@ router.post(/.*/, async (req: Request, res: Response) => {
         content = readFileSync(path).toString();
     }
     const clients = clientsAt(path);
-    if (content) {
+    if (content !== undefined) {
         const rendered = renderTextFile(content, path);
         liveContent.set(path, rendered);
         messageClients(clients, `UPDATE: ${rendered}`);
