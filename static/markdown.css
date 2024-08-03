@@ -2,7 +2,7 @@
  * CODE --------------------------------------------------------------------- */
 
 pre {
-    background-color: var(--bg-highlight);
+    background-color: var(--bg-secondary);
     padding: 1rem;
     overflow: auto;
 }
@@ -54,7 +54,7 @@ th, td {
 }
 
 tr:nth-child(even) {
-    background-color: var(--bg-highlight);
+    background-color: var(--bg-secondary);
 }
 
 /* --------------------------------------------------------------------------
@@ -194,7 +194,7 @@ img, svg { max-width: 100%; }
 
 /* keyboard */
 kbd {
-    background-color: var(--bg-highlight);
+    background-color: var(--bg-secondary);
     border: 1px solid var(--border-kbd);
     box-shadow: inset 0 -1px 0 var(--border-kbd);
     padding: 3px 5px;
