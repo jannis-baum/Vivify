@@ -107,7 +107,7 @@ router.post(/.*/, async (req: Request, res: Response) => {
         content = readFileSync(path).toString();
     }
     const clients = clientsAt(path);
-    if (content) {
+    if (content !== undefined) {
         const rendered = renderTextFile(content, path);
         liveContent.set(path, rendered);
         messageClients(clients, `UPDATE: ${rendered}`);
