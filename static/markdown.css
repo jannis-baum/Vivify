@@ -209,8 +209,7 @@ mark {
 
 /* horizontal rule */
 hr {
-    height: .25em;
-    margin: 24px 0;
-    background-color: var(--border-dark);
     border: 0;
+    border-top: 0.25em solid var(--border-dark);
+    margin: 24px 0;
 }
