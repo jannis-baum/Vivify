@@ -12,9 +12,8 @@
     --text-link: #859abc;
     --text-mark: #222;
 
-    --border-light: #444;
-    --border-dark: #353535;
-    --border-kbd: #242424;
+    --border-regular: #444; /* thin borders <1px */
+    --border-bold: #353535; /* thicker borders ≥1px */
 
     --syntax-text: var(--text-primary);
     --syntax-keyword: #aed7ff;
@@ -59,9 +58,8 @@
         --text-link: #0969da;
         --text-mark: var(--text-primary);
 
-        --border-light: #d8dee4;
-        --border-dark: #d0d7de;
-        --border-kbd: #eff1f3;
+        --border-regular: #d8dee4; /* thin borders <1px */
+        --border-bold: #d0d7de;    /* thicker borders ≥1px */
 
         /* source for light mode syntax theme:
          * https://github.com/highlightjs/highlight.js/blob/main/src/styles/github.css
