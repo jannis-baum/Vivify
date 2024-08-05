@@ -50,7 +50,7 @@ table {
 
 th, td {
     padding: 6px 13px;
-    border: 1px solid var(--border-muted);
+    border: 1px solid var(--border-regular);
 }
 
 tr:nth-child(even) {
@@ -75,7 +75,7 @@ input.task-list-item-checkbox {
 section.footnotes {
     font-size: 0.75rem;
     margin-top: 1.25rem;
-    border-top: 0.2px solid var(--border-regular);
+    border-top: 0.2px solid var(--border-muted);
     color: var(--text-secondary);
 }
 
@@ -97,7 +97,7 @@ dd {
     flex-basis: 80%;
     flex-grow: 1;
     text-align: left;
-    border-left: 0.2px solid var(--border-regular);
+    border-left: 0.2px solid var(--border-muted);
     margin: 0;
     padding: 0.25em;
     margin: 0.25em 0;
@@ -121,7 +121,7 @@ dt + dt + dd {
 blockquote {
     padding: 0 1rem;
     color: var(--text-secondary);
-    border-left: .25em solid var(--border-muted);
+    border-left: .25em solid var(--border-regular);
     margin-left: 0;
 }
 
@@ -185,7 +185,7 @@ blockquote {
 
 /* headings */
 h1, h2 {
-    border-bottom: 0.2px solid var(--border-regular);
+    border-bottom: 0.2px solid var(--border-muted);
     padding-bottom: 0.75rem;
 }
 
@@ -195,8 +195,8 @@ img, svg { max-width: 100%; }
 /* keyboard */
 kbd {
     background-color: var(--bg-secondary);
-    border: 1px solid var(--border-muted);
-    box-shadow: inset 0 -1px 0 var(--border-muted);
+    border: 1px solid var(--border-regular);
+    box-shadow: inset 0 -1px 0 var(--border-regular);
     padding: 3px 5px;
     border-radius: 6px;
 }
@@ -210,6 +210,6 @@ mark {
 /* horizontal rule */
 hr {
     border: 0;
-    border-top: 0.25em solid var(--border-muted);
+    border-top: 0.25em solid var(--border-regular);
     margin: 24px 0;
 }
