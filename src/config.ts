@@ -68,7 +68,7 @@ const config = ((): Config => {
     }
 
     // revert to default config if no config found
-    config = config ?? defaultConfig;
+    config = config ?? structuredClone(defaultConfig);
 
     for (const key of configFileBlocked) {
         delete config[key];
