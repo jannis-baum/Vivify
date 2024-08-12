@@ -6,6 +6,11 @@ import config from '../config.js';
 import renderNotebook from './ipynb.js';
 import renderMarkdown from './markdown.js';
 import { globSync } from 'glob';
+import octicons from '@primer/octicons';
+
+const dirIcon = octicons['file-directory-fill'].toSVG({ class: 'icon-directory' });
+const fileIcon = octicons['file'].toSVG({ class: 'icon-file' });
+const backIcon = octicons['chevron-left'].toSVG({ class: 'icon-back' });
 
 export type Renderer = (content: string) => string;
 
@@ -14,9 +19,11 @@ const pathHeading: Renderer = (path: string) => `# \`${path.replace(homedir(), '
 function wrap(contentType: string, content: string, linkPath?: string): string {
     let link = '';
     if (linkPath) {
-        link = `\n<div id="top-nav">\n<a id="top-nav-up" href="${pathToURL(linkPath)}"> ${
-            pbasename(linkPath) || '/'
-        }</a>\n</div>`;
+        link = `<div id="top-nav">
+                    <a id="top-nav-up" href="${pathToURL(linkPath)}">
+                        ${backIcon}${pbasename(linkPath) || '/'}
+                    </a>
+                </div>`;
     }
     return `<div class="content-${contentType}">${link}\n${content}</div>`;
 }
@@ -51,15 +58,21 @@ export function renderTextFile(content: string, path: string): string {
 }
 
 const dirListItem = (item: Dirent, path: string) =>
-    `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}" name="${item.name}"><a href="${pathToURL(
-        pjoin(path, item.name),
-    )}">${item.name}</a></li>`;
+    `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}" name="${item.name}">
+        <a href="${pathToURL(pjoin(path, item.name))}">
+            ${item.isDirectory() ? dirIcon : fileIcon}${item.name}
+        </a>
+    </li>`;
 
 function dirUpItem(path: string): string {
     if (pbasename(path) == '') {
         return ''; // Show nothing when already at root directory
     }
-    return `<li class="dir-list-directory"><a href="${pathToURL(pdirname(path))}">.. (${pbasename(pdirname(path)) || '/'})</a></li>`;
+    return `<li class="dir-list-directory">
+                <a href="${pathToURL(pdirname(path))}">
+                    ${dirIcon}..
+                </a>
+            </li>`;
 }
 
 export function renderDirectory(path: string): string {

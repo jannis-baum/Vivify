@@ -15,6 +15,10 @@
     --border-regular: #353535;
     --border-muted: #303030;
 
+    --icon-directory: #59739c;
+    --icon-file: #989898;
+    --icon-back: var(--text-secondary);
+
     --syntax-text: var(--text-primary);
     --syntax-keyword: #aed7ff;
     --syntax-entity: #aeafff;
@@ -60,6 +64,10 @@
 
         --border-regular: #d0d7de;
         --border-muted: #d8dee4;
+
+        --icon-directory: #54aeff;
+        --icon-file: #636c76;
+        --icon-back: var(--text-secondary);
 
         /* source for light mode syntax theme:
          * https://github.com/highlightjs/highlight.js/blob/main/src/styles/github.css

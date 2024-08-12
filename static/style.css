@@ -28,6 +28,5 @@ li[class^='dir-list-'] {
     list-style: none;
     margin: 0.25rem 0;
 }
-li[class^='dir-list-']:before { margin-right: 0.5rem; }
-li.dir-list-directory:before { content: '📁' }
-li.dir-list-file:before { content: '📄' }
+.icon-directory { fill: var(--icon-directory); }
+.icon-file { fill: var(--icon-file); }

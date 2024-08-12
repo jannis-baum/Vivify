@@ -36,7 +36,6 @@ h3:hover a.header-anchor, h4:hover a.header-anchor,
 h5:hover a.header-anchor, h6:hover a.header-anchor {
     opacity: 1;
 }
-a#top-nav-up:before { content: '◂'}
 
 /* --------------------------------------------------------------------------
  * TABLES ------------------------------------------------------------------- */
@@ -212,4 +211,9 @@ hr {
     border: 0;
     border-top: 0.25em solid var(--border-regular);
     margin: 24px 0;
+}
+
+/* UI icons */
+.icon-back {
+    fill: var(--icon-back);
 }
