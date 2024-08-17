@@ -62,8 +62,9 @@ tr:nth-child(even) {
 
 li.task-list-item { list-style: none; }
 input.task-list-item-checkbox {
-    position: absolute;
-    transform: translateX(-1.44rem);
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0 .27em -1.125rem;
 }
 
 /* --------------------------------------------------------------------------
