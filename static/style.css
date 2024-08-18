@@ -31,6 +31,10 @@ li[class^='dir-list-'] > a {
     display: inline-flex;
     align-items: center;
     padding: 0.05rem 0;
+    color: var(--text-primary);
+}
+li[class^='dir-list-'] > a:hover {
+    color: var(--text-link);
 }
 li[class^='dir-list-'] > a > svg {
     margin-right: 0.3rem;

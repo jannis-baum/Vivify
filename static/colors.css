@@ -15,8 +15,8 @@
     --border-regular: #353535;
     --border-muted: #303030;
 
-    --icon-directory: #59739c;
-    --icon-file: #989898;
+    --icon-directory: var(--text-secondary);
+    --icon-file: var(--text-secondary);
     --icon-back: var(--text-secondary);
 
     --syntax-text: var(--text-primary);
