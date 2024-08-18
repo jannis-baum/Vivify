@@ -32,6 +32,8 @@ assignees: ''
 
 > My operating system is:
 
+
+
 > Running `viv --version` outputs:
 
 ```txt
@@ -40,6 +42,12 @@ output goes here
 
 > I installed Vivify in the following way (e.g. name of the package manager, self-compiled or development mode):
 
-> This is what happens when I run `vivify-server` at the absolute installation path instead of `viv` and try to reproduce the problem:
+
+
+> This is what happens when I kill any running instance of Vivify with `killall vivify-server` and then run `vivify-server` at the absolute installation path (e.g. at `command -v vivify-server`) instead of `viv` and try to reproduce the problem:
+
+
 
 > In the following I specify if I use any custom configuration, and if so provide it in its entirety including any additional files referenced there (e.g. CSS or JavaScript):
+
+
