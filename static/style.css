@@ -17,7 +17,7 @@ body {
 *[class^="content-"] {
     max-width: 900px;
     margin: auto;
-} 
+}
 .content-txt { max-width: 1200px; }
 
 /* --------------------------------------------------------------------------
@@ -26,8 +26,18 @@ body {
 ul.dir-list { padding: 0 }
 li[class^='dir-list-'] {
     list-style: none;
-    margin: 0.25rem 0;
 }
-li[class^='dir-list-']:before { margin-right: 0.5rem; }
-li.dir-list-directory:before { content: '📁' }
-li.dir-list-file:before { content: '📄' }
+li[class^='dir-list-'] > a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.05rem 0;
+    color: var(--text-primary);
+}
+li[class^='dir-list-'] > a:hover {
+    color: var(--text-link);
+}
+li[class^='dir-list-'] > a > svg {
+    margin-right: 0.3rem;
+}
+.icon-directory { fill: var(--icon-directory); }
+.icon-file { fill: var(--icon-file); }
