@@ -28,12 +28,36 @@ cleanup() {
 trap cleanup EXIT
 
 nohup vivify-server $@ > "$output" 2> /dev/null &
+server_pid=$!
+
+monitor_server() {
+    while true; do
+        # server process ended
+        if ! kill -0 $server_pid 2>/dev/null; then
+            # check if startup was completed successfully, if so we can exit
+            test -f "$output" || exit 0
+            grep --quiet "STARTUP COMPLETE" "$output" && exit 0
+
+            # if not, the startup failed
+            echo "Fatal: vivify-server crashed. Please use the link below to submit a bug report."
+            echo ""
+            echo "https://github.com/jannis-baum/Vivify/issues/new?labels=type%3Abug&template=bug-report.md"
+            # kill tail from while loop below
+            pkill -P $$ tail
+            exit 1
+        fi
+        sleep 0.3
+    done
+}
+monitor_server &
 
 # print stdout of vivify-server until STARTUP COMPLETE is found
 tail -f "$output" | while read line; do
-    if echo "$line" | grep -q "STARTUP COMPLETE"; then
+    # server finished starting
+    if echo "$line" | grep --quiet "STARTUP COMPLETE"; then
         pkill -P $$ tail
         break
     fi
+
     echo "$line"
 done
