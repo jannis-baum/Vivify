@@ -42,6 +42,7 @@ monitor_server() {
             echo "Fatal: vivify-server crashed. Please use the link below to submit a bug report."
             echo ""
             echo "https://github.com/jannis-baum/Vivify/issues/new?labels=type%3Abug&template=bug-report.md"
+            echo ""
             # kill tail from while loop below
             pkill -P $$ tail
             exit 1
