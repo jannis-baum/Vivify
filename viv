@@ -16,6 +16,18 @@ options:
 EOF
 }
 
+print_bug_report() {
+    cat <<EOF
+Fatal: vivify-server crashed. Please use the link below to submit a bug report.
+
+The bug report template will help you provide the necessary information and
+maybe even find a solution yourself.
+
+https://github.com/jannis-baum/Vivify/issues/new?labels=type%3Abug&template=bug-report.md
+
+EOF
+}
+
 if [ "$#" -lt 1 -o "$1" = "-h" -o "$1" = "--help" ]; then
     print_usage
     exit 1
@@ -39,10 +51,7 @@ monitor_server() {
             grep --quiet "STARTUP COMPLETE" "$output" && exit 0
 
             # if not, the startup failed
-            echo "Fatal: vivify-server crashed. Please use the link below to submit a bug report."
-            echo ""
-            echo "https://github.com/jannis-baum/Vivify/issues/new?labels=type%3Abug&template=bug-report.md"
-            echo ""
+            print_bug_report
             # kill tail from while loop below
             pkill -P $$ tail
             exit 1
