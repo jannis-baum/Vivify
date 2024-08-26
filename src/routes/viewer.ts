@@ -85,7 +85,13 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 window.VIV_PORT = "${config.port}";
                 window.VIV_PATH = "${urlToPath(req.path)}";
             </script>
+
             ${config.scripts ? `<script type="text/javascript">${config.scripts}</script>` : ''}
+
+            <script type="module">
+                import mermaid from '/static/mermaid/mermaid.esm.min.mjs';
+                mermaid.initialize({ startOnLoad: true });
+            </script>
             <script type="text/javascript" src="/static/client.js"></script>
         </html>
     `);
