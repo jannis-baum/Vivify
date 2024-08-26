@@ -26,6 +26,7 @@ jobs:
 
   test:
     name: Test
+    needs: [lint]
     runs-on: ubuntu-latest
     steps:
       - name: set up node
@@ -39,7 +40,7 @@ jobs:
 
   build-linux:
     name: Build Linux
-    needs: [lint]
+    needs: [test]
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -60,7 +61,7 @@ jobs:
 
   build-macos:
     name: Build MacOS
-    needs: [lint]
+    needs: [test]
     runs-on: macos-latest
     steps:
       - name: checkout
