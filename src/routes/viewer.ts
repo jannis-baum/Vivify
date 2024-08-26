@@ -90,7 +90,8 @@ router.get(/.*/, async (req: Request, res: Response) => {
 
             <script type="module">
                 import mermaid from '/static/mermaid/mermaid.esm.min.mjs';
-                mermaid.initialize({ startOnLoad: true });
+                const darkModePreference = window.matchMedia("(prefers-color-scheme: dark)");
+                mermaid.initialize({ startOnLoad: true, theme: darkModePreference.matches ? 'dark' : 'default' })
             </script>
             <script type="text/javascript" src="/static/client.js"></script>
         </html>
