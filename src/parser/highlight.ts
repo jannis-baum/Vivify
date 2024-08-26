@@ -9,7 +9,7 @@ export default function highlight(str: string, lang: string) {
                     language: lang,
                     ignoreIllegals: true,
                 }).value;
-            } catch (_) {}
+            } catch {}
         }
     }
     return `<pre class="language-${lang}"><code>${content}</code></pre>`;
