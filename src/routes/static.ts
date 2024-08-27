@@ -42,6 +42,7 @@ class StaticProvider {
     static mime(path: string): string {
         if (path.endsWith('.css')) return 'text/css';
         if (path.endsWith('.js')) return 'text/javascript';
+        if (path.endsWith('.mjs')) return 'text/javascript';
         if (path.endsWith('.ttf')) return 'font/ttf';
         if (path.endsWith('.woff2')) return 'font/woff2';
         throw new Error('Unknown MIME type');

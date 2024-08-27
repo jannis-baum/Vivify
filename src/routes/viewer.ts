@@ -85,7 +85,23 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 window.VIV_PORT = "${config.port}";
                 window.VIV_PATH = "${urlToPath(req.path)}";
             </script>
+
             ${config.scripts ? `<script type="text/javascript">${config.scripts}</script>` : ''}
+
+            <script type="module">
+                import mermaid from '/static/mermaid/mermaid.esm.min.mjs';
+                const darkModePreference = window.matchMedia("(prefers-color-scheme: dark)");
+                mermaid.initialize({ startOnLoad: true, theme: darkModePreference.matches ? 'dark' : 'default' })
+
+                function updateTheme() {
+                    if (document.getElementsByClassName('mermaid').length > 0) {
+                        window.location.reload()
+                    }
+                }
+                darkModePreference.addEventListener("change", () => updateTheme());
+                // deprecated method for backward compatibility
+                darkModePreference.addEventListener(() => updateTheme());
+            </script>
             <script type="text/javascript" src="/static/client.js"></script>
         </html>
     `);

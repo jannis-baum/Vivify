@@ -2,6 +2,7 @@ import MarkdownIt from 'markdown-it';
 import anchor from 'markdown-it-anchor';
 import highlight from './highlight.js';
 import graphviz from './dot.js';
+import mermaid from './mermaid.js';
 import githubAlerts from 'markdown-it-github-alerts';
 import config from '../config.js';
 import { Renderer } from './parser.js';
@@ -66,6 +67,7 @@ mdit.use(anchor, {
 });
 mdit.use(graphviz);
 mdit.use(githubAlerts);
+mdit.use(mermaid);
 
 const renderMarkdown: Renderer = (content: string) => {
     return mdit.render(content);
