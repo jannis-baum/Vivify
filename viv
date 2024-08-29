@@ -44,12 +44,12 @@ server_pid=$!
 
 monitor_server() {
     while true; do
-        # server process ended
-        if ! kill -0 $server_pid 2>/dev/null; then
-            # check if startup was completed successfully, if so we can exit
-            test -f "$output" || exit 0
-            grep --quiet "STARTUP COMPLETE" "$output" && exit 0
+        # check if startup was completed successfully, if so we can exit
+        test -f "$output" || exit 0
+        grep --quiet "STARTUP COMPLETE" "$output" && exit 0
 
+        # server process ended otherwise
+        if ! kill -0 $server_pid 2>/dev/null; then
             # if not, the startup failed
             print_bug_report
             # kill tail from while loop below
