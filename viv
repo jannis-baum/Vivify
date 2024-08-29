@@ -59,7 +59,8 @@ monitor_server() {
         sleep 0.3
     done
 }
-monitor_server &
+monitor_server </dev/null &>/dev/null &
+disown
 
 # print stdout of vivify-server until STARTUP COMPLETE is found
 tail -f "$output" | while read line; do
