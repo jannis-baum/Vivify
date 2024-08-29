@@ -18,7 +18,8 @@ EOF
 
 print_bug_report() {
     cat <<EOF
-Fatal: vivify-server crashed. Please use the link below to submit a bug report.
+Fatal: "`command -v vivify-server`" crashed.
+Please use the link below to submit a bug report.
 
 The bug report template will help you provide the necessary information and
 maybe even find a solution yourself.
