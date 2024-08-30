@@ -40,7 +40,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-nohup vivify-server $@ > "$output" 2> /dev/null &
+nohup vivify-server "$@" > "$output" 2> /dev/null &
 server_pid=$!
 
 monitor_server() {
