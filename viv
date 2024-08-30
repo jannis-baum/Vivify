@@ -63,7 +63,7 @@ monitor_server() {
 monitor_server &
 
 # print stdout of vivify-server until STARTUP COMPLETE is found
-tail -f "$output" | while read line; do
+tail -f "$output" | while read -r line; do
     # server finished starting
     if echo "$line" | grep --quiet "STARTUP COMPLETE"; then
         pkill -P $$ tail
