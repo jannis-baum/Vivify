@@ -18,7 +18,7 @@ EOF
 
 print_bug_report() {
     cat <<EOF
-Fatal: "`command -v vivify-server`" crashed.
+Fatal: "$(command -v vivify-server)" crashed.
 Please use the link below to submit a bug report.
 
 The bug report template will help you provide the necessary information and
@@ -34,7 +34,7 @@ if [ "$#" -lt 1 -o "$1" = "-h" -o "$1" = "--help" ]; then
     exit 1
 fi
 
-output=`mktemp`
+output=$(mktemp)
 cleanup() {
     rm -f "$output"
 }
