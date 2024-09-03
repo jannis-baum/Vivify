@@ -72,8 +72,12 @@ $(SERVER_PATH_LINUX): $(BUNDLE_PATH) sea-config.json
 	rm -rf $(SERVER_PATH_LINUX)
 	node --experimental-sea-config sea-config.json
 	cp $(shell command -v node) $(SERVER_PATH_LINUX)
-	objdump -p $(SERVER_PATH_LINUX) | grep 'NEEDED' | grep -q 'libdl.so.2' || \
-		{ echo "Your $(shell command -v node) does not support Node SEA. Please install Node through nvm and try again."; exit 1; }
+	@ objdump -p $(SERVER_PATH_LINUX) | grep 'NEEDED' | grep -q 'libdl.so.2' || \
+		{ \
+		printf "\n\n\x1b[1;31mYour $(shell command -v node) does not support Node SEA, which is needed to compile Vivify.\x1b[0m\n"; \
+		printf "\x1b[1;31mPlease install Node.js through Node Version Manager (nvm) and try again.\x1b[0m\n"; \
+		exit 1; \
+		}
 	chmod +w $(SERVER_PATH_LINUX)
 	node_modules/.bin/postject $(SERVER_PATH_LINUX) NODE_SEA_BLOB $(BUILD_DIR)/sea-prep.blob \
 			  --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
