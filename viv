@@ -1,5 +1,8 @@
 #!/bin/sh
 
+install_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+vivify_server="$install_dir/vivify-server"
+
 print_usage() {
     cat <<EOF
 usage: viv target [target ...]
@@ -18,7 +21,7 @@ EOF
 
 print_bug_report() {
     cat <<EOF
-Fatal: "`command -v vivify-server`" crashed.
+Fatal: "$vivify_server" crashed.
 Please use the link below to submit a bug report.
 
 The bug report template will help you provide the necessary information and
@@ -29,18 +32,38 @@ https://github.com/jannis-baum/Vivify/issues/new?labels=type%3Abug&template=bug-
 EOF
 }
 
+print_server_file_error() {
+    cat <<EOF
+Fatal: "$vivify_server" $1.
+
+Please make sure that the "vivify-server" binary is located in the same
+directory as the "viv" script and that it is executable.
+
+EOF
+}
+
 if [ "$#" -lt 1 -o "$1" = "-h" -o "$1" = "--help" ]; then
     print_usage
     exit 1
 fi
 
-output=`mktemp`
+if ! test -f "$vivify_server"; then
+    print_server_file_error "not found"
+    exit 1
+fi
+
+if ! test -x "$vivify_server"; then
+    print_server_file_error "not executable"
+    exit 1
+fi
+
+output=$(mktemp)
 cleanup() {
     rm -f "$output"
 }
 trap cleanup EXIT
 
-nohup vivify-server $@ > "$output" 2> /dev/null &
+nohup "$vivify_server" "$@" > "$output" 2> /dev/null &
 server_pid=$!
 
 monitor_server() {
@@ -63,7 +86,7 @@ monitor_server() {
 monitor_server &
 
 # print stdout of vivify-server until STARTUP COMPLETE is found
-tail -f "$output" | while read line; do
+tail -f "$output" | while read -r line; do
     # server finished starting
     if echo "$line" | grep --quiet "STARTUP COMPLETE"; then
         pkill -P $$ tail
