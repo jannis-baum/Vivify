@@ -38,6 +38,8 @@ const envConfigs: [string, keyof Config][] = [
 const configFileBlocked: (keyof Config)[] = ['port'];
 
 const configPaths = [
+    path.join(homedir(), '.config', 'vivify', 'config.json'),
+    path.join(homedir(), '.config', 'vivify.json'),
     path.join(homedir(), '.vivify', 'config.json'),
     path.join(homedir(), '.vivify.json'),
 ];
