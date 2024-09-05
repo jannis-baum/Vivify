@@ -65,8 +65,8 @@ const config = ((): Config => {
         if (!fs.existsSync(cp)) continue;
         try {
             config = JSON.parse(fs.readFileSync(cp, 'utf8'));
-            break;
         } catch {}
+        break;
     }
 
     // revert to default config if no config found
