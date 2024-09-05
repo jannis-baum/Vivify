@@ -38,6 +38,8 @@ const envConfigs: [string, keyof Config][] = [
 const configFileBlocked: (keyof Config)[] = ['port'];
 
 const configPaths = [
+    path.join(homedir(), '.config', 'vivify', 'config.json'),
+    path.join(homedir(), '.config', 'vivify.json'),
     path.join(homedir(), '.vivify', 'config.json'),
     path.join(homedir(), '.vivify.json'),
 ];
@@ -63,8 +65,8 @@ const config = ((): Config => {
         if (!fs.existsSync(cp)) continue;
         try {
             config = JSON.parse(fs.readFileSync(cp, 'utf8'));
-            break;
         } catch {}
+        break;
     }
 
     // revert to default config if no config found

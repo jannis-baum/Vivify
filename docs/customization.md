@@ -5,9 +5,15 @@ while being built for maximal customizability.
 
 ## Configuration file
 
-Vivify will look for an optional config file at `~/.vivify/config.json` and
-`~/.vivify.json`. This file should contain a JSON object that can have the
-following optional keys:
+Vivify will look for an optional config file at
+
+- `~/.config/vivify/config.json`,
+- `~/.config/vivify.json`,
+- `~/.vivify/config.json`, and
+- `~/.vivify.json`.
+
+This file should contain a JSON object that can have the following optional
+keys:
 
 - **`"styles"`**\
   A path to a single custom style sheet, or an array of multiple style sheets
