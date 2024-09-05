@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { globSync } from 'glob';
 import { homedir } from 'os';
 import path from 'path';
 
@@ -59,7 +60,9 @@ const getFileContents = (
         if (resolved[0] !== '/' && baseDir !== undefined) {
             resolved = path.join(baseDir, resolved);
         }
-        return fs.existsSync(resolved) ? fs.readFileSync(resolved, 'utf8') : '';
+        return globSync(resolved)
+            .map((p) => fs.readFileSync(p, 'utf8'))
+            .join('\n');
     };
 
     if (Array.isArray(paths)) {
