@@ -20,7 +20,7 @@ keys:
   sheets applied in order. The paths can be absolute, start with a tilde (`~`)
   for your home directory, or be relative to your config file's directory. The
   paths can also include [glob patterns](https://www.npmjs.com/package/glob).\
-  The styles will be applied after Vivify's [default styles](./static/) are
+  The styles will be applied after Vivify's [default styles](../static/) are
   applied so that there are always sensible fallbacks but you can override
   everything.
 - **`"scripts"`**\
