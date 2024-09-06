@@ -16,13 +16,19 @@ This file should contain a JSON object that can have the following optional
 keys:
 
 - **`"styles"`**\
-  A path to a single custom style sheet, or an array of multiple style sheets
-  applied in order. These will be applied after Vivify's [default
-  styles](./static/) are applied so that there are always sensible fallbacks but
-  you can override everything.
+  A path to a single custom style sheet, or an array of paths for multiple style
+  sheets applied in order. The paths can be absolute, start with a tilde (`~`)
+  for your home directory, or be relative to your config file's directory. The
+  paths can also include [glob patterns](https://www.npmjs.com/package/glob).\
+  The styles will be applied after Vivify's [default styles](./static/) are
+  applied so that there are always sensible fallbacks but you can override
+  everything.
 - **`"scripts"`**\
   A path to a single custom JavaScript to inject into the viewing pages, or an
-  array of multiple custom scripts.
+  array of paths for multiple custom scripts injected in order. The paths can be
+  absolute, start with a tilde (`~`) for your home directory, or be relative to
+  your config file's directory. The paths can also include [glob
+  patterns](https://www.npmjs.com/package/glob).
 - **`"dirListIgnore"`**\
   A path to a file with globs to ignore in Vivify's directory viewer, or an
   array of multiple paths to ignore files. The syntax here is the same as in
