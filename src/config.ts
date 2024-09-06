@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { globSync } from 'glob';
 import { homedir } from 'os';
 import path from 'path';
 
@@ -45,11 +46,23 @@ const configPaths = [
 ];
 
 // read contents of file at paths or files at paths
-const getFileContents = (paths: string[] | string | undefined): string => {
+const getFileContents = (
+    paths: string[] | string | undefined,
+    baseDir: string | undefined,
+): string => {
     if (paths === undefined) return '';
+
     const getFileContent = (p: string): string => {
-        const resolved = p[0] === '~' ? path.join(homedir(), p.slice(1)) : p;
-        return fs.existsSync(resolved) ? fs.readFileSync(resolved, 'utf8') : '';
+        let resolved = p;
+        if (resolved[0] === '~') {
+            resolved = path.join(homedir(), p.slice(1));
+        }
+        if (resolved[0] !== '/' && baseDir !== undefined) {
+            resolved = path.join(baseDir, resolved);
+        }
+        return globSync(resolved)
+            .map((p) => fs.readFileSync(p, 'utf8'))
+            .join('\n');
     };
 
     if (Array.isArray(paths)) {
@@ -60,11 +73,13 @@ const getFileContents = (paths: string[] | string | undefined): string => {
 
 const config = ((): Config => {
     let config = undefined;
+    let configBaseDir = undefined;
     // greedily find config
     for (const cp of configPaths) {
         if (!fs.existsSync(cp)) continue;
         try {
             config = JSON.parse(fs.readFileSync(cp, 'utf8'));
+            configBaseDir = path.dirname(cp);
         } catch {}
         break;
     }
@@ -77,9 +92,9 @@ const config = ((): Config => {
     }
 
     // get styles, scripts and ignore files
-    config.styles = getFileContents(config.styles);
-    config.scripts = getFileContents(config.scripts);
-    config.dirListIgnore = getFileContents(config.dirListIgnore)
+    config.styles = getFileContents(config.styles, configBaseDir);
+    config.scripts = getFileContents(config.scripts, configBaseDir);
+    config.dirListIgnore = getFileContents(config.dirListIgnore, configBaseDir)
         .split('\n')
         .filter((pattern) => pattern !== '' && pattern[0] !== '#');
 
