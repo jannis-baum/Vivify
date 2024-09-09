@@ -75,9 +75,32 @@ There's no markdown syntax for this, but technically multiple terms for one defi
 
 ## Task list
 
+Simple:
+
 - [x] Write the press release
 - [ ] Update the website
 - [ ] Contact the media
+
+Nested with other types of list:
+
+- Monday
+    - chore day
+        1. wash dishes
+            - [x] done
+        2. mow lawn 
+            - [ ] done
+        3. take out trash
+            - [ ] done
+    - [ ] day completed
+- Sunday
+    - chill day
+        1. sleep
+            - [ ] done
+        2. take a bath
+            - [ ] done
+        3. play guitar
+            - [ ] done
+    - [ ] day completed
 
 ## Emoji
 
