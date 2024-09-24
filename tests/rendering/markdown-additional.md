@@ -36,7 +36,7 @@ C -->|One| D[Result 1]
 C -->|Two| E[Result 2]
 ```
 
-## \<kbd> tag
+## kbd tag
 
 While not a markdown syntax, this has a default style:
 
