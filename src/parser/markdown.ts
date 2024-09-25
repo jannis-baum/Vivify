@@ -65,8 +65,10 @@ mdit.use(anchor, {
         placement: 'before',
     }),
 });
+mdit.use(githubAlerts, {
+    markers: '*',
+});
 mdit.use(graphviz);
-mdit.use(githubAlerts);
 mdit.use(mermaid);
 
 const renderMarkdown: Renderer = (content: string) => {

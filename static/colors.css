@@ -44,6 +44,8 @@
     --alert-warning: #ffaf00;
     --alert-caution: #ff5f5f;
 
+    --alert-custom-default: #c0c0c0;
+
     --ipynb-bg-error: rgba(255, 0, 0, 0.1);
 }
 
@@ -96,6 +98,8 @@
         --alert-important: #8250df;
         --alert-warning: #bf8700;
         --alert-caution: #cf222e;
+
+        --alert-custom-default: #404040;
 
         --ipynb-bg-error: rgba(255, 0, 0, 0.1);
     }

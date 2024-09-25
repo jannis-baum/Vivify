@@ -149,6 +149,14 @@ blockquote {
     vertical-align: text-bottom;
     fill: currentColor;
 }
+/* default style for custom markers (Obsidian Callout style) */
+.markdown-alert {
+    border-left: .25rem solid var(--alert-custom-default);
+}
+.markdown-alert .markdown-alert-title {
+    color: var(--alert-custom-default);
+}
+/* default styles for GitHub style markers */
 .markdown-alert-note {
     border-left: .25rem solid var(--alert-note);
 }
