@@ -1,5 +1,6 @@
 import MarkdownIt from 'markdown-it';
 import anchor from 'markdown-it-anchor';
+import frontMatter from 'markdown-it-front-matter';
 import highlight from './highlight.js';
 import graphviz from './dot.js';
 import mermaid from './mermaid.js';
@@ -59,6 +60,9 @@ mdit.use(toc, config.tocOptions);
 
 // MARK: untyped plugins done
 
+// markdown-it-front-matter requires a callback function but we aren’t doing
+// anything with it, so we just pass in a noop.
+mdit.use(frontMatter, () => {});
 // anchor has to be added after attribute plugin for ids to work
 mdit.use(anchor, {
     permalink: anchor.permalink.ariaHidden({
