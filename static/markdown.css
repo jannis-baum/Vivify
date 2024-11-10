@@ -149,12 +149,12 @@ blockquote {
     vertical-align: text-bottom;
     fill: currentColor;
 }
-/* default style for custom markers (Obsidian Callout style) */
+/* default style for unconfigured custom markers (Obsidian Callout style) */
 .markdown-alert {
-    border-left: .25rem solid var(--alert-custom-default);
+    border-left: .25rem solid var(--alert-note);
 }
 .markdown-alert .markdown-alert-title {
-    color: var(--alert-custom-default);
+    color: var(--alert-note);
 }
 /* default styles for GitHub style markers */
 .markdown-alert-note {
