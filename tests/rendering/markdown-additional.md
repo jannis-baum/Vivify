@@ -67,13 +67,15 @@ This paragraph has a red background color.{style=background-color:red}
 
 ### With a custom title
 
-> [!NOTE] Foo bar
-> 'Note' with a custom title
+> [!TIP] Foo bar
+> 'Tip' with a custom title
 
 ### Using custom markers ([Obsidian Callout](https://help.obsidian.md/Editing+and+formatting/Callouts) style)
 
 > [!CUSTOM]
-> Something more special
+> Set custom icon and color for any marker
+>
+> If unconfigured, it's styled like 'Note'
 
 > [!fOoBaR]
 > The marker is case-insensitive and turns into Title Case
