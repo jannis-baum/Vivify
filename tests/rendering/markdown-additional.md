@@ -1,3 +1,7 @@
+---
+front-matter: This should not be shown in the renderer
+---
+
 # Additional Markdown test file
 
 Test various other Markdown syntax here, starting with the table of contents
