@@ -46,11 +46,13 @@ While not a markdown syntax, this has a default style:
 
 Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy, and <kbd>Ctrl</kbd> + <kbd>V</kbd> to paste!
 
-## Custom attributes
+## Custom attribute
 
 This paragraph has a red background color.{style=background-color:red}
 
-## Github alert blockquote
+## GitHub style alert
+
+### The 5 default GitHub style alerts
 
 > [!NOTE]  
 > Something to take into account
@@ -67,7 +69,20 @@ This paragraph has a red background color.{style=background-color:red}
 > [!CAUTION]
 > Do not do this and that!
 
-With a custom title:
+### With a custom title
 
-> [!NOTE] Foo bar
-> Hello
+> [!TIP] Foo bar
+> 'Tip' with a custom title
+
+### Using custom markers ([Obsidian Callout](https://help.obsidian.md/Editing+and+formatting/Callouts) style)
+
+> [!CUSTOM]
+> Set custom icon and color for any marker
+>
+> If unconfigured, it's styled like 'Note'
+
+> [!fOoBaR]
+> The marker is case-insensitive and turns into Title Case
+
+> [!CUSTOM] paY aTtEntiOn
+> You can use a custom title with a custom marker as well
