@@ -64,6 +64,13 @@ jobs:
     needs: [test]
     runs-on: macos-latest
     steps:
+      - name: get Homebrew Node
+        # lists node dependencies, these need to be mirrored for the Homebrew package
+        run: |
+          brew update
+          brew install node
+          brew deps --tree --installed node 
+          echo $PATH
       - name: checkout
         uses: actions/checkout@v4
       - name: build
