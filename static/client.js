@@ -15,10 +15,6 @@ function viv_scrollTo(value) {
 
 const ws = new WebSocket(`ws://localhost:${window.VIV_PORT}`);
 
-ws.addEventListener('open', () => {
-    ws.send(`PATH: ${window.VIV_PATH}`);
-});
-
 ws.addEventListener('message', (event) => {
     const fields = event.data.toString().split(': ');
     if (fields.length < 2) return;
@@ -39,4 +35,8 @@ ws.addEventListener('message', (event) => {
             console.log(value);
             break;
     }
+});
+
+ws.addEventListener('open', () => {
+    ws.send(`PATH: ${window.VIV_PATH}`);
 });
