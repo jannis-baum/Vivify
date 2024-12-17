@@ -81,13 +81,12 @@ router.get(/.*/, async (req: Request, res: Response) => {
                     ${body}
                 </div>
             </body>
+
             <script>
                 window.VIV_PORT = "${config.port}";
                 window.VIV_PATH = "${urlToPath(req.path)}";
             </script>
-
             ${config.scripts ? `<script type="text/javascript">${config.scripts}</script>` : ''}
-
             <script type="module" src="/static/client.mjs"></script>
         </html>
     `);

@@ -1,3 +1,6 @@
+/* --------------------------------------------------------------------------
+ * MERMAID ------------------------------------------------------------------ */
+
 import mermaid from '/static/mermaid/mermaid.esm.min.mjs';
 
 const darkModePreference = window.matchMedia('(prefers-color-scheme: dark)');
@@ -16,6 +19,9 @@ try {
         darkModePreference.addEventListener(() => updateTheme());
     } catch {}
 }
+
+/* --------------------------------------------------------------------------
+ * WEBSOCKET COMMUNICATION WITH SERVER -------------------------------------- */
 
 const ws = new WebSocket(`ws://localhost:${window.VIV_PORT}`);
 
@@ -36,6 +42,7 @@ ws.addEventListener('message', (event) => {
                 await mermaid.run({ querySelector: '.mermaid' });
             })();
             break;
+
         case 'SCROLL':
             let line = parseInt(value);
             while (line) {
@@ -50,9 +57,11 @@ ws.addEventListener('message', (event) => {
                 line -= 1;
             }
             break;
+
         case 'RELOAD':
             window.location.reload();
             break;
+
         case 'PRINT':
             console.log(value);
             break;
