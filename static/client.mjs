@@ -47,6 +47,9 @@ ws.addEventListener('message', (event) => {
     switch (key) {
         case 'UPDATE':
             document.getElementById('body-content').innerHTML = value;
+            (async () => {
+                await mermaid.run({ querySelector: '.mermaid' });
+            })();
             break;
         case 'SCROLL':
             viv_scrollTo(value);
