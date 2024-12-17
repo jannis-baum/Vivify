@@ -1,3 +1,22 @@
+import mermaid from '/static/mermaid/mermaid.esm.min.mjs';
+
+const darkModePreference = window.matchMedia('(prefers-color-scheme: dark)');
+mermaid.initialize({ startOnLoad: true, theme: darkModePreference.matches ? 'dark' : 'default' });
+
+function updateTheme() {
+    if (document.getElementsByClassName('mermaid').length > 0) {
+        window.location.reload();
+    }
+}
+try {
+    darkModePreference.addEventListener('change', () => updateTheme());
+} catch {
+    try {
+        // deprecated method for backward compatibility
+        darkModePreference.addEventListener(() => updateTheme());
+    } catch {}
+}
+
 function viv_scrollTo(value) {
     let line = parseInt(value);
     while (line) {
