@@ -29,7 +29,7 @@ ws.addEventListener('open', () => {
     ws.send(`PATH: ${window.VIV_PATH}`);
 });
 
-ws.addEventListener('message', (event) => {
+ws.addEventListener('message', async (event) => {
     const fields = event.data.toString().split(': ');
     if (fields.length < 2) return;
     const [key, ...values] = fields;
@@ -38,9 +38,7 @@ ws.addEventListener('message', (event) => {
     switch (key) {
         case 'UPDATE':
             document.getElementById('body-content').innerHTML = value;
-            (async () => {
-                await mermaid.run({ querySelector: '.mermaid' });
-            })();
+            await mermaid.run({ querySelector: '.mermaid' });
             break;
 
         case 'SCROLL':
