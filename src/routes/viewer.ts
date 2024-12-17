@@ -102,7 +102,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 // deprecated method for backward compatibility
                 darkModePreference.addEventListener(() => updateTheme());
             </script>
-            <script type="text/javascript" src="/static/client.js"></script>
+            <script type="module" src="/static/client.mjs"></script>
         </html>
     `);
 });
