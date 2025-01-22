@@ -50,6 +50,8 @@ ws.addEventListener('message', async (event) => {
                 }
                 line -= 1;
             }
+            // no element above scroll line found, i.e. scroll to top
+            if (!line) window.scrollTo({ top: 0, behavior: 'smooth' });
             break;
 
         case 'RELOAD':
