@@ -5,6 +5,7 @@ pre {
     background-color: var(--bg-secondary);
     padding: 1rem;
     overflow: auto;
+    position: relative;
 }
 code {
     background-color: var(--bg-code);
@@ -178,6 +179,57 @@ blockquote {
 }
 .markdown-alert-caution .markdown-alert-title {
     color: var(--alert-caution);
+}
+
+/* --------------------------------------------------------------------------
+ * MARKDOWN-IT-COPY --------------------------------------------------------- */
+
+.m-mdic-copy-wrapper {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+.m-mdic-copy-wrapper div.u-mdic-copy-notify {
+    display: none;
+    position: absolute;
+    right: 100%;
+    padding: 0.4rem 0.8rem;
+    border: 0;
+    border-radius: 1rem;
+    background-color: var(--border-regular);
+    font-family: system-ui;
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--text-primary);
+    opacity: 0;
+    outline: none;
+    margin-right: 0.5rem;
+    transition: opacity 0.2s
+}
+.m-mdic-copy-wrapper button.u-mdic-copy-btn {
+    padding: 0.4rem;
+    border: 0;
+    border-radius: 0.4rem;
+    background: none;
+    opacity: 0;
+    outline: none;
+    cursor: pointer;
+    transition: opacity 0.2s, background 0.2s;
+}
+pre:hover .m-mdic-copy-wrapper .u-mdic-copy-btn {
+    opacity: 0.3;
+}
+
+/* For the fade in-out stuff */
+.m-mdic-copy-wrapper:hover .u-mdic-copy-notify {
+    opacity: 1;
+}
+.m-mdic-copy-wrapper button.u-mdic-copy-btn:hover {
+    opacity: 1;
+    background-color: var(--border-regular);
+}
+.icon-copy {
+    fill: var(--text-primary);
 }
 
 /* --------------------------------------------------------------------------
