@@ -7,6 +7,9 @@ import mermaid from './mermaid.js';
 import githubAlerts from 'markdown-it-github-alerts';
 import config from '../config.js';
 import { Renderer } from './parser.js';
+import octicons from '@primer/octicons';
+
+const copyIcon = octicons['copy'].toSVG({ class: 'icon-copy' });
 
 const mdit = new MarkdownIt({
     html: true,
@@ -57,6 +60,13 @@ mdit.use(attributes);
 /* @ts-expect-error: module not typed */
 import toc from 'markdown-it-table-of-contents';
 mdit.use(toc, config.tocOptions);
+/* @ts-expect-error: module not typed */
+import copy from 'markdown-it-copy';
+mdit.use(copy, {
+    btnText: copyIcon,
+    failText: 'Copy Failed',
+    successText: 'Copy Successful!',
+});
 
 // MARK: untyped plugins done
 
