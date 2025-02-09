@@ -33,13 +33,6 @@ mdit.use(lineNumbers);
 /* @ts-expect-error: module not typed */
 import texMath from 'markdown-it-texmath';
 /* @ts-expect-error: module not typed */
-import katex from 'katex';
-mdit.use(texMath, {
-    engine: katex,
-    delimiters: 'dollars',
-    katexOptions: config.katexOptions,
-});
-/* @ts-expect-error: module not typed */
 import defList from 'markdown-it-deflist';
 mdit.use(defList);
 /* @ts-expect-error: module not typed */
@@ -60,6 +53,12 @@ mdit.use(toc, config.tocOptions);
 
 // MARK: untyped plugins done
 
+import katex from 'katex';
+mdit.use(texMath, {
+    engine: katex,
+    delimiters: 'dollars',
+    katexOptions: config.katexOptions,
+});
 // markdown-it-front-matter requires a callback function but we aren’t doing
 // anything with it, so we just pass in a noop.
 mdit.use(frontMatter, () => {});
