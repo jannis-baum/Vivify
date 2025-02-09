@@ -1,3 +1,6 @@
+# schema:
+# https://github.com/DavidAnson/markdownlint-cli2/blob/main/schema/markdownlint-cli2-config-schema.json
+
 globs:
   - '**/*.md'
 
@@ -7,3 +10,11 @@ ignores:
   # GitHub issues don't quite abide by Markdown standards (e.g. single line
   # breaks are reproduced when rendered)
   - '.github/ISSUE_TEMPLATE/**/*'
+  - 'static/**/*'
+
+config:
+  # schema:
+  # https://github.com/DavidAnson/markdownlint/blob/v0.32.1/schema/.markdownlint.yaml
+  MD033:
+    allowed_elements:
+      - 'kbd'
