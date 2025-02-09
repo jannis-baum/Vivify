@@ -38,5 +38,5 @@ Then, follow along these steps:
 
 ## Reviewing upgrade PRs
 
-You can following along *step 2* above to check things are working and leave
+You can follow along *step 2* above to check things are working and leave
 comments on the PR if they aren't.
