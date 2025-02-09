@@ -76,6 +76,7 @@ $(SERVER_PATH_LINUX): $(BUNDLE_PATH) sea-config.json
 		{ \
 		printf "\n\n\x1b[1;31mYour $(shell command -v node) does not support Node SEA, which is needed to compile Vivify.\x1b[0m\n"; \
 		printf "\x1b[1;31mPlease install Node.js through Node Version Manager (nvm) and try again.\x1b[0m\n"; \
+		rm $(SERVER_PATH_LINUX) \
 		exit 1; \
 		}
 	chmod +w $(SERVER_PATH_LINUX)
