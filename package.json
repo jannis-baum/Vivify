@@ -7,7 +7,8 @@
     "viv": "VIV_PORT=3000 node --loader ts-node/esm src/app.ts",
     "lint": "eslint src static",
     "lint-markdown": "markdownlint-cli2 --config .github/.markdownlint-cli2.yaml",
-    "test": "node --loader ts-node/esm tests/unit/cli.ts"
+    "test": "node --loader ts-node/esm tests/unit/cli.ts",
+    "deduplicate": "yarn-deduplicate"
   },
   "type": "module",
   "dependencies": {
@@ -63,6 +64,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3",
     "webpack": "^5.97.1",
-    "webpack-cli": "^6.0.1"
+    "webpack-cli": "^6.0.1",
+    "yarn-deduplicate": "^6.0.2"
   }
 }

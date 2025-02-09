@@ -5,14 +5,6 @@ maintainers.
 
 ## Process
 
-To cleanly upgrade dependencies, you should have `yarn-deduplicate` installed:
-
-```sh
-yarn global add yarn-deduplicate
-```
-
-Then, follow along these steps:
-
 1. First commit: Run `yarn upgrade-interactive --latest`, go through the list,
    press <kbd>space</kbd> on all yellow and green entries, and confirm with
    <kbd>enter</kbd>. This should always be fine and not break anything (unless
@@ -29,7 +21,7 @@ Then, follow along these steps:
    (breaking) `dependencies`. Look up what the exact breaking change is and how
    it affects the project. With one commit each, upgrade the dependency and fix
    whatever (if anything) it broke as in *step 2*.
-6. Run `yarn-deduplicate` and then `yarn` to keep only the newest required
+6. Run `yarn deduplicate` and then `yarn` to keep only the newest required
    versions of dependencies and hopefully address all security issues the
    [Dependabot](https://github.com/jannis-baum/Vivify/security/dependabot) had
    found.
