@@ -1,5 +1,6 @@
 import MarkdownIt from 'markdown-it';
 import anchor from 'markdown-it-anchor';
+import copycode from './copycode.js';
 import frontMatter from 'markdown-it-front-matter';
 import highlight from './highlight.js';
 import graphviz from './dot.js';
@@ -68,6 +69,7 @@ mdit.use(anchor, {
         placement: 'before',
     }),
 });
+mdit.use(copycode);
 mdit.use(graphviz);
 mdit.use(githubAlerts);
 mdit.use(mermaid);
