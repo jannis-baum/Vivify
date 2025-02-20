@@ -11,7 +11,7 @@ export default function copycode(md: MarkdownIt) {
 <div class="pre-wrapper" style="position: relative">
     ${renderedPreBlock}
     <div class="copy-wrapper">
-        <button class="copy-button">${copyIcon}</button>
+        <button class="copy-button" data-clipboard-text="TODO: Implement proper copy content">${copyIcon}</button>
     </div>
 </div>
 `;
