@@ -19,6 +19,14 @@
     --icon-file: var(--text-secondary);
     --icon-back: var(--text-secondary);
 
+    /* Code Copy Icons */
+    --icon-copy-primary: var(--text-primary);
+    --icon-copy-secondary: var(--border-regular);
+    --icon-check-primary: #0f0;
+    --icon-check-secondary: #0a0;
+    --icon-x-primary: #f00;
+    --icon-x-secondary: #a00;
+
     --syntax-text: var(--text-primary);
     --syntax-keyword: #aed7ff;
     --syntax-entity: #aeafff;

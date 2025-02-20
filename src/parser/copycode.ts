@@ -2,6 +2,8 @@ import MarkdownIt from 'markdown-it';
 import octicons from '@primer/octicons';
 
 const copyIcon = octicons['copy'].toSVG({ class: 'icon-copy' });
+const checkIcon = octicons['check'].toSVG({ class: 'icon-check' });
+const xIcon = octicons['x'].toSVG({ class: 'icon-x' });
 
 export default function copycode(md: MarkdownIt) {
     const defaultRender = md.renderer.rules.fence!;
@@ -11,7 +13,11 @@ export default function copycode(md: MarkdownIt) {
 <div class="pre-wrapper" style="position: relative">
     ${renderedPreBlock}
     <div class="copy-wrapper">
-        <button class="copy-button" data-clipboard-text="TODO: Implement proper copy content">${copyIcon}</button>
+        <button class="copy-button" data-clipboard-text="TODO: Implement proper copy content">
+            ${copyIcon}
+            ${checkIcon}
+            ${xIcon}
+        </button>
     </div>
 </div>
 `;
