@@ -193,6 +193,7 @@ blockquote {
     border: 0;
     border-radius: 0.4rem;
     background: none;
+    fill: var(--copy-button-fg);
     opacity: 0;
     outline: none;
     cursor: pointer;
@@ -203,10 +204,7 @@ pre:hover + .copy-wrapper .copy-button {
 }
 .copy-button:hover {
     opacity: 1;
-    background-color: var(--border-regular);
-}
-.copy-button {
-    fill: var(--text-primary);
+    background-color: var(--copy-button-bg);
 }
 
 /* --------------------------------------------------------------------------
