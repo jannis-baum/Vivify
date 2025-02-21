@@ -9,15 +9,20 @@ export default function copycode(md: MarkdownIt) {
     const defaultRender = md.renderer.rules.fence!;
     md.renderer.rules.fence = (tokens, idx, options, env, self) => {
         const renderedPreBlock = defaultRender(tokens, idx, options, env, self);
+        const content = tokens[idx].content;
         return `
 <div class="pre-wrapper" style="position: relative">
     ${renderedPreBlock}
     <div class="copy-wrapper">
-        <button class="copy-button" data-clipboard-text="TODO: Implement proper copy content">
+        <button class="copy-button" data-clipboard-text="${content.replaceAll('"', '&quot;')}">
             ${copyIcon}
-            ${checkIcon}
-            ${xIcon}
         </button>
+        <div class="copy-success">
+            ${checkIcon}
+        </div>
+        <div class="copy-fail">
+            ${xIcon}
+        </div>
     </div>
 </div>
 `;

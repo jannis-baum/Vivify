@@ -19,15 +19,12 @@
     --icon-file: var(--text-secondary);
     --icon-back: var(--text-secondary);
 
-    /* Code Copy Icons */
-    --icon-copy-fg: #aaa;
-    --icon-copy-bg: #333;
-    --icon-check-fg: #ddffcc;
-    --icon-check-bg: #5c993d;
-    --icon-x-fg: #ffcccc;
-    --icon-x-bg: #993d3d;
-    --copy-button-fg: var(--icon-copy-fg)
-    --copy-button-bg: var(--icon-copy-bg)
+    --copy-button-fg: #aaa;
+    --copy-button-bg: #333;
+    --copy-success-fg: #ddffcc;
+    --copy-success-bg: #5c993d;
+    --copy-fail-fg: #ffcccc;
+    --copy-fail-bg: #993d3d;
 
     --syntax-text: var(--text-primary);
     --syntax-keyword: #aed7ff;
@@ -79,15 +76,12 @@
         --icon-file: #636c76;
         --icon-back: var(--text-secondary);
 
-        /* Code Copy Icons */
-        --icon-copy-fg: #1f2328;
-        --icon-copy-bg: #e7e9eb;
-        --icon-check-fg: #154000;
-        --icon-check-bg: #c7e6b8;
-        --icon-x-fg: #400000;
-        --icon-x-bg: #e6b8b8;
-        --copy-button-fg: var(--icon-copy-fg)
-        --copy-button-bg: var(--icon-copy-bg)
+        --copy-button-fg: #1f2328;
+        --copy-button-bg: #e7e9eb;
+        --copy-success-fg: #154000;
+        --copy-success-bg: #c7e6b8;
+        --copy-fail-fg: #400000;
+        --copy-fail-bg: #e6b8b8;
 
         /* source for light mode syntax theme:
          * https://github.com/highlightjs/highlight.js/blob/main/src/styles/github.css
