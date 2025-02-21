@@ -22,10 +22,10 @@
     /* Code Copy Icons */
     --icon-copy-fg: #aaa;
     --icon-copy-bg: #333;
-    --icon-check-fg: #0f0;
-    --icon-check-bg: #0a0;
-    --icon-x-fg: #f00;
-    --icon-x-bg: #a00;
+    --icon-check-fg: #ddffcc;
+    --icon-check-bg: #5c993d;
+    --icon-x-fg: #ffcccc;
+    --icon-x-bg: #993d3d;
     --copy-button-fg: var(--icon-copy-fg)
     --copy-button-bg: var(--icon-copy-bg)
 
@@ -82,10 +82,10 @@
         /* Code Copy Icons */
         --icon-copy-fg: #1f2328;
         --icon-copy-bg: #e7e9eb;
-        --icon-check-fg: #0f0;
-        --icon-check-bg: #0a0;
-        --icon-x-fg: #f00;
-        --icon-x-bg: #a00;
+        --icon-check-fg: #154000;
+        --icon-check-bg: #c7e6b8;
+        --icon-x-fg: #400000;
+        --icon-x-bg: #e6b8b8;
         --copy-button-fg: var(--icon-copy-fg)
         --copy-button-bg: var(--icon-copy-bg)
 
