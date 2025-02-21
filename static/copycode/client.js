@@ -1,5 +1,7 @@
 let clipboard = new ClipboardJS('.copy-button');
 
+//TODO: Fix Foreground spelling
+
 // Setup copy button icons
 const Icons = {
     Copy: {
@@ -18,34 +20,34 @@ const Icons = {
         BackgroundColor: '',
     },
 };
+resetButtons();
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', resetButtons);
+
+function resetButtons() {
+    getIconColors();
+    document.querySelectorAll('.copy-button').forEach((btn) => {
+        setIcon(btn, Icons.Copy);
+    });
+}
 
 // Get icon color values from css
 function getIconColors() {
+    console.log('getting colors');
     let element = window.getComputedStyle(document.documentElement);
     Object.entries(Icons).forEach(([, icon]) => {
         icon.ForgroundColor = element.getPropertyValue(`--${icon.Class}-primary`);
         icon.BackgroundColor = element.getPropertyValue(`--${icon.Class}-secondary`);
     });
 }
-getIconColors();
-
-// TODO: add event handle for color scheme change
-
-// TODO: Replace this with a loop of the setIcon function
-document.querySelectorAll('.icon-check').forEach(function (icon) {
-    icon.style.display = 'none';
-});
-document.querySelectorAll('.icon-x').forEach(function (icon) {
-    icon.style.display = 'none';
-});
 
 function setIcon(btn, icon) {
     for (let child of btn.children) {
         console.log(child.classList.contains(icon.Class));
         if (child.classList.contains(icon.Class)) {
             child.style.display = 'inline-block';
-            btn.style.fill = icon.ForgroundColor;
-            btn.style.background = icon.BackgroundColor;
+            btn.style.setProperty('--copy-button-fg', icon.ForgroundColor);
+            btn.style.setProperty('--copy-button-bg', icon.BackgroundColor);
+            //btn.style.background = icon.BackgroundColor;
         } else {
             child.style.display = 'none';
         }

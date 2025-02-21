@@ -203,10 +203,10 @@ pre:hover + .copy-wrapper .copy-button {
 }
 .copy-button:hover {
     opacity: 1;
-    background-color: var(--border-regular);
+    background-color: var(--copy-button-bg);
 }
 .copy-button {
-    fill: var(--text-primary);
+    fill: var(--copy-button-fg);
 }
 
 /* --------------------------------------------------------------------------
