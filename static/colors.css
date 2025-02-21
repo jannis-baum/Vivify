@@ -20,14 +20,14 @@
     --icon-back: var(--text-secondary);
 
     /* Code Copy Icons */
-    --icon-copy-primary: #aaa;
-    --icon-copy-secondary: #333;
-    --icon-check-primary: #0f0;
-    --icon-check-secondary: #0a0;
-    --icon-x-primary: #f00;
-    --icon-x-secondary: #a00;
-    --copy-button-fg: var(--icon-copy-primary)
-    --copy-button-bg: var(--icon-copy-secondary)
+    --icon-copy-fg: #aaa;
+    --icon-copy-bg: #333;
+    --icon-check-fg: #0f0;
+    --icon-check-bg: #0a0;
+    --icon-x-fg: #f00;
+    --icon-x-bg: #a00;
+    --copy-button-fg: var(--icon-copy-fg)
+    --copy-button-bg: var(--icon-copy-bg)
 
     --syntax-text: var(--text-primary);
     --syntax-keyword: #aed7ff;
@@ -80,14 +80,14 @@
         --icon-back: var(--text-secondary);
 
         /* Code Copy Icons */
-        --icon-copy-primary: #1f2328;
-        --icon-copy-secondary: #e7e9eb;
-        --icon-check-primary: #0f0;
-        --icon-check-secondary: #0a0;
-        --icon-x-primary: #f00;
-        --icon-x-secondary: #a00;
-        --copy-button-fg: var(--icon-copy-primary)
-        --copy-button-bg: var(--icon-copy-secondary)
+        --icon-copy-fg: #1f2328;
+        --icon-copy-bg: #e7e9eb;
+        --icon-check-fg: #0f0;
+        --icon-check-bg: #0a0;
+        --icon-x-fg: #f00;
+        --icon-x-bg: #a00;
+        --copy-button-fg: var(--icon-copy-fg)
+        --copy-button-bg: var(--icon-copy-bg)
 
         /* source for light mode syntax theme:
          * https://github.com/highlightjs/highlight.js/blob/main/src/styles/github.css
