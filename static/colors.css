@@ -19,6 +19,13 @@
     --icon-file: var(--text-secondary);
     --icon-back: var(--text-secondary);
 
+    --copy-button-fg: #aaa;
+    --copy-button-bg: #333;
+    --copy-success-fg: #ddffcc;
+    --copy-success-bg: #5c993d;
+    --copy-fail-fg: #ffcccc;
+    --copy-fail-bg: #993d3d;
+
     --syntax-text: var(--text-primary);
     --syntax-keyword: #aed7ff;
     --syntax-entity: #aeafff;
@@ -68,6 +75,13 @@
         --icon-directory: #54aeff;
         --icon-file: #636c76;
         --icon-back: var(--text-secondary);
+
+        --copy-button-fg: #1f2328;
+        --copy-button-bg: #e7e9eb;
+        --copy-success-fg: #154000;
+        --copy-success-bg: #c7e6b8;
+        --copy-fail-fg: #400000;
+        --copy-fail-bg: #e6b8b8;
 
         /* source for light mode syntax theme:
          * https://github.com/highlightjs/highlight.js/blob/main/src/styles/github.css
