@@ -89,7 +89,6 @@ router.get(/.*/, async (req: Request, res: Response) => {
             ${config.scripts ? `<script type="text/javascript">${config.scripts}</script>` : ''}
             <script type="module" src="/static/client.mjs"></script>
             <script type="text/javascript" src="/static/copycode/clipboard.min.js"></script>
-            <script type="text/javascript" src="/static/copycode/client.js"></script>
         </html>
     `);
 });
