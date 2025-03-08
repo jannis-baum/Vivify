@@ -97,4 +97,3 @@ function showNotification(btn, notify) {
         notificationElement.style.display = 'none';
     }, 2000);
 }
-
