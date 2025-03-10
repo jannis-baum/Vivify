@@ -17,10 +17,10 @@ export default function copycode(md: MarkdownIt) {
         <button class="copy-button" data-clipboard-text="${content.replaceAll('"', '&quot;')}">
             ${copyIcon}
         </button>
-        <div class="copy-success">
+        <div class="copy-success" style="display: none">
             ${checkIcon}
         </div>
-        <div class="copy-fail">
+        <div class="copy-fail" style="display: none">
             ${xIcon}
         </div>
     </div>

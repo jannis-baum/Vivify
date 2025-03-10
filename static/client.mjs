@@ -71,10 +71,6 @@ ws.addEventListener('open', () => {
 /* --------------------------------------------------------------------------
  * COPY CODE BUTTONS -------------------------------------------------------- */
 
-document.querySelectorAll('.copy-success, .copy-fail').forEach((element) => {
-    element.style.display = 'none';
-});
-
 const Notify = {
     Success: '.copy-success',
     Fail: '.copy-fail',
