@@ -9,6 +9,7 @@ import {
     IStream,
     MultilineString,
     IExecuteResult,
+    IUnrecognizedCell,
 } from '@jupyterlab/nbformat';
 import renderMarkdown from './markdown.js';
 import { Renderer } from './parser.js';
@@ -41,8 +42,17 @@ function escapeHTML(raw: string): string {
     return raw.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-function executionCount(count: ICell['execution_count']): string {
-    return contain(`[${count?.toString() ?? ' '}]:`, 'execution-count');
+interface JupyVivMetadata {
+    isRunning: boolean;
+}
+const jupyvivMetadataKey = 'jupyviv';
+function jupyvivMetadata(cell: ICodeCell | IUnrecognizedCell): JupyVivMetadata | undefined {
+    return cell.metadata[jupyvivMetadataKey] as JupyVivMetadata | undefined;
+}
+
+function executionCount(count: ICell['execution_count'], isRunning: boolean): string {
+    const label = isRunning ? '*' : (count?.toString() ?? ' ');
+    return contain(`[${label}]:`, 'execution-count');
 }
 
 const renderNotebook: Renderer = (content: string): string => {
@@ -85,7 +95,7 @@ const renderNotebook: Renderer = (content: string): string => {
             case 'execute_result': {
                 const displayData = (output as IExecuteResult).data;
                 return contain(
-                    [executionCount(output.execution_count), renderDisplayData(displayData)],
+                    [executionCount(output.execution_count, false), renderDisplayData(displayData)],
                     'output-execution-result',
                 );
             }
@@ -100,7 +110,7 @@ const renderNotebook: Renderer = (content: string): string => {
         switch (cell.cell_type) {
             case 'code':
                 const content = [
-                    executionCount(cell.execution_count),
+                    executionCount(cell.execution_count, jupyvivMetadata(cell)?.isRunning ?? false),
                     renderMarkdown(`\`\`\`${language}\n${source}\n\`\`\``),
                 ];
                 if (Array.isArray(cell.outputs)) {
