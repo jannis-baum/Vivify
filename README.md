@@ -20,7 +20,7 @@ features!
   
 If you need any additional features, feel free to [open an
 issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
-[contribute](CONTRIBUTING.md)!
+[contribute](docs/CONTRIBUTING.md)!
 
 ### Markdown features
 
