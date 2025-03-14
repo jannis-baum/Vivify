@@ -71,20 +71,9 @@ ws.addEventListener('open', () => {
 /* --------------------------------------------------------------------------
  * COPY CODE BUTTONS -------------------------------------------------------- */
 
-const Notify = {
-    Success: '.copy-success',
-    Fail: '.copy-fail',
-};
-
-let clipboard = new ClipboardJS('.copy-button');
-
-clipboard.on('success', function (e) {
-    showNotification(e.trigger, Notify.Success);
-});
-
-clipboard.on('error', function (e) {
-    showNotification(e.trigger, Notify.Fail);
-});
+const clipboard = new ClipboardJS('.copy-button');
+clipboard.on('success', (e) => showNotification(e.trigger, '.copy-success'));
+clipboard.on('error', (e) => showNotification(e.trigger, '.copy-fail'));
 
 function showNotification(btn, notify) {
     const notificationElement = btn.parentElement.querySelector(notify);
