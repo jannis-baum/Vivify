@@ -201,9 +201,9 @@ blockquote {
     border: 0;
     border-radius: 0.4rem;
     background: none;
-    fill: var(--copy-button-fg);
+    fill: var(--text-tertiary);
     cursor: pointer;
-    transition: opacity 0.2s, background 0.2s;
+    transition: opacity 0.1s, background 0.1s;
 }
 .copy-button {
     opacity: 0;
@@ -211,17 +211,9 @@ blockquote {
 pre:hover + .copy-wrapper > .copy-button {
     opacity: 0.3;
 }
-.copy-button:hover {
+.copy-button:hover, .copy-success, .copy-fail {
     opacity: 1;
-    background-color: var(--copy-button-bg);
-}
-.copy-success {
-    background: var(--copy-success-bg);
-    fill: var(--copy-success-fg);
-}
-.copy-fail {
-    background: var(--copy-fail-bg);
-    fill: var(--copy-fail-fg);
+    background: var(--bg-tertiary);
 }
 
 /* --------------------------------------------------------------------------
