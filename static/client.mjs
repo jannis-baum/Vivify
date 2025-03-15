@@ -67,3 +67,18 @@ ws.addEventListener('message', async (event) => {
 ws.addEventListener('open', () => {
     ws.send(`PATH: ${window.VIV_PATH}`);
 });
+
+/* --------------------------------------------------------------------------
+ * COPY CODE BUTTONS -------------------------------------------------------- */
+
+const clipboard = new ClipboardJS('.copy-button');
+clipboard.on('success', (e) => showNotification(e.trigger, '.copy-success'));
+clipboard.on('error', (e) => showNotification(e.trigger, '.copy-fail'));
+
+function showNotification(btn, notify) {
+    const notificationElement = btn.parentElement.querySelector(notify);
+    notificationElement.style.display = 'flex';
+    setTimeout(() => {
+        notificationElement.style.display = 'none';
+    }, 2000);
+}
