@@ -181,6 +181,42 @@ blockquote {
 }
 
 /* --------------------------------------------------------------------------
+ * COPY-CODE-BUTTON --------------------------------------------------------- */
+
+.copy-wrapper {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+.copy-button, .copy-success, .copy-fail {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    width: 2rem;
+    padding: 0.4rem;
+    border: 0;
+    border-radius: 0.4rem;
+    background: none;
+    fill: var(--text-tertiary);
+    cursor: pointer;
+    transition: opacity 0.1s, background 0.1s;
+}
+.copy-button {
+    opacity: 0;
+}
+pre:hover + .copy-wrapper > .copy-button {
+    opacity: 0.3;
+}
+.copy-button:hover, .copy-success, .copy-fail {
+    opacity: 1;
+    background: var(--bg-tertiary);
+}
+
+/* --------------------------------------------------------------------------
  * MISCELLANEOUS ------------------------------------------------------------ */
 
 /* headings */
