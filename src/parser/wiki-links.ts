@@ -17,7 +17,7 @@ export default function wikiLinkPlugin(md: MarkdownIt): void {
 
         if (!silent) {
             const content = state.src.slice(start + 2, end - 2);
-            const href = content + '.md';
+            const href = content.indexOf('.') > -1 ? content : content + '.md';
 
             // Create link tokens
             const token = state.push('link_open', 'a', 1);
