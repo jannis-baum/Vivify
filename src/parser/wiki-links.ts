@@ -1,4 +1,5 @@
 import type MarkdownIt from 'markdown-it';
+import { basename as pbasename } from 'path';
 
 export default function wikiLinkPlugin(md: MarkdownIt): void {
     md.inline.ruler.before('link', 'wiki_link', (state, silent) => {
@@ -17,7 +18,8 @@ export default function wikiLinkPlugin(md: MarkdownIt): void {
 
         if (!silent) {
             const content = state.src.slice(start + 2, end - 2);
-            const href = content.indexOf('.') > -1 ? content : content + '.md';
+            const hasExtension = pbasename(content).indexOf('.') > -1;
+            const href = hasExtension ? content : content + '.md';
 
             // Create link tokens
             const token = state.push('link_open', 'a', 1);
