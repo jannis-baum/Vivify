@@ -12,6 +12,12 @@ Test various other Markdown syntax here, starting with the table of contents
 
 See basic syntax [here](markdown-basic.md), and extended syntax [here](markdown-extended.md)!
 
+### Wiki links
+
+With the syntax `[[relative-file]]` we can also link to other files with an
+implicit `.md`, e.g. to [[markdown-basic]], or also to any file with explicit
+extensions like [[markdown-basic.md]]
+
 ## Math
 
 Let's define the Normal distribution $N(x; \mu, \sigma^2)$ as follows.
