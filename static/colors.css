@@ -1,5 +1,6 @@
 /* --------------------------------------------------------------------------
  * DARK MODE ---------------------------------------------------------------- */
+/* from https://github.com/jannis-baum/dotfiles/blob/main/lib/color-schemes/jellyfish.yaml */
 
 :root {
     --bg-primary: black;
@@ -47,10 +48,27 @@
     --alert-caution: #ff5f5f;
 
     --ipynb-bg-error: rgba(255, 0, 0, 0.1);
+    --ipynb-ansi-black: #616161;
+    --ipynb-ansi-brblack: #8e8e8e;
+    --ipynb-ansi-red: #ff8272;
+    --ipynb-ansi-brred: #ffc4bd;
+    --ipynb-ansi-green: #b4fa72;
+    --ipynb-ansi-brgreen: #d6fcb9;
+    --ipynb-ansi-yellow: #fefdc2;
+    --ipynb-ansi-bryellow: #fefdd5;
+    --ipynb-ansi-blue: #a5d5fe;
+    --ipynb-ansi-brblue: #c1e3fe;
+    --ipynb-ansi-magenta: #ff8ffd;
+    --ipynb-ansi-brmagenta: #ffb1fe;
+    --ipynb-ansi-cyan: #d0d1fe;
+    --ipynb-ansi-brcyan: #e5e6fe;
+    --ipynb-ansi-white: #f1f1f1;
+    --ipynb-ansi-brwhite: #fefefe;
 }
 
 /* --------------------------------------------------------------------------
  * LIGHT MODE --------------------------------------------------------------- */
+/* adapted from GitHub's light theme */
 
 @media (prefers-color-scheme: light) {
     :root {
@@ -102,5 +120,21 @@
         --alert-caution: #cf222e;
 
         --ipynb-bg-error: rgba(255, 0, 0, 0.1);
+        --ipynb-ansi-black: #3e424d;
+        --ipynb-ansi-brblack: #282c36;
+        --ipynb-ansi-red: #e75c58;
+        --ipynb-ansi-brred: #b22b31;
+        --ipynb-ansi-green: #00a250;
+        --ipynb-ansi-brgreen: #007427;
+        --ipynb-ansi-yellow: #ddb62b;
+        --ipynb-ansi-bryellow: #b27d12;
+        --ipynb-ansi-blue: #208ffb;
+        --ipynb-ansi-brblue: #0065ca;
+        --ipynb-ansi-magenta: #d160c4;
+        --ipynb-ansi-brmagenta: #a03196;
+        --ipynb-ansi-cyan: #60c6c8;
+        --ipynb-ansi-brcyan: #258f8f;
+        --ipynb-ansi-white: #c5c1b4;
+        --ipynb-ansi-brwhite: #a1a6b2;
     }
 }

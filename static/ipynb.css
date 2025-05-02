@@ -27,3 +27,46 @@
     padding: unset;
     background-color: unset;
 }
+
+/* --------------------------------------------------------------------------
+ * ANSI COLORS -------------------------------------------------------------- */
+
+.ansi-black-fg { color: var(--ipynb-ansi-black); }
+.ansi-black-bg { background-color: var(--ipynb-ansi-black); }
+.ansi-bright-black-fg { color: var(--ipynb-ansi-brblack); }
+.ansi-bright-black-bg { background-color: var(--ipynb-ansi-brblack); }
+
+.ansi-red-fg { color: var(--ipynb-ansi-red); }
+.ansi-red-bg { background-color: var(--ipynb-ansi-red); }
+.ansi-bright-red-fg { color: var(--ipynb-ansi-brred); }
+.ansi-bright-red-bg { background-color: var(--ipynb-ansi-brred); }
+
+.ansi-green-fg { color: var(--ipynb-ansi-green); }
+.ansi-green-bg { background-color: var(--ipynb-ansi-green); }
+.ansi-bright-green-fg { color: var(--ipynb-ansi-brgreen); }
+.ansi-bright-green-bg { background-color: var(--ipynb-ansi-brgreen); }
+
+.ansi-yellow-fg { color: var(--ipynb-ansi-yellow); }
+.ansi-yellow-bg { background-color: var(--ipynb-ansi-yellow); }
+.ansi-bright-yellow-fg { color: var(--ipynb-ansi-bryellow); }
+.ansi-bright-yellow-bg { background-color: var(--ipynb-ansi-bryellow); }
+
+.ansi-blue-fg { color: var(--ipynb-ansi-blue); }
+.ansi-blue-bg { background-color: var(--ipynb-ansi-blue); }
+.ansi-bright-blue-fg { color: var(--ipynb-ansi-brblue); }
+.ansi-bright-blue-bg { background-color: var(--ipynb-ansi-brblue); }
+
+.ansi-magenta-fg { color: var(--ipynb-ansi-magenta); }
+.ansi-magenta-bg { background-color: var(--ipynb-ansi-magenta); }
+.ansi-bright-magenta-fg { color: var(--ipynb-ansi-brmagenta); }
+.ansi-bright-magenta-bg { background-color: var(--ipynb-ansi-brmagenta); }
+
+.ansi-cyan-fg { color: var(--ipynb-ansi-cyan); }
+.ansi-cyan-bg { background-color: var(--ipynb-ansi-cyan); }
+.ansi-bright-cyan-fg { color: var(--ipynb-ansi-brcyan); }
+.ansi-bright-cyan-bg { background-color: var(--ipynb-ansi-brcyan); }
+
+.ansi-white-fg { color: var(--ipynb-ansi-white); }
+.ansi-white-bg { background-color: var(--ipynb-ansi-white); }
+.ansi-bright-white-fg { color: var(--ipynb-ansi-brwhite); }
+.ansi-bright-white-bg { background-color: var(--ipynb-ansi-brwhite); }
