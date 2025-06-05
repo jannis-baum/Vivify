@@ -33,8 +33,27 @@ ws.addEventListener('message', async (event) => {
 
     switch (key) {
         case 'UPDATE':
-            document.getElementById('body-content').innerHTML = value;
+            const container = document.getElementById('body-content');
+            container.innerHTML = value;
+
             await mermaid.run({ querySelector: '.mermaid' });
+
+            // find & execute <script> tags in updated content to prevent
+            // having to hard-reload page for added JS
+            const scripts = container.querySelectorAll('script');
+            scripts.forEach((script) => {
+                // create new script element that is copy of original
+                const newScript = document.createElement('script');
+                // copy attributes (like type, src, etc.)
+                for (let attr of script.attributes) {
+                    newScript.setAttribute(attr.name, attr.value);
+                }
+                // if it's an inline script, copy its content
+                if (!script.src) newScript.textContent = script.textContent;
+
+                // replace the old script with the new one to trigger execution
+                script.parentNode.replaceChild(newScript, script);
+            });
             break;
 
         case 'SCROLL':
