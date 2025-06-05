@@ -72,7 +72,16 @@ const renderNotebook: Renderer = (content: string): string => {
             ['text/plain', (content) => contain(escapeHTML(content), 'output-plain', 'pre')],
         ];
         const result = renderMap.find(([mimeType]) => mimeType in data);
-        if (!result) return '';
+        if (!result) {
+            const mimeTypeRepr = Object.keys(data)
+                .map((key) => `"${key}"`)
+                .join(', ');
+            return contain(
+                `Vivify: No known output type in [${mimeTypeRepr}]`,
+                'output-error',
+                'pre',
+            );
+        }
         const [format, render] = result;
         return render(joinMultilineString(data[format] as MultilineString));
     }
