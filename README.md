@@ -65,8 +65,15 @@ directory as an argument! See below for installation options.
 
 ### Packaged
 
-- [Homebrew](https://brew.sh): `brew install jannis-baum/tap/vivify`
-- [AUR](https://aur.archlinux.org/packages/vivify): e.g. `yay -S vivify`
+> [!NOTE]
+> Missing a package for your system or package manager? Help us fill the gap by
+> creating and contributing one – we're happy about PRs and will help with any
+> questions you might have.
+
+- `brew install jannis-baum/tap/vivify` for [Homebrew](https://brew.sh)
+  (maintained by [@jannis-baum](https://github.com/jannis-baum))
+- `yay -S vivify` for [AUR](https://aur.archlinux.org/packages/vivify)
+  (maintained by [@tuurep](https://github.com/tuurep))
 
 ### Manual
 
@@ -91,16 +98,3 @@ directory as an argument! See below for installation options.
 
 Is something not working or do you have any questions? [Start a
 discussion!](https://github.com/jannis-baum/vivify/discussions/new?category=q-a)
-
-## Acknowledgments
-
-I have been using
-[iamcco/markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
-for the longest time and started this project because
-
-1. I wanted a Markdown viewer that works with and without Vim and
-2. I wanted a Markdown viewer that supports file links like in GitHub.
-
-Looking at
-[iamcco/markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
-helped in development, particularly with regard to which `npm` packages to use.
