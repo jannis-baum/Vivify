@@ -74,6 +74,16 @@ keys:
   }
   ```
 
+Vivify reads the config on startup, i.e. when you want it to reload the config,
+you have to restart Vivify. You can do this for example by running
+
+```sh
+pkill -f vivify-server
+```
+
+Note that refreshing an open Vivify tab won't work at this point since the
+server will no longer be running. You can just run `viv` to open it again.
+
 ## Environment variables
 
 In addition to these config file entries, the following options can be set
