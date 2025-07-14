@@ -1,4 +1,6 @@
 # Vivify assets
 
-This is an orphan branch to store assets as explained in [this
-tutorial](https://gist.github.com/joncardasis/e6494afd538a400722545163eb2e1fa5).
+This is an orphan branch to store assets. The GIFs were created with
+[showcase.spoon](https://github.com/jannis-baum/showcase.spoon), where you will
+also find explanations about how the whole setup with the assets branch and
+light/dark mode images works.

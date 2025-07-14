@@ -1,0 +1,45 @@
+# vivify showcase script
+# - setup: kitty terminal + zen browser 1/2 split
+# - start with kitty in `tests/rendering` directory
+# - run with RunShowcase from https://github.com/jannis-baum/showcase.spoon
+# - after script ends
+#   - click on navigation button for file browser
+#   - open jupyter notebook testing file
+
+# initial delay to get ready
+execute: hs.application.get("kitty"):activate()
+delay: 1
+
+# open vivify
+type: viv markdown-extended.md
+delay: 0.5
+key: return
+delay: 0.5
+
+# back to kitty & open in vim
+execute: hs.application.get("kitty"):activate()
+type: nvim markdown-extended.md
+delay: 0.5
+key: return
+
+# go down, up & add content
+delay: 1
+type: G
+delay: 1
+type: gg
+delay: 1
+type: O
+key: escape
+type: O# Automatic syncing
+key: return
+key: return
+delay: 0.3
+type: The preview follows Vim's scroll position & automatically refreshes :tada:
+key: return
+key: return
+delay: 1
+type: Vivify also has a file browser and can even display Jupyter Notebooks! :eyes:
+delay: 0.3
+
+# back to zen
+execute: hs.application.get("Zen"):activate()
