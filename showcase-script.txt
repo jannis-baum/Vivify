@@ -6,8 +6,15 @@
 #   - click on navigation button for file browser
 #   - open jupyter notebook testing file
 
-# initial delay to get ready
 execute: hs.application.get("kitty"):activate()
+
+# start recording
+key: cmd-shift 5
+delay: 0.3
+key: return
+delay: 0.3
+
+# initial delay to get ready
 delay: 1
 
 # open vivify
