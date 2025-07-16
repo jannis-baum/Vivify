@@ -5,6 +5,12 @@ render Markdown and Jupyter Notebooks, but will also serve as a directory
 browser and let you view code files with syntax highlighting. See below for
 features!
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/jannis-baum/Vivify/refs/heads/assets/showcase-dark.gif">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/jannis-baum/Vivify/refs/heads/assets/showcase-light.gif">
+  <img alt="Showcase" src="https://raw.githubusercontent.com/jannis-baum/Vivify/refs/heads/assets/showcase-dark.gif">
+</picture>
+
 ## Features
 
 - view Markdown with various [features](#markdown-features)
