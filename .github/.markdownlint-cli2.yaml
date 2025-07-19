@@ -18,3 +18,7 @@ config:
   MD033:
     allowed_elements:
       - 'kbd'
+      # for light/dark mode image alternatives
+      - 'picture'
+      - 'source'
+      - 'img'
