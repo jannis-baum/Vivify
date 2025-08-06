@@ -59,10 +59,17 @@ jobs:
           name: vivify-linux
           path: build/linux
 
-  build-macos-arm:
-    name: Build MacOS ARM
+  build-macos:
+    name: Build MacOS ${{ matrix.arch }}
     needs: [test]
-    runs-on: macos-latest
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            arch: arm
+          - os: macos-13
+            arch: x86
+    runs-on: ${{ matrix.os }}
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -71,7 +78,7 @@ jobs:
         run: |
           brew update
           brew install node
-          brew deps --installed --direct node > macos-deps-arm.txt
+          brew deps --installed --direct node > macos-deps-${{ matrix.arch }}.txt
       - name: build
         run: |
           yarn
@@ -79,45 +86,17 @@ jobs:
       - name: upload artifact (macOS build)
         uses: actions/upload-artifact@v4
         with:
-          name: vivify-macos-arm
+          name: vivify-macos-${{ matrix.arch }}
           path: build/macos
       - name: upload artifact (macOS dependency list)
         uses: actions/upload-artifact@v4
         with:
-          name: macos-deps-arm
-          path: macos-deps-arm.txt
-
-  build-macos-x86:
-    name: Build MacOS x86
-    needs: [test]
-    runs-on: macos-13
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-      - name: get Homebrew Node
-        # lists node dependencies, these need to be mirrored for the Homebrew package
-        run: |
-          brew update
-          brew install node
-          brew deps --installed --direct node > macos-deps-x86.txt
-      - name: build
-        run: |
-          yarn
-          VIV_VERSION="${{ github.ref_name }}" make macos
-      - name: upload artifact (macOS build)
-        uses: actions/upload-artifact@v4
-        with:
-          name: vivify-macos-x86
-          path: build/macos
-      - name: upload artifact (macOS dependency list)
-        uses: actions/upload-artifact@v4
-        with:
-          name: macos-deps-x86
-          path: macos-deps-x86.txt
+          name: macos-deps-${{ matrix.arch }}
+          path: macos-deps-${{ matrix.arch }}.txt
 
   release:
     name: Release
-    needs: [build-linux, build-macos-arm, build-macos-x86]
+    needs: [build-linux, build-macos]
     runs-on: ubuntu-latest
     steps:
       # we check out the repo to get information from tags
@@ -180,9 +159,13 @@ jobs:
               >> release.md
           echo -e "macOS: \`$(sha256sum vivify-macos-x86.tar.gz | cut -d' ' -f1)\`" \
               >> release.md
-          echo -e '\n**macOS Homebrew dependencies**\n\n```plain' \
+          echo -e '\n**macOS Homebrew ARM dependencies**\n\n```plain' \
               >> release.md
           cat macos-deps-arm/macos-deps-arm.txt \
+              >> release.md
+          echo -e '```\n\n' \
+              >> release.md
+          echo -e '\n**macOS Homebrew x86 dependencies**\n\n```plain' \
               >> release.md
           cat macos-deps-x86/macos-deps-x86.txt \
               >> release.md
