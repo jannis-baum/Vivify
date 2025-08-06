@@ -155,22 +155,32 @@ jobs:
               >> release.md
           echo -e "Linux: \`$(sha256sum vivify-linux.tar.gz | cut -d' ' -f1)\`\\" \
               >> release.md
-          echo -e "macOS: \`$(sha256sum vivify-macos-arm.tar.gz | cut -d' ' -f1)\`" \
+          echo -e "macOS ARM: \`$(sha256sum vivify-macos-arm.tar.gz | cut -d' ' -f1)\`" \
               >> release.md
-          echo -e "macOS: \`$(sha256sum vivify-macos-x86.tar.gz | cut -d' ' -f1)\`" \
+          echo -e "macOS x86: \`$(sha256sum vivify-macos-x86.tar.gz | cut -d' ' -f1)\`" \
               >> release.md
-          echo -e '\n**macOS Homebrew ARM dependencies**\n\n```plain' \
-              >> release.md
-          cat macos-deps-arm/macos-deps-arm.txt \
-              >> release.md
-          echo -e '```\n\n' \
-              >> release.md
-          echo -e '\n**macOS Homebrew x86 dependencies**\n\n```plain' \
-              >> release.md
-          cat macos-deps-x86/macos-deps-x86.txt \
-              >> release.md
-          echo -e '```' \
-              >> release.md
+          if ! cmp -s macos-deps-arm/macos-deps-arm.txt macos-deps-x86/macos-deps-x86.txt; then
+            echo -e '\n**macOS Homebrew ARM dependencies**\n\n```plain' \
+                >> release.md
+            cat macos-deps-arm/macos-deps-arm.txt \
+                >> release.md
+            echo -e '```\n' \
+                >> release.md
+            echo -e '\n**macOS Homebrew x86 dependencies**\n\n```plain' \
+                >> release.md
+            cat macos-deps-x86/macos-deps-x86.txt \
+                >> release.md
+            echo -e '```' \
+                >> release.md
+          else
+            echo -e '\n**macOS Homebrew dependencies (shared across ARM and x86)**\n\n```plain' \
+                >> release.md
+            cat macos-deps-arm/macos-deps-arm.txt \
+                >> release.md
+            echo -e '```' \
+                >> release.md
+          fi
+
       - name: print release notes for logs
         run: cat release.md
 
