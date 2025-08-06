@@ -59,8 +59,8 @@ jobs:
           name: vivify-linux
           path: build/linux
 
-  build-macos:
-    name: Build MacOS
+  build-macos-arm:
+    name: Build MacOS ARM
     needs: [test]
     runs-on: macos-latest
     steps:
@@ -71,7 +71,7 @@ jobs:
         run: |
           brew update
           brew install node
-          brew deps --installed --direct node > macos-deps.txt
+          brew deps --installed --direct node > macos-deps-arm.txt
       - name: build
         run: |
           yarn
@@ -79,17 +79,45 @@ jobs:
       - name: upload artifact (macOS build)
         uses: actions/upload-artifact@v4
         with:
-          name: vivify-macos
+          name: vivify-macos-arm
           path: build/macos
       - name: upload artifact (macOS dependency list)
         uses: actions/upload-artifact@v4
         with:
-          name: macos-deps
-          path: macos-deps.txt
+          name: macos-deps-arm
+          path: macos-deps-arm.txt
+
+  build-macos-x86:
+    name: Build MacOS x86
+    needs: [test]
+    runs-on: macos-13
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: get Homebrew Node
+        # lists node dependencies, these need to be mirrored for the Homebrew package
+        run: |
+          brew update
+          brew install node
+          brew deps --installed --direct node > macos-deps-x86.txt
+      - name: build
+        run: |
+          yarn
+          VIV_VERSION="${{ github.ref_name }}" make macos
+      - name: upload artifact (macOS build)
+        uses: actions/upload-artifact@v4
+        with:
+          name: vivify-macos-x86
+          path: build/macos
+      - name: upload artifact (macOS dependency list)
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-deps-x86
+          path: macos-deps-x86.txt
 
   release:
     name: Release
-    needs: [build-linux, build-macos]
+    needs: [build-linux, build-macos-arm, build-macos-x86]
     runs-on: ubuntu-latest
     steps:
       # we check out the repo to get information from tags
@@ -104,22 +132,33 @@ jobs:
         with:
           name: vivify-linux
           path: ./vivify-linux
-      - name: download macos artifact
+      - name: download macos arm artifact
         uses: actions/download-artifact@v4
         with:
-          name: vivify-macos
-          path: ./vivify-macos
+          name: vivify-macos-arm
+          path: ./vivify-macos-arm
+      - name: download macos x86 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vivify-macos-x86
+          path: ./vivify-macos-x86
       - name: fix permissions & archive
         run: |
-          chmod +x ./vivify-linux/* ./vivify-macos/*
+          chmod +x ./vivify-linux/* ./vivify-macos-arm/* ./vivify-macos-x86/*
           tar -czf vivify-linux.tar.gz vivify-linux
-          tar -czf vivify-macos.tar.gz vivify-macos
+          tar -czf vivify-macos-arm.tar.gz vivify-macos-arm
+          tar -czf vivify-macos-x86.tar.gz vivify-macos-x86
       # macos dependencies -----------------------------------------------------
-      - name: download macos dependencies
+      - name: download macos arm dependencies
         uses: actions/download-artifact@v4
         with:
-          name: macos-deps
-          path: macos-deps
+          name: macos-deps-arm
+          path: macos-deps-arm
+      - name: download macos x86 dependencies
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-deps-x86
+          path: macos-deps-x86
       # release notes ----------------------------------------------------------
       # actions/checkout seems to have a bug where annotated tags are converted
       # to simple tags so we have to fetch them explicitly again
@@ -137,11 +176,15 @@ jobs:
               >> release.md
           echo -e "Linux: \`$(sha256sum vivify-linux.tar.gz | cut -d' ' -f1)\`\\" \
               >> release.md
-          echo -e "macOS: \`$(sha256sum vivify-macos.tar.gz | cut -d' ' -f1)\`" \
+          echo -e "macOS: \`$(sha256sum vivify-macos-arm.tar.gz | cut -d' ' -f1)\`" \
+              >> release.md
+          echo -e "macOS: \`$(sha256sum vivify-macos-x86.tar.gz | cut -d' ' -f1)\`" \
               >> release.md
           echo -e '\n**macOS Homebrew dependencies**\n\n```plain' \
               >> release.md
-          cat macos-deps/macos-deps.txt \
+          cat macos-deps-arm/macos-deps-arm.txt \
+              >> release.md
+          cat macos-deps-x86/macos-deps-x86.txt \
               >> release.md
           echo -e '```' \
               >> release.md
