@@ -28,7 +28,6 @@
     "markdown-it-emoji": "^3.0.0",
     "markdown-it-footnote": "^4.0.0",
     "markdown-it-front-matter": "^0.2.4",
-    "markdown-it-github-alerts": "^1.0.0",
     "markdown-it-inject-linenumbers": "^0.3.0",
     "markdown-it-mark": "^4.0.0",
     "markdown-it-sub": "^2.0.0",

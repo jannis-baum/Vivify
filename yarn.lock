@@ -2599,11 +2599,6 @@ markdown-it-front-matter@^0.2.4:
   resolved "https://registry.yarnpkg.com/markdown-it-front-matter/-/markdown-it-front-matter-0.2.4.tgz#cf29bc8222149b53575699357b1ece697bf39507"
   integrity sha512-25GUs0yjS2hLl8zAemVndeEzThB1p42yxuDEKbd4JlL3jiz+jsm6e56Ya8B0VREOkNxLYB4TTwaoPJ3ElMmW+w==
 
-markdown-it-github-alerts@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/markdown-it-github-alerts/-/markdown-it-github-alerts-1.0.0.tgz#266683fda3fef2d0707eb69c5dd3fa4cf0e4386b"
-  integrity sha512-RU3cbB/ewujrDpYNdyabvp4CscZ5J/3D71NWbJW+JSA0nplfutIXDMCwtGWlMLwzgBDAYkFMvYGkigq8nWOVdA==
-
 markdown-it-inject-linenumbers@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/markdown-it-inject-linenumbers/-/markdown-it-inject-linenumbers-0.3.0.tgz#654364fa7a2dcb5f4461ef6d29d2603b74b29fd7"

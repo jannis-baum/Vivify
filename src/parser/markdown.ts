@@ -6,7 +6,7 @@ import highlight from './highlight.js';
 import graphviz from './dot.js';
 import mermaid from './mermaid.js';
 import wikiLinks from './wiki-links.js';
-import githubAlerts from 'markdown-it-github-alerts';
+import githubAlerts from './github-alerts.js';
 import config from '../config.js';
 import { Renderer } from './parser.js';
 
