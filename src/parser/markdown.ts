@@ -71,10 +71,8 @@ mdit.use(anchor, {
     }),
 });
 mdit.use(copycode);
-mdit.use(githubAlerts, {
-    markers: '*',
-});
 mdit.use(graphviz);
+mdit.use(githubAlerts);
 mdit.use(mermaid);
 mdit.use(wikiLinks);
 
