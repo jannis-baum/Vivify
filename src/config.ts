@@ -18,6 +18,7 @@ type Config = {
     /* eslint-disable @typescript-eslint/no-explicit-any */
     katexOptions?: any;
     tocOptions?: any;
+    alertsOptions?: any;
     /* eslint-enable @typescript-eslint/no-explicit-any */
 };
 

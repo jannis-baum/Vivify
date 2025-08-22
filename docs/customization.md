@@ -74,6 +74,9 @@ keys:
   }
   ```
 
+- **`"alertsOptions"`**\
+  Todo
+
 Vivify reads the config on startup, i.e. when you want it to reload the config,
 you have to restart Vivify. You can do this for example by running
 
