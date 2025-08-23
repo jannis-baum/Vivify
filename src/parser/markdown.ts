@@ -6,7 +6,7 @@ import highlight from './highlight.js';
 import graphviz from './dot.js';
 import mermaid from './mermaid.js';
 import wikiLinks from './wiki-links.js';
-import githubAlerts from './github-alerts.js';
+import alerts from './alerts.js';
 import config from '../config.js';
 import { Renderer } from './parser.js';
 
@@ -72,7 +72,7 @@ mdit.use(anchor, {
 });
 mdit.use(copycode);
 mdit.use(graphviz);
-mdit.use(githubAlerts);
+mdit.use(alerts);
 mdit.use(mermaid);
 mdit.use(wikiLinks);
 
