@@ -10,9 +10,9 @@ import octicons from '@primer/octicons';
 
 // config.json alertsOptions
 const icons: Record<string, string> = {};
-const titles = config.alertsOptions.titles ?? {};
-const matchCaseSensitive = config.alertsOptions.matchCaseSensitive ?? false;
-const classPrefix = config.alertsOptions.classPrefix ?? 'markdown-alert';
+const titles = config.alertsOptions?.titles ?? {};
+const matchCaseSensitive = config.alertsOptions?.matchCaseSensitive ?? false;
+const classPrefix = config.alertsOptions?.classPrefix ?? 'markdown-alert';
 
 const githubAlertsIcons: Record<string, string> = {
     note: 'info',
@@ -23,8 +23,14 @@ const githubAlertsIcons: Record<string, string> = {
 };
 const mergedIcons = {
     ...githubAlertsIcons,
-    ...config.alertsOptions.icons,
+    ...config.alertsOptions?.icons,
 };
+
+// Icon for markers that have no configured icon
+// Defaults to same as [!note]
+// Can also be customized separately
+mergedIcons['fallback'] ??= mergedIcons['note'];
+
 for (const marker in mergedIcons) {
     const octicon = mergedIcons[marker] as keyof typeof octicons;
     icons[marker] = octicons[octicon].toSVG();
@@ -54,7 +60,7 @@ const MarkdownItGitHubAlerts = (md: MarkdownIt) => {
                 if (!match) continue;
                 const type = match[1].toLowerCase() as keyof typeof icons;
                 const title = match[2].trim() || (titles[type] ?? capitalize(type));
-                const icon = icons[type] ?? icons['note'];
+                const icon = icons[type] ?? icons['fallback'];
                 firstContent.content = firstContent.content.slice(match[0].length).trimStart();
                 open.type = 'alert_open';
                 open.tag = 'div';
