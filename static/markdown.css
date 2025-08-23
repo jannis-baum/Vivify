@@ -142,19 +142,12 @@ blockquote {
     align-items: center;
     line-height: 1;
 }
-.markdown-alert .markdown-alert-title .octicon {
+.markdown-alert .markdown-alert-title svg {
     margin-right: 0.5rem;
     display: inline-block;
     overflow: visible !important;
     vertical-align: text-bottom;
     fill: currentColor;
-}
-/* default style for unconfigured custom markers (Obsidian Callout style) */
-.markdown-alert {
-    border-left: .25rem solid var(--alert-note);
-}
-.markdown-alert .markdown-alert-title {
-    color: var(--alert-note);
 }
 /* default styles for GitHub style markers */
 .markdown-alert-note {
@@ -186,6 +179,13 @@ blockquote {
 }
 .markdown-alert-caution .markdown-alert-title {
     color: var(--alert-caution);
+}
+/* default style for unconfigured custom markers (Obsidian Callout style) */
+.fallback-alert {
+    border-left: .25rem solid var(--alert-note);
+}
+.fallback-alert .markdown-alert-title {
+    color: var(--alert-note);
 }
 
 /* --------------------------------------------------------------------------
