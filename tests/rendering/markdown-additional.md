@@ -89,7 +89,7 @@ This paragraph has a red background color.{style=background-color:red}
 > Markers fall back to `[!NOTE]` by default
 >
 > Optionally, the fallback icon can be set separately as
-> `config.alertsOptions.icons.fallback`
+> `config.alertsOptions.fallbackIcon`
 
 > [!fOoBaR]
 > The marker is case-insensitive and turns into Title Case
