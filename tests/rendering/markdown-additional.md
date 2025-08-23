@@ -60,16 +60,16 @@ This paragraph has a red background color.{style=background-color:red}
 
 ### The 5 default GitHub style alerts
 
-> [!NOTE]  
+> [!NOTE]
 > Something to take into account
 
 > [!TIP]
 > Did you know you can do this and that
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > Crucial information here
 
-> [!WARNING]  
+> [!WARNING]
 > Critical content demanding immediate attention
 
 > [!CAUTION]
@@ -84,8 +84,12 @@ This paragraph has a red background color.{style=background-color:red}
 
 > [!CUSTOM]
 > Set custom icon and color for any marker
+
+> [!TIP] Unconfigured custom markers
+> Markers fall back to `[!NOTE]` by default
 >
-> If unconfigured, it's styled like 'Note'
+> Optionally, the fallback icon can be set separately as
+> `config.alertsOptions.icons.fallback`
 
 > [!fOoBaR]
 > The marker is case-insensitive and turns into Title Case
