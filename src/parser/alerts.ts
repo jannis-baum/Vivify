@@ -1,8 +1,12 @@
-// Derived from this plugin:
-// https://github.com/antfu/markdown-it-github-alerts
-
-// Copyright (c) 2022 Anthony Fu <https://github.com/antfu>
-// Licensed under the MIT License: https://opensource.org/licenses/MIT
+/*
+ * Derived and heavily modified from 'markdown-it-github-alerts':
+ * https://github.com/antfu/markdown-it-github-alerts
+ *
+ * Original Copyright (c) 2022 Anthony Fu <https://github.com/antfu>
+ * Licensed under the MIT License: https://opensource.org/licenses/MIT
+ *
+ * Modifications Copyright (c) 2025 Tuure Piitulainen <https://github.com/tuurep>
+ */
 
 import MarkdownIt from 'markdown-it';
 import config from '../config.js';
@@ -17,7 +21,6 @@ const resolveIcon = (icon: string): string => {
 };
 
 const titles = config.alertsOptions?.titles ?? {};
-const matchCaseSensitive = config.alertsOptions?.matchCaseSensitive ?? false;
 
 const githubAlertsIcons: Record<string, string> = {
     note: 'info',
@@ -41,11 +44,13 @@ const fallbackIconOpt = config.alertsOptions?.fallbackIcon ?? mergedIcons['note'
 const fallbackIcon = resolveIcon(fallbackIconOpt);
 
 const MarkdownItAlerts = (md: MarkdownIt) => {
-    const markerNameRE = '\\w+';
-    const RE = new RegExp(
-        `^\\\\?\\[\\!(${markerNameRE})\\]([^\\n\\r]*)`,
-        matchCaseSensitive ? '' : 'i',
-    );
+    // Allow multi word alphanumeric markers (includes underscore)
+    // Additionally allow dashes in marker
+    const markerRE = '[\\w- ]+';
+
+    // Match marker case insensitively
+    // Note: config icons and titles keys must be fully lower case
+    const RE = new RegExp(`^\\\\?\\[\\!(${markerRE})\\]([^\\n\\r]*)`, 'i');
 
     md.core.ruler.after('block', 'alerts', (state) => {
         const tokens = state.tokens;
@@ -62,33 +67,29 @@ const MarkdownItAlerts = (md: MarkdownIt) => {
                 if (!firstContent) continue;
                 const match = firstContent.content.match(RE);
                 if (!match) continue;
-                const type = match[1].toLowerCase() as keyof typeof resolvedIcons;
-                const title = match[2].trim() || (titles[type] ?? capitalize(type));
-                const isFallback = !(type in resolvedIcons);
-                const icon = isFallback ? fallbackIcon : resolvedIcons[type];
+                const marker = match[1].toLowerCase();
+                const title = match[2].trim() || (titles[marker] ?? capitalize(marker));
+                const isFallback = !(marker in resolvedIcons); // For styling unconfigured markers
+                const icon = isFallback ? fallbackIcon : resolvedIcons[marker];
                 firstContent.content = firstContent.content.slice(match[0].length).trimStart();
                 open.type = 'alert_open';
                 open.tag = 'div';
-                open.meta = {
-                    title,
-                    type,
-                    icon,
-                    isFallback,
-                };
+                open.meta = { marker, title, icon, isFallback };
                 close.type = 'alert_close';
                 close.tag = 'div';
             }
         }
     });
     md.renderer.rules.alert_open = function (tokens, idx) {
-        const { title, type, icon, isFallback } = tokens[idx].meta;
-        return `<div class="alert alert-${type} ${isFallback ? 'fallback-alert' : ''}">
+        const { marker, title, icon, isFallback } = tokens[idx].meta;
+        const markerId = marker.replace(/\s+/g, '-');
+        return `<div class="alert alert-${markerId} ${isFallback ? 'fallback-alert' : ''}">
                     <p class="alert-title">${icon}${title}</p>`;
     };
 };
 
-function capitalize(str: string) {
+const capitalize = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
-}
+};
 
 export default MarkdownItAlerts;
