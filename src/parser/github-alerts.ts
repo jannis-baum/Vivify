@@ -18,7 +18,6 @@ const resolveIcon = (icon: string): string => {
 
 const titles = config.alertsOptions?.titles ?? {};
 const matchCaseSensitive = config.alertsOptions?.matchCaseSensitive ?? false;
-const classPrefix = config.alertsOptions?.classPrefix ?? 'markdown-alert';
 
 const githubAlertsIcons: Record<string, string> = {
     note: 'info',
@@ -83,8 +82,8 @@ const MarkdownItGitHubAlerts = (md: MarkdownIt) => {
     });
     md.renderer.rules.alert_open = function (tokens, idx) {
         const { title, type, icon, isFallback } = tokens[idx].meta;
-        const classes = [classPrefix, `${classPrefix}-${type}`, isFallback ? 'fallback' : ''];
-        return `<div class="${classes.join(' ')}"><p class="${classPrefix}-title">${icon}${title}</p>`;
+        return `<div class="alert alert-${type} ${isFallback ? 'fallback-alert' : ''}">
+                    <p class="alert-title">${icon}${title}</p>`;
     };
 };
 

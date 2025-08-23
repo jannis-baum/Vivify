@@ -126,23 +126,23 @@ blockquote {
 }
 
 /* GitHub-style alerts */
-.markdown-alert {
+.alert {
     padding: 0.5rem 1rem;
     margin-bottom: 1rem;
 }
-.markdown-alert > :first-child {
+.alert > :first-child {
     margin-top: 0;
 }
-.markdown-alert > :last-child {
+.alert > :last-child {
     margin-bottom: 0;
 }
-.markdown-alert .markdown-alert-title {
+.alert .alert-title {
     display: flex;
     font-weight: 500;
     align-items: center;
     line-height: 1;
 }
-.markdown-alert .markdown-alert-title svg {
+.alert .alert-title svg {
     margin-right: 0.5rem;
     display: inline-block;
     overflow: visible !important;
@@ -150,41 +150,41 @@ blockquote {
     fill: currentColor;
 }
 /* default styles for GitHub style markers */
-.markdown-alert-note {
+.alert-note {
     border-left: .25rem solid var(--alert-note);
 }
-.markdown-alert-note .markdown-alert-title {
+.alert-note .alert-title {
     color: var(--alert-note);
 }
-.markdown-alert-tip {
+.alert-tip {
     border-left: .25rem solid var(--alert-tip);
 }
-.markdown-alert-tip .markdown-alert-title {
+.alert-tip .alert-title {
     color: var(--alert-tip);
 }
-.markdown-alert-important {
+.alert-important {
     border-left: .25rem solid var(--alert-important);
 }
-.markdown-alert-important .markdown-alert-title {
+.alert-important .alert-title {
     color: var(--alert-important);
 }
-.markdown-alert-warning {
+.alert-warning {
     border-left: .25rem solid var(--alert-warning);
 }
-.markdown-alert-warning .markdown-alert-title {
+.alert-warning .alert-title {
     color: var(--alert-warning);
 }
-.markdown-alert-caution {
+.alert-caution {
     border-left: .25rem solid var(--alert-caution);
 }
-.markdown-alert-caution .markdown-alert-title {
+.alert-caution .alert-title {
     color: var(--alert-caution);
 }
 /* default style for unconfigured custom markers (Obsidian Callout style) */
 .fallback-alert {
     border-left: .25rem solid var(--alert-note);
 }
-.fallback-alert .markdown-alert-title {
+.fallback-alert .alert-title {
     color: var(--alert-note);
 }
 
