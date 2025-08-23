@@ -40,14 +40,14 @@ for (const marker in mergedIcons) {
 const fallbackIconOpt = config.alertsOptions?.fallbackIcon ?? mergedIcons['note'];
 const fallbackIcon = resolveIcon(fallbackIconOpt);
 
-const MarkdownItGitHubAlerts = (md: MarkdownIt) => {
+const MarkdownItAlerts = (md: MarkdownIt) => {
     const markerNameRE = '\\w+';
     const RE = new RegExp(
         `^\\\\?\\[\\!(${markerNameRE})\\]([^\\n\\r]*)`,
         matchCaseSensitive ? '' : 'i',
     );
 
-    md.core.ruler.after('block', 'github-alerts', (state) => {
+    md.core.ruler.after('block', 'alerts', (state) => {
         const tokens = state.tokens;
         for (let i = 0; i < tokens.length; i++) {
             if (tokens[i].type === 'blockquote_open') {
@@ -91,4 +91,4 @@ function capitalize(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export default MarkdownItGitHubAlerts;
+export default MarkdownItAlerts;
