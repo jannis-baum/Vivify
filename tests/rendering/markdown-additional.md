@@ -91,8 +91,11 @@ This paragraph has a red background color.{style=background-color:red}
 > Optionally, the fallback icon can be set separately as
 > `config.alertsOptions.fallbackIcon`
 
-> [!fOoBaR]
-> The marker is case-insensitive and turns into Title Case
+> [!fOo baR Baz Qux]
+> The marker is case-insensitive and turns into sentence case (first character
+> capitalized)
 
 > [!CUSTOM] paY aTtEntiOn
 > You can use a custom title with a custom marker as well
+>
+> A custom title can be capitalized freely
