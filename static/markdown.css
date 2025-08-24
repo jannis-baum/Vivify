@@ -149,6 +149,15 @@ blockquote {
     vertical-align: text-bottom;
     fill: currentColor;
 }
+/* default style for unconfigured custom markers (Obsidian Callout style) */
+.alert,
+.fallback-alert {
+    border-left: .25rem solid var(--alert-fallback);
+}
+.alert .alert-title,
+.fallback-alert .alert-title {
+    color: var(--alert-fallback);
+}
 /* default styles for GitHub style markers */
 .alert-note {
     border-left: .25rem solid var(--alert-note);
@@ -179,13 +188,6 @@ blockquote {
 }
 .alert-caution .alert-title {
     color: var(--alert-caution);
-}
-/* default style for unconfigured custom markers (Obsidian Callout style) */
-.fallback-alert {
-    border-left: .25rem solid var(--alert-note);
-}
-.fallback-alert .alert-title {
-    color: var(--alert-note);
 }
 
 /* --------------------------------------------------------------------------
