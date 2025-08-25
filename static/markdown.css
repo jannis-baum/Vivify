@@ -125,8 +125,14 @@ blockquote {
     margin-left: 0;
 }
 
-/* GitHub-style alerts */
+/* Alerts: */
+/* (also known as Callouts or Admonitions) */
 .alert {
+    /* Default color variable: overridden per marker */
+    /* Falls back to --fallback-alert for unconfigured markers */
+    --color: var(--fallback-alert);
+
+    border-left: .25rem solid var(--color);
     padding: 0.5rem 1rem;
     margin-bottom: 1rem;
 }
@@ -137,6 +143,7 @@ blockquote {
     margin-bottom: 0;
 }
 .alert .alert-title {
+    color: var(--color);
     display: flex;
     font-weight: 500;
     align-items: center;
@@ -149,46 +156,22 @@ blockquote {
     vertical-align: text-bottom;
     fill: currentColor;
 }
-/* default style for unconfigured custom markers (Obsidian Callout style) */
-.alert,
-.fallback-alert {
-    border-left: .25rem solid var(--alert-fallback);
-}
-.alert .alert-title,
-.fallback-alert .alert-title {
-    color: var(--alert-fallback);
-}
-/* default styles for GitHub style markers */
-.alert-note {
-    border-left: .25rem solid var(--alert-note);
-}
-.alert-note .alert-title {
-    color: var(--alert-note);
-}
-.alert-tip {
-    border-left: .25rem solid var(--alert-tip);
-}
-.alert-tip .alert-title {
-    color: var(--alert-tip);
-}
-.alert-important {
-    border-left: .25rem solid var(--alert-important);
-}
-.alert-important .alert-title {
-    color: var(--alert-important);
-}
-.alert-warning {
-    border-left: .25rem solid var(--alert-warning);
-}
-.alert-warning .alert-title {
-    color: var(--alert-warning);
-}
-.alert-caution {
-    border-left: .25rem solid var(--alert-caution);
-}
-.alert-caution .alert-title {
-    color: var(--alert-caution);
-}
+/* Default colors for GitHub style markers */
+.alert-note      { --color: var(--alert-note); }
+.alert-tip       { --color: var(--alert-tip); }
+.alert-important { --color: var(--alert-important); }
+.alert-warning   { --color: var(--alert-warning); }
+.alert-caution   { --color: var(--alert-caution); }
+
+/* To add colors for custom markers: */
+
+/* .alert-foo { --color: #00ff00; } */
+/* .alert-bar { --color: var(--alert-important); } */
+
+/* There's an extra class .fallback-alert */
+/* to separately set defaults for all unconfigured markers: */
+
+/* .fallback-alert { --color: #00ffff; } */
 
 /* --------------------------------------------------------------------------
  * COPY-CODE-BUTTON --------------------------------------------------------- */

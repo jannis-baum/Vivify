@@ -47,7 +47,7 @@
     --alert-warning: #ffaf00;
     --alert-caution: #ff5f5f;
 
-    --alert-fallback: var(--alert-note);
+    --fallback-alert: var(--alert-note);
 
     --ipynb-bg-error: rgba(255, 0, 0, 0.1);
     --ipynb-ansi-black: #616161;
@@ -121,7 +121,7 @@
         --alert-warning: #bf8700;
         --alert-caution: #cf222e;
 
-        --alert-fallback: var(--alert-note);
+        --fallback-alert: var(--alert-note);
 
         --ipynb-bg-error: rgba(255, 0, 0, 0.1);
         --ipynb-ansi-black: #3e424d;
