@@ -11,7 +11,7 @@
 import MarkdownIt from 'markdown-it';
 import { config, configBaseDir } from '../config.js';
 import octicons from '@primer/octicons';
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { homedir } from 'os';
 import path from 'path';
 
@@ -32,12 +32,24 @@ const resolveIcon = (iconOpt: string): string => {
         } else if (prefix === './' || prefix === '../') {
             iconPath = path.join(configBaseDir!, iconPath);
         }
-        return readFileSync(iconPath).toString();
+
+        if (existsSync(iconPath)) {
+            return readFileSync(iconPath).toString();
+        } else {
+            const warn = `<script>console.warn("Icon file not found: ${iconPath}");</script>`;
+            return `${warn}${fallbackIcon}`;
+        }
     }
 
     // Case 3: octicon name (in kebab-case) <https://primer.style/octicons>
     const octiconName = iconOpt as keyof typeof octicons;
-    return octicons[octiconName]?.toSVG();
+    const octicon = octicons[octiconName]?.toSVG();
+
+    if (!octicon) {
+        const warn = `<script>console.warn("Not a known octicon name: ${iconOpt}");</script>`;
+        return `${warn}${fallbackIcon}`;
+    }
+    return octicon;
 };
 
 const titles = config.alertsOptions?.titles ?? {};
@@ -54,14 +66,14 @@ const mergedIcons = {
     ...config.alertsOptions?.icons,
 };
 
+const fallbackIconOpt = config.alertsOptions?.fallbackIcon ?? mergedIcons['note'];
+const fallbackIcon = resolveIcon(fallbackIconOpt);
+
 const resolvedIcons: Record<string, string> = {};
 
 for (const marker in mergedIcons) {
     resolvedIcons[marker] = resolveIcon(mergedIcons[marker]);
 }
-
-const fallbackIconOpt = config.alertsOptions?.fallbackIcon ?? mergedIcons['note'];
-const fallbackIcon = resolveIcon(fallbackIconOpt);
 
 const MarkdownItAlerts = (md: MarkdownIt) => {
     // Allow multi word alphanumeric markers (includes underscore)
