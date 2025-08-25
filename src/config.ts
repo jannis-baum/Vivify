@@ -18,6 +18,7 @@ type Config = {
     /* eslint-disable @typescript-eslint/no-explicit-any */
     katexOptions?: any;
     tocOptions?: any;
+    alertsOptions?: any;
     /* eslint-enable @typescript-eslint/no-explicit-any */
 };
 
@@ -71,9 +72,10 @@ const getFileContents = (
     return getFileContent(paths);
 };
 
+let configBaseDir: string | undefined = undefined;
+
 const config = ((): Config => {
     let config = undefined;
-    let configBaseDir = undefined;
     // greedily find config
     for (const cp of configPaths) {
         if (!fs.existsSync(cp)) continue;
@@ -109,6 +111,7 @@ const config = ((): Config => {
     return config;
 })();
 
+export { config, configBaseDir };
 export default config;
 
 export const address = `http://localhost:${config.port}`;
