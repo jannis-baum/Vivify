@@ -9,15 +9,35 @@
  */
 
 import MarkdownIt from 'markdown-it';
-import config from '../config.js';
+import { config, configBaseDir } from '../config.js';
 import octicons from '@primer/octicons';
+import { readFileSync } from 'fs';
+import { homedir } from 'os';
+import path from 'path';
 
-const resolveIcon = (icon: string): string => {
-    // Todo:
-    //     - inline svg
-    //     - svg from filepath
-    const iconName = icon as keyof typeof octicons;
-    return octicons[iconName]?.toSVG();
+// Resolve option from alertsOptions.icons into raw svg tag
+const resolveIcon = (iconOpt: string): string => {
+    // Case 1: already a raw svg tag
+    if (iconOpt.startsWith('<svg')) {
+        return iconOpt;
+    }
+
+    // Case 2: svg file path
+    const prefix = ['/', './', '../', '~/'].find((p) => iconOpt.startsWith(p));
+    if (prefix && iconOpt.endsWith('.svg')) {
+        let iconPath = iconOpt;
+
+        if (prefix === '~/') {
+            iconPath = path.join(homedir(), iconPath.slice(2));
+        } else if (prefix === './' || prefix === '../') {
+            iconPath = path.join(configBaseDir!, iconPath);
+        }
+        return readFileSync(iconPath).toString();
+    }
+
+    // Case 3: octicon name (in kebab-case) <https://primer.style/octicons>
+    const octiconName = iconOpt as keyof typeof octicons;
+    return octicons[octiconName]?.toSVG();
 };
 
 const titles = config.alertsOptions?.titles ?? {};
@@ -49,7 +69,7 @@ const MarkdownItAlerts = (md: MarkdownIt) => {
     const markerRE = '[\\w- ]+';
 
     // Match marker case insensitively
-    // Note: config icons and titles keys must be fully lower case
+    // Note: config icons and titles keys must be fully lowercase
     const RE = new RegExp(`^\\\\?\\[\\!(${markerRE})\\]([^\\n\\r]*)`, 'i');
 
     md.core.ruler.after('block', 'alerts', (state) => {
