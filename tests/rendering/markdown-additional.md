@@ -56,7 +56,9 @@ Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy, and <kbd>Ctrl</kbd> + <kbd>V</kbd>
 
 This paragraph has a red background color.{style=background-color:red}
 
-## GitHub style alert
+## Alerts
+
+Known by many names: GitHub Alerts, Obsidian Callouts, Admonitions...
 
 ### The 5 default GitHub style alerts
 
@@ -86,7 +88,7 @@ This paragraph has a red background color.{style=background-color:red}
 > Set custom icon and color for any marker
 
 > [!TIP] Unconfigured custom markers
-> Markers fall back to `[!NOTE]` by default
+> Markers fall back to `[!NOTE]` by default, to match Obsidian's default behavior
 >
 > Optionally, the fallback icon can be set separately as
 > `config.alertsOptions.fallbackIcon`
