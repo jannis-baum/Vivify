@@ -42,8 +42,6 @@ issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
 - [KaTeX math](https://katex.org)
 - [graphviz/dot graphs](https://graphviz.org/doc/info/lang.html)
 - [Mermaid diagrams & charts](https://mermaid.js.org)
-- [GitHub alert
-  blocks](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts)
 - links to other files: [relative links like in
   GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#relative-links)
   as well as absolute file links
@@ -51,6 +49,10 @@ issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
   Markdown](https://github.com/arve0/markdown-it-attrs?tab=readme-ov-file#examples)
 - table of contents with `[[toc]]`
 - `<kbd>` tags, e.g. to style keyboard shortcuts
+- [GitHub alert
+  blocks](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts)
+  - with syntax extension similar to [Obsidian callouts](https://help.obsidian.md/callouts)
+  - highly customizable custom alerts, with defaults like GitHub
 
 You can find examples for all supported features in the files in the
 [`tests/rendering`](tests/rendering) directory. In case you are looking at these
