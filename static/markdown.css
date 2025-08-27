@@ -150,6 +150,8 @@ blockquote {
     line-height: 1;
 }
 .alert .alert-title svg {
+    height: 16px;
+    width: 16px;
     margin-right: 0.5rem;
     display: inline-block;
     overflow: visible !important;
