@@ -15,12 +15,33 @@ import { existsSync, readFileSync } from 'fs';
 import { homedir } from 'os';
 import path from 'path';
 
-const warnAndFallback = (message: string): string => {
-    return `<script>console.warn("${message}");</script>${fallbackIcon}`;
+const githubAlertsIcons: Record<string, string> = {
+    note: 'info',
+    tip: 'light-bulb',
+    important: 'report',
+    warning: 'alert',
+    caution: 'stop',
+};
+const mergedIcons = {
+    ...githubAlertsIcons,
+    ...config.alertsOptions?.icons,
 };
 
+const fallbackIconOpt = config.alertsOptions?.fallbackIcon ?? mergedIcons['note'];
+const fallbackIcon = resolveIcon(fallbackIconOpt);
+const resolvedIcons: Record<string, string> = {};
+const titles = config.alertsOptions?.titles ?? {};
+
+for (const marker in mergedIcons) {
+    resolvedIcons[marker] = resolveIcon(mergedIcons[marker]);
+}
+
+function warnAndFallback(message: string): string {
+    return `<script>console.warn("${message}");</script>${fallbackIcon}`;
+}
+
 // Resolve option from alertsOptions.icons into raw svg tag
-const resolveIcon = (iconOpt: string): string => {
+function resolveIcon(iconOpt: string): string {
     // Case 1: already a raw svg tag
     if (iconOpt.startsWith('<svg')) {
         return iconOpt;
@@ -54,29 +75,10 @@ const resolveIcon = (iconOpt: string): string => {
         return warnAndFallback(`Not a known octicon name: ${iconOpt}`);
     }
     return octicon;
-};
+}
 
-const titles = config.alertsOptions?.titles ?? {};
-
-const githubAlertsIcons: Record<string, string> = {
-    note: 'info',
-    tip: 'light-bulb',
-    important: 'report',
-    warning: 'alert',
-    caution: 'stop',
-};
-const mergedIcons = {
-    ...githubAlertsIcons,
-    ...config.alertsOptions?.icons,
-};
-
-const fallbackIconOpt = config.alertsOptions?.fallbackIcon ?? mergedIcons['note'];
-const fallbackIcon = resolveIcon(fallbackIconOpt);
-
-const resolvedIcons: Record<string, string> = {};
-
-for (const marker in mergedIcons) {
-    resolvedIcons[marker] = resolveIcon(mergedIcons[marker]);
+function capitalize(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 const MarkdownItAlerts = (md: MarkdownIt) => {
@@ -122,10 +124,6 @@ const MarkdownItAlerts = (md: MarkdownIt) => {
         return `<div class="alert alert-${markerId} ${isFallback ? 'fallback-alert' : ''}">
                     <p class="alert-title">${icon}${title}</p>`;
     };
-};
-
-const capitalize = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
 export default MarkdownItAlerts;
