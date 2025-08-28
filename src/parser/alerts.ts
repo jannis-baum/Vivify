@@ -125,3 +125,4 @@ const capitalize = (str: string) => {
 };
 
 export default MarkdownItAlerts;
+export { resolveIcon }; // Exported for unit test

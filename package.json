@@ -7,7 +7,7 @@
     "viv": "VIV_PORT=3000 node --loader ts-node/esm src/app.ts",
     "lint": "eslint src static",
     "lint-markdown": "markdownlint-cli2 --config .github/.markdownlint-cli2.yaml",
-    "test": "node --loader ts-node/esm tests/unit/cli.ts",
+    "test": "node --loader ts-node/esm --test tests/unit/cli.ts tests/unit/alerts.ts",
     "deduplicate": "yarn-deduplicate"
   },
   "type": "module",
