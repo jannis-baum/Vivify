@@ -15,6 +15,10 @@ import { existsSync, readFileSync } from 'fs';
 import { homedir } from 'os';
 import path from 'path';
 
+const warnAndFallback = (message: string): string => {
+    return `<script>console.warn("${message}");</script>${fallbackIcon}`;
+};
+
 // Resolve option from alertsOptions.icons into raw svg tag
 const resolveIcon = (iconOpt: string): string => {
     // Case 1: already a raw svg tag
@@ -30,15 +34,16 @@ const resolveIcon = (iconOpt: string): string => {
         if (prefix === '~/') {
             iconPath = path.join(homedir(), iconPath.slice(2));
         } else if (prefix === './' || prefix === '../') {
-            iconPath = path.join(configBaseDir!, iconPath);
+            if (!configBaseDir) {
+                return warnAndFallback(`configBaseDir not set for relative icon path: ${iconPath}`);
+            }
+            iconPath = path.join(configBaseDir, iconPath);
         }
 
-        if (existsSync(iconPath)) {
-            return readFileSync(iconPath).toString();
-        } else {
-            const warn = `<script>console.warn("Icon file not found: ${iconPath}");</script>`;
-            return `${warn}${fallbackIcon}`;
+        if (!existsSync(iconPath)) {
+            return warnAndFallback(`Icon file not found: ${iconPath}`);
         }
+        return readFileSync(iconPath).toString();
     }
 
     // Case 3: octicon name (in kebab-case) <https://primer.style/octicons>
@@ -46,8 +51,7 @@ const resolveIcon = (iconOpt: string): string => {
     const octicon = octicons[octiconName]?.toSVG();
 
     if (!octicon) {
-        const warn = `<script>console.warn("Not a known octicon name: ${iconOpt}");</script>`;
-        return `${warn}${fallbackIcon}`;
+        return warnAndFallback(`Not a known octicon name: ${iconOpt}`);
     }
     return octicon;
 };
