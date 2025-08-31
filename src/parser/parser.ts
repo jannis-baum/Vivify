@@ -40,8 +40,12 @@ function textRenderer(
     }
 }
 
-export const shouldRender = (mime: string): boolean =>
-    mime.startsWith('text/') || mime === 'application/json' || mime === 'inode/x-empty';
+export function shouldRender(mime: string): boolean {
+    if (config.renderHTML && ['text/html', 'text/css', 'text/javascript'].includes(mime)) {
+        return false;
+    }
+    return mime.startsWith('text/') || mime === 'application/json' || mime === 'inode/x-empty';
+}
 
 export function renderTextFile(content: string, path: string): string {
     const fileEnding = path?.split('.')?.at(-1);
