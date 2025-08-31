@@ -19,6 +19,17 @@ https://www.markdownguide.org/extended-syntax/
 
 ## Fenced code block
 
+A normal fenced code block with no syntax highlighting:
+
+```
+# Plain text
+# no highlighting here...
+
+<h1>Some embedded html</h1>
+
+$foo = "Hello World"
+```
+
 With syntax highlighting:
 
 ```html
