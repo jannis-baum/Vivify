@@ -51,6 +51,10 @@ keys:
 - **`"preferHomeTilde"`**\
   Prefer using `~` as a placeholder for your home directory in URLs as well as
   the `components` for `"pageTitle"` (default is `true`)
+- **`"renderHTML"`**\
+  Render HTML files rather than viewing them as code. Note that this will also
+  remove the Vivify's syntax highlighting and wrapping of CSS and Javascript
+  files.
 - **`"katexOptions"`**\
   [Available KaTeX options](https://katex.org/docs/options.html), such as
 

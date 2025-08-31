@@ -14,6 +14,7 @@ type Config = {
     pageTitle?: string;
     mdExtensions: string[];
     preferHomeTilde: boolean;
+    renderHTML: boolean;
     // markdown-it plugin options
     /* eslint-disable @typescript-eslint/no-explicit-any */
     katexOptions?: any;
@@ -32,6 +33,7 @@ const defaultConfig: Config = {
     mdExtensions: ['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn'],
     timeout: 10000,
     preferHomeTilde: true,
+    renderHTML: false,
 };
 
 // configs that are overwritten by environment variables
