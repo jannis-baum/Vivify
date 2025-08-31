@@ -23,6 +23,15 @@ const pageTitle = (path: string) => {
     } else return pjoin(...comps.slice(-2));
 };
 
+function vivClient(req: Request) {
+    return `<script>
+        window.VIV_PORT = "${config.port}";
+        window.VIV_PATH = "${urlToPath(req.path)}";
+    </script>
+    <script type="module" src="/static/client.mjs"></script>
+    <script type="text/javascript" src="/static/clipboard/clipboard.min.js"></script>`;
+}
+
 if (config.preferHomeTilde) {
     router.use((req, res, next) => {
         if (req.method === 'GET' && req.path.startsWith(homedir())) {
@@ -45,7 +54,23 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 const data = readFileSync(path);
                 const mime = await pmime(path);
                 if (!shouldRender(mime)) {
-                    res.setHeader('Content-Type', mime).send(data);
+                    if (mime === 'text/html') {
+                        // Inject Vivify client script
+                        let html = data.toString();
+                        // If there's one closing tag for the body we add the
+                        // Vivify client script to the end of the body. If not
+                        // then we try to just add it to the end of the
+                        // document.
+                        const bodyEndCount = (html.match(/<\/body>/g) || []).length;
+                        if (bodyEndCount === 1) {
+                            html = html.replace('</body>', `${vivClient(req)}</body>`);
+                        } else {
+                            html = html + vivClient;
+                        }
+                        res.send(html);
+                    } else {
+                        res.setHeader('Content-Type', mime).send(data);
+                    }
                     return;
                 }
 
@@ -82,13 +107,8 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 </div>
             </body>
 
-            <script>
-                window.VIV_PORT = "${config.port}";
-                window.VIV_PATH = "${urlToPath(req.path)}";
-            </script>
+            ${vivClient(req)}
             ${config.scripts ? `<script type="text/javascript">${config.scripts}</script>` : ''}
-            <script type="module" src="/static/client.mjs"></script>
-            <script type="text/javascript" src="/static/clipboard/clipboard.min.js"></script>
         </html>
     `);
 });
