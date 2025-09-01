@@ -11,7 +11,7 @@ const assertFallback = (result: string) => {
 };
 
 // Tests to make sure vivify-server isn't crashing on invalid options in
-// config.alertsOptions
+// config.alertOptions
 describe('resolveIcon returns fallback icon', () => {
     test('empty string', () => {
         assertFallback(resolveIcon('')); // empty string is considered (invalid) octicon name

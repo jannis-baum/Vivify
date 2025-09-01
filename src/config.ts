@@ -18,8 +18,12 @@ type Config = {
     /* eslint-disable @typescript-eslint/no-explicit-any */
     katexOptions?: any;
     tocOptions?: any;
-    alertsOptions?: any;
     /* eslint-enable @typescript-eslint/no-explicit-any */
+    alertOptions?: {
+        icons?: Record<string, string>;
+        titles?: Record<string, string>;
+        fallbackIcon?: string;
+    };
 };
 
 // fills in values from config file config that are not present

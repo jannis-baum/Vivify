@@ -91,7 +91,7 @@ Known by many names: GitHub Alerts, Obsidian Callouts, Admonitions...
 > Markers fall back to `[!NOTE]` by default, to match Obsidian's default behavior
 >
 > Optionally, the fallback icon can be set separately as
-> `config.alertsOptions.fallbackIcon`
+> `config.alertOptions.fallbackIcon`
 
 > [!fOo baR Baz Qux]
 > The marker is case-insensitive and turns into sentence case (first character

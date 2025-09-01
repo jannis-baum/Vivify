@@ -74,14 +74,14 @@ keys:
   }
   ```
 
-- **`"alertsOptions"`**\
+- **`"alertOptions"`**\
   Options to customize
   [Alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts)
   beyond the 5 default ones used by GitHub. You may also know this feature by
   the name of [Obsidian Callouts](https://help.obsidian.md/callouts).
 
   ```json
-  "alertsOptions": {
+  "alertOptions": {
     "icons": {
       "foo": "zap",
       "bar": "./icons/flower.svg"

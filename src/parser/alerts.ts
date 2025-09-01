@@ -23,13 +23,13 @@ const icons: Record<string, string> = {
     warning: 'alert',
     caution: 'stop',
 
-    ...config.alertsOptions?.icons,
+    ...config.alertOptions?.icons,
 };
 
-const fallbackIconOpt = config.alertsOptions?.fallbackIcon ?? icons['note'];
+const fallbackIconOpt = config.alertOptions?.fallbackIcon ?? icons['note'];
 const fallbackIcon = resolveIcon(fallbackIconOpt);
 const resolvedIcons: Record<string, string> = {};
-const titles = config.alertsOptions?.titles ?? {};
+const titles = config.alertOptions?.titles ?? {};
 
 for (const marker in icons) {
     resolvedIcons[marker] = resolveIcon(icons[marker]);
@@ -39,7 +39,7 @@ function warnAndFallback(message: string): string {
     return `<script>console.warn("${message}");</script>${fallbackIcon}`;
 }
 
-// Resolve option from alertsOptions.icons into raw svg tag
+// Resolve option from alertOptions.icons into raw svg tag
 function resolveIcon(iconOpt: string): string {
     // Case 1: already a raw svg tag
     if (iconOpt.startsWith('<svg')) {
