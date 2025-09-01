@@ -15,25 +15,24 @@ import { existsSync, readFileSync } from 'fs';
 import { homedir } from 'os';
 import path from 'path';
 
-const githubAlertsIcons: Record<string, string> = {
+const icons: Record<string, string> = {
+    // GitHub default alerts
     note: 'info',
     tip: 'light-bulb',
     important: 'report',
     warning: 'alert',
     caution: 'stop',
-};
-const mergedIcons = {
-    ...githubAlertsIcons,
+
     ...config.alertsOptions?.icons,
 };
 
-const fallbackIconOpt = config.alertsOptions?.fallbackIcon ?? mergedIcons['note'];
+const fallbackIconOpt = config.alertsOptions?.fallbackIcon ?? icons['note'];
 const fallbackIcon = resolveIcon(fallbackIconOpt);
 const resolvedIcons: Record<string, string> = {};
 const titles = config.alertsOptions?.titles ?? {};
 
-for (const marker in mergedIcons) {
-    resolvedIcons[marker] = resolveIcon(mergedIcons[marker]);
+for (const marker in icons) {
+    resolvedIcons[marker] = resolveIcon(icons[marker]);
 }
 
 function warnAndFallback(message: string): string {
