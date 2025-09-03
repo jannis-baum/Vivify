@@ -28,11 +28,15 @@ const icons: Record<string, string> = {
 
 const fallbackIconOpt = config.alertOptions?.fallbackIcon ?? icons['note'];
 const fallbackIcon = resolveIcon(fallbackIconOpt);
-const resolvedIcons: Record<string, string> = {};
-const titles = config.alertOptions?.titles ?? {};
 
+const resolvedIcons: Record<string, string> = {};
 for (const marker in icons) {
-    resolvedIcons[marker] = resolveIcon(icons[marker]);
+    resolvedIcons[marker.toLowerCase()] = resolveIcon(icons[marker]);
+}
+
+const titles: Record<string, string> = {};
+for (const marker in config.alertOptions?.titles ?? {}) {
+    titles[marker.toLowerCase()] = config.alertOptions!.titles![marker];
 }
 
 function warnAndFallback(message: string): string {

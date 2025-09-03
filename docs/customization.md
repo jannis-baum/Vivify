@@ -96,8 +96,8 @@ keys:
 
   - **`"icons"`**
 
-    **Key:** Any custom marker name. Can also be a multi-word string. Has to be
-    fully lowercased.
+    **Key:** Any custom marker name. Can also be a multi-word string. Matched
+    case-insensitively.
 
     **Value:** A custom svg to use in one of three formats:
 
@@ -124,8 +124,8 @@ keys:
     If you want an alert to have a different title than the marker string
     itself, it can be mapped in this table.
 
-    **Key:** Any custom marker name. Can also be a multi-word string. Has to be
-    fully lowercased.
+    **Key:** Any custom marker name. Can also be a multi-word string. Matched
+    case-insensitively.
 
     **Value:** Any string.
 
