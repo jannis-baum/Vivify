@@ -81,40 +81,57 @@ function capitalize(str: string): string {
 }
 
 const MarkdownItAlerts = (md: MarkdownIt) => {
+    // Alert title line example:
+    // > [!marker] Optional title
+
     // Allow multi word alphanumeric markers (includes underscore)
     // Additionally allow dashes in marker
-    const markerRE = '[\\w- ]+';
-
-    // Match marker case insensitively
-    // Note: config icons and titles keys must be fully lowercase
-    const RE = new RegExp(`^\\\\?\\[\\!(${markerRE})\\]([^\\n\\r]*)`, 'i');
+    // Match marker case-insensitively
+    const titlePattern = /^\[!([\w\- ]+)\]([^\n\r]*)/i;
 
     md.core.ruler.after('block', 'alerts', (state) => {
         const tokens = state.tokens;
+
         for (let i = 0; i < tokens.length; i++) {
-            if (tokens[i].type === 'blockquote_open') {
-                const open = tokens[i];
-                const startIndex = i;
-                while (tokens[i]?.type !== 'blockquote_close' && i <= tokens.length) i += 1;
-                const close = tokens[i];
-                const endIndex = i;
-                const firstContent = tokens
-                    .slice(startIndex, endIndex + 1)
-                    .find((token) => token.type === 'inline');
-                if (!firstContent) continue;
-                const match = firstContent.content.match(RE);
-                if (!match) continue;
-                const marker = match[1].toLowerCase();
-                const title = match[2].trim() || (titles[marker] ?? capitalize(marker));
-                const isFallback = !(marker in resolvedIcons); // For styling unconfigured markers
-                const icon = isFallback ? fallbackIcon : resolvedIcons[marker];
-                firstContent.content = firstContent.content.slice(match[0].length).trimStart();
-                open.type = 'alert_open';
-                open.tag = 'div';
-                open.meta = { marker, title, icon, isFallback };
-                close.type = 'alert_close';
-                close.tag = 'div';
+            if (tokens[i].type !== 'blockquote_open') continue;
+
+            const open = tokens[i];
+            const start = i;
+
+            while (i < tokens.length && tokens[i].type !== 'blockquote_close') i++;
+
+            const close = tokens[i];
+            const end = i;
+
+            // Get the first inline token, consists of:
+            // 1. title line e.g. [!marker] Optional title
+            // 2. the first paragraph in the alert body
+            let firstBlock;
+            for (let j = start; j <= end; j++) {
+                if (tokens[j].type === 'inline') {
+                    firstBlock = tokens[j];
+                    break;
+                }
             }
+            if (!firstBlock) continue;
+
+            // Is this blockquote an alert?
+            const match = firstBlock.content.match(titlePattern);
+            if (!match) continue;
+
+            const marker = match[1].toLowerCase();
+            const title = match[2].trim() || (titles[marker] ?? capitalize(marker));
+            const isFallback = !(marker in resolvedIcons); // For styling unconfigured markers
+            const icon = isFallback ? fallbackIcon : resolvedIcons[marker];
+
+            // Remove the title line, to be replaced by the final alert title
+            firstBlock.content = firstBlock.content.slice(match[0].length).trimStart();
+
+            open.type = 'alert_open';
+            open.tag = 'div';
+            open.meta = { marker, title, icon, isFallback };
+            close.type = 'alert_close';
+            close.tag = 'div';
         }
     });
     md.renderer.rules.alert_open = function (tokens, idx) {
