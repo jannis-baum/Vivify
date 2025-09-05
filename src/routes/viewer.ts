@@ -7,7 +7,7 @@ import { Request, Response, Router } from 'express';
 import { clientsAt, messageClients } from '../app.js';
 import config from '../config.js';
 import { pcomponents, pmime, preferredPath, urlToPath } from '../utils/path.js';
-import { renderDirectory, renderTextFile, shouldRender } from '../parser/parser.js';
+import { renderDirectory, renderBody } from '../parser/parser.js';
 
 export const router = Router();
 
@@ -51,9 +51,18 @@ router.get(/.*/, async (req: Request, res: Response) => {
             if (lstatSync(path).isDirectory()) {
                 body = renderDirectory(path);
             } else {
-                const data = readFileSync(path);
                 const mime = await pmime(path);
-                if (!shouldRender(mime)) {
+                const shouldRenderBody = (() => {
+                    // config says render HTML as is and this is HTML -> no Vivify body rendering
+                    if (config.renderHTML && mime === 'text/html') return false;
+                    // Vivify rendering if request wants HTML reply
+                    return (req.get('Accept') ?? '').split(',').includes('text/html');
+                })();
+
+                if (shouldRenderBody) body = renderBody(path, mime);
+                // shouldn't render body or failed to render -> send file data instead
+                if (!body || !shouldRenderBody) {
+                    const data = readFileSync(path);
                     if (mime === 'text/html') {
                         // Inject Vivify client script
                         let html = data.toString();
@@ -73,8 +82,6 @@ router.get(/.*/, async (req: Request, res: Response) => {
                     }
                     return;
                 }
-
-                body = renderTextFile(data.toString(), path);
             }
         } catch (error) {
             res.status(500).send(String(error));
@@ -122,17 +129,17 @@ router.post(/.*/, async (req: Request, res: Response) => {
     const { cursor, reload } = req.body;
     let { content } = req.body;
 
-    if (reload) {
+    if (reload) content = readFileSync(path).toString();
+
+    const clients = clientsAt(path);
+
+    if (content !== undefined) {
         const mime = await pmime(path);
-        if (!shouldRender(mime)) {
+        const rendered = renderBody(path, mime, content);
+        if (!rendered) {
             res.status(400).send('Reload is only permitted on rendered files');
             return;
         }
-        content = readFileSync(path).toString();
-    }
-    const clients = clientsAt(path);
-    if (content !== undefined) {
-        const rendered = renderTextFile(content, path);
         liveContent.set(path, rendered);
         messageClients(clients, `UPDATE: ${rendered}`);
     }
