@@ -20,6 +20,21 @@ body {
 }
 .content-txt { max-width: 1200px; }
 
+/* parent directory link */
+#top-nav > a {
+    display: inline-flex;
+    align-items: center;
+}
+.icon-back {
+    fill: var(--icon-back);
+}
+
+@media print {
+    #top-nav {
+        display: none;
+    }
+}
+
 /* --------------------------------------------------------------------------
  * DIRECTORY LISTS ---------------------------------------------------------- */
 
