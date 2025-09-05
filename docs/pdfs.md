@@ -4,6 +4,9 @@ You can leverage Vivify's rendering capabilities and your browser to create
 nice PDFs from Markdown. To do this, simply **use your browser's printing
 function and save the resulting PDF**.
 
+Note that many browsers will add some headers and footers by default, which you
+will probably want to turn off in the printing options to get a clean PDF.
+
 ## Customization
 
 You can customize how the PDF will look further by using [custom
