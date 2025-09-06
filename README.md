@@ -21,8 +21,10 @@ features!
 
 - view Markdown with various [features](#markdown-features)
 - view Jupyter Notebooks
-- view other plain text files with code syntax highlighting
-- view & navigate directories, hidden "back to parent directory" button at the
+- view other plain text files with code syntax highlighting, or
+  [optionally](docs/customization.md) render HTML files
+- view image files
+- view & navigate directories using "back to parent directory" button at the
   top-left of the file viewer
 - easy to integrate with any editor for live synchronization (see [editor
   support](#editor-support))

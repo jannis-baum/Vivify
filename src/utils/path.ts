@@ -1,12 +1,22 @@
 import { exec } from 'child_process';
 import { homedir } from 'os';
-import { basename as pbasename, dirname as pdirname, parse as pparse } from 'path';
+import { basename as pbasename, dirname as pdirname, parse as pparse, extname } from 'path';
 import config from '../config.js';
 import { stat, readFile } from 'fs/promises';
 import { promisify } from 'util';
 
 const execPromise = promisify(exec);
 export const pmime = async (path: string) => {
+    const ext = extname(path).slice(1);
+    if (config.mdExtensions.includes(ext)) {
+        return 'text/plain';
+    } else if (ext == 'css') {
+        return 'text/css';
+    } else if (ext == 'html') {
+        return 'text/html';
+    } else if (['js', 'mjs'].includes(ext)) {
+        return 'text/javascript';
+    }
     const [{ stdout: mime }, stats] = await Promise.all([
         execPromise(`file --mime-type -b '${path}'`),
         stat(path),
