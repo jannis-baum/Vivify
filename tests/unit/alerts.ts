@@ -22,8 +22,8 @@ describe('resolveIcon returns fallback icon', () => {
     });
 
     test('invalid octicon name', () => {
-        assertFallback(resolveIcon('foo-bar'));         // nonexistent
-        assertFallback(resolveIcon('04trweäöcaöe'));    // garbage
+        assertFallback(resolveIcon('foo-bar')); // nonexistent
+        assertFallback(resolveIcon('04trweäöcaöe')); // garbage
         assertFallback(resolveIcon('CircleSlashIcon')); // real icon but should be kebab-case
     });
 
@@ -37,7 +37,7 @@ describe('resolveIcon returns fallback icon', () => {
     test('invalid paths', () => {
         assertFallback(resolveIcon('//home/john/icons/flower.svg')); // double slash
         assertFallback(resolveIcon('/home/john//icons/flower.svg')); // double slash alt
-        assertFallback(resolveIcon('./alert icons/gear.svg'));       // unescaped space
+        assertFallback(resolveIcon('./alert icons/gear.svg')); // unescaped space
     });
 
     test('misclassified invalid paths', () => {
