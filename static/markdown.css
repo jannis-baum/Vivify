@@ -125,60 +125,55 @@ blockquote {
     margin-left: 0;
 }
 
-/* GitHub-style alerts */
-.markdown-alert {
+/* Alerts: */
+/* (also known as Callouts or Admonitions) */
+.alert {
+    /* Default color variable: overridden per marker */
+    /* Falls back to --fallback-alert for unconfigured markers */
+    --color: var(--fallback-alert);
+
+    border-left: .25rem solid var(--color);
     padding: 0.5rem 1rem;
     margin-bottom: 1rem;
 }
-.markdown-alert > :first-child {
+.alert > :first-child {
     margin-top: 0;
 }
-.markdown-alert > :last-child {
+.alert > :last-child {
     margin-bottom: 0;
 }
-.markdown-alert .markdown-alert-title {
+.alert .alert-title {
+    color: var(--color);
     display: flex;
     font-weight: 500;
     align-items: center;
     line-height: 1;
 }
-.markdown-alert .markdown-alert-title .octicon {
+.alert .alert-title svg {
+    height: 16px;
+    width: 16px;
     margin-right: 0.5rem;
     display: inline-block;
     overflow: visible !important;
     vertical-align: text-bottom;
     fill: currentColor;
 }
-.markdown-alert-note {
-    border-left: .25rem solid var(--alert-note);
-}
-.markdown-alert-note .markdown-alert-title {
-    color: var(--alert-note);
-}
-.markdown-alert-tip {
-    border-left: .25rem solid var(--alert-tip);
-}
-.markdown-alert-tip .markdown-alert-title {
-    color: var(--alert-tip);
-}
-.markdown-alert-important {
-    border-left: .25rem solid var(--alert-important);
-}
-.markdown-alert-important .markdown-alert-title {
-    color: var(--alert-important);
-}
-.markdown-alert-warning {
-    border-left: .25rem solid var(--alert-warning);
-}
-.markdown-alert-warning .markdown-alert-title {
-    color: var(--alert-warning);
-}
-.markdown-alert-caution {
-    border-left: .25rem solid var(--alert-caution);
-}
-.markdown-alert-caution .markdown-alert-title {
-    color: var(--alert-caution);
-}
+/* Default colors for GitHub style markers */
+.alert-note      { --color: var(--alert-note); }
+.alert-tip       { --color: var(--alert-tip); }
+.alert-important { --color: var(--alert-important); }
+.alert-warning   { --color: var(--alert-warning); }
+.alert-caution   { --color: var(--alert-caution); }
+
+/* To add colors for custom markers: */
+
+/* .alert-foo { --color: #00ff00; } */
+/* .alert-bar { --color: var(--alert-important); } */
+
+/* There's an extra class .fallback-alert */
+/* to separately set defaults for all unconfigured markers: */
+
+/* .fallback-alert { --color: #00ffff; } */
 
 /* --------------------------------------------------------------------------
  * COPY-CODE-BUTTON --------------------------------------------------------- */

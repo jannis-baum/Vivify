@@ -74,6 +74,26 @@ keys:
   }
   ```
 
+- **`"alertOptions"`**\
+  Options to customize
+  [alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts)
+  beyond the 5 default ones used by GitHub. You may also know this feature by
+  the name of [Obsidian callouts](https://help.obsidian.md/callouts).
+
+  ```json
+  "alertOptions": {
+    "icons": {
+      "foo": "zap",
+      "bar": "./icons/flower.svg"
+    "titles": {
+      "bar": "Tip of the day"
+    },
+    "fallbackIcon": "alert"
+  }
+  ```
+
+  See [custom alerts guide](custom-alerts.md) for a full explanation with some examples.
+
 Vivify reads the config on startup, i.e. when you want it to reload the config,
 you have to restart Vivify. You can do this for example by running
 
