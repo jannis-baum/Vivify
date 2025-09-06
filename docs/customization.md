@@ -76,9 +76,9 @@ keys:
 
 - **`"alertOptions"`**\
   Options to customize
-  [Alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts)
+  [alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts)
   beyond the 5 default ones used by GitHub. You may also know this feature by
-  the name of [Obsidian Callouts](https://help.obsidian.md/callouts).
+  the name of [Obsidian callouts](https://help.obsidian.md/callouts).
 
   ```json
   "alertOptions": {
@@ -92,77 +92,9 @@ keys:
   }
   ```
 
-  In more detail:
+  For alerts customization, see [full explanation with examples](alerts.md).
 
-  - **`"icons"`**
-
-    **Key:** Any custom marker name. Can also be a multi-word string. Matched
-    case-insensitively.
-
-    **Value:** A custom svg to use in one of three formats:
-
-      1. Name of an [octicon](https://primer.style/octicons/) (in kebab-case)
-      2. Path to an svg file, either relative to Vivify's config directory, or
-      an absolute path. Tilde (`~`) can be used in an absolute path.
-      3. A raw svg tag as a string. Note: must escape double quotes or use
-      single quotes inside the string.
-
-    > [!WARNING]
-    > We're considering switching from octicons to lucide as the main icon
-    > provider, so option 1 is subject to change.
-
-  - **`"fallbackIcon"`**
-
-    Icon to fall back to for markers you have not explicitly set a custom icon
-    for. Given in the same format as an entry in the `"icons"` table.
-
-    The fallback icon defaults to the icon used by `[!NOTE]`, to match the
-    default behavior in Obsidian.
-
-  - **`"titles"`**
-
-    If you want an alert to have a different title than the marker string
-    itself, it can be mapped in this table.
-
-    **Key:** Any custom marker name. Can also be a multi-word string. Matched
-    case-insensitively.
-
-    **Value:** Any string.
-
-    Note that custom titles can also be given with this markdown syntax, with no
-    config required:
-
-    ```md
-    > [!NOTE] Nota bene
-    ```
-
-  To customize alert colors, set in your custom stylesheet (see `"styles"`
-  above):
-
-  ```css
-  .alert-foo { --color: #00ff00; }
-  ```
-
-  To set the same color as a default marker, use one of these variables
-  variables:
-  - `--alert-note`
-  - `--alert-tip`
-  - `--alert-important`
-  - `--alert-warning`
-  - `--alert-caution`
-
-  These would be used as follows:
-
-  ```css
-  .alert-bar { --color: var(--alert-tip); }
-  ```
-
-  For customization of all unconfigured custom markers at once, we have a color
-  variable:
-  - `--fallback-alert`
-
-  and a special class for the base alert div:
-  - `.fallback-alert`
+### Reloading config
 
 Vivify reads the config on startup, i.e. when you want it to reload the config,
 you have to restart Vivify. You can do this for example by running
