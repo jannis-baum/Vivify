@@ -52,7 +52,8 @@ issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
 - [GitHub alert
   blocks](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts)
   - with syntax extension similar to [Obsidian callouts](https://help.obsidian.md/callouts)
-  - highly customizable custom alerts, with defaults like GitHub
+  - highly customizable [custom alerts](docs/custom-alerts.md), with defaults
+    like GitHub
 
 You can find examples for all supported features in the files in the
 [`tests/rendering`](tests/rendering) directory. In case you are looking at these
