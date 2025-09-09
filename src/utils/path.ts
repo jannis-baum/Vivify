@@ -10,12 +10,6 @@ export const pmime = async (path: string) => {
     const ext = extname(path).slice(1);
     if (config.mdExtensions.includes(ext)) {
         return 'text/plain';
-    } else if (ext == 'css') {
-        return 'text/css';
-    } else if (ext == 'html') {
-        return 'text/html';
-    } else if (['js', 'mjs'].includes(ext)) {
-        return 'text/javascript';
     }
     const [{ stdout: mime }, stats] = await Promise.all([
         execPromise(`file --mime-type -b '${path}'`),
