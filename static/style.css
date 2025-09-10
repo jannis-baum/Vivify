@@ -62,6 +62,7 @@ li[class^='dir-list-'] > a:hover {
 li[class^='dir-list-'] > a > svg {
     margin-right: 0.3rem;
 }
+li[class^='dir-list-symboliclink'] > a { color: var(--text-link); }
 .icon-directory { fill: var(--icon-directory); }
 .icon-file { fill: var(--icon-file); }
-.icon-symlink { fill: var(--icon-file); }
+.icon-symlink { fill: var(--text-link); }
