@@ -1,4 +1,4 @@
-import { Dirent, readFileSync, readlinkSync } from 'fs';
+import { Dirent, readFileSync, readlinkSync, existsSync } from 'fs';
 import { homedir } from 'os';
 import { join as pjoin, dirname as pdirname, basename as pbasename } from 'path';
 import { pathToURL } from '../utils/path.js';
@@ -84,27 +84,22 @@ export function renderBody(
 }
 
 function dirListItem(item: Dirent, path: string): string {
-    let itemClass = '';
-    let icon = '';
-    let fullPath = '';
     if (item.isSymbolicLink()) {
-        itemClass = "dir-list-symboliclink";
-        icon = linkIcon;
-        fullPath = pjoin(path, readlinkSync(pjoin(path, item.name)));
-    } else if (item.isDirectory()) {
-        itemClass = "dir-list-directory";
-        icon = dirIcon;
-        fullPath = pjoin(path, item.name);
+        const targetPath = readlinkSync(pjoin(path, item.name));
+        const isVaild = existsSync(pjoin(path, targetPath));
+        return `<li class="dir-list-symboliclink" name="${item.name}">
+                    <a href="${isVaild ? pathToURL(pjoin(path, targetPath)) : ''}">
+                        ${linkIcon}${item.name} ->&nbsp;
+                        <span style="color: ${isVaild ? "#55ff55" : "#ff0000" }">${targetPath}</span>
+                    </a>
+                </li>`;
     } else {
-        itemClass = "dir-list-file";
-        icon = fileIcon;
-        fullPath = pjoin(path, item.name);
+        return `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}" name="${item.name}">
+                    <a href="${pathToURL(pjoin(path, item.name))}">
+                        ${item.isDirectory() ? dirIcon : fileIcon}${item.name}
+                    </a>
+                </li>`;
     }
-    return `<li class="${itemClass}" name="${item.name}">
-        <a href="${pathToURL(fullPath)}">
-            ${icon}${item.name}
-        </a>
-    </li>`;
 }
 
 function dirUpItem(path: string): string {
