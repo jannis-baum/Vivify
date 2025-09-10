@@ -1,4 +1,4 @@
-import { Dirent, readFileSync } from 'fs';
+import { Dirent, readFileSync, readlinkSync } from 'fs';
 import { homedir } from 'os';
 import { join as pjoin, dirname as pdirname, basename as pbasename } from 'path';
 import { pathToURL } from '../utils/path.js';
@@ -12,6 +12,7 @@ import * as cheerio from 'cheerio';
 const dirIcon = octicons['file-directory-fill'].toSVG({ class: 'icon-directory' });
 const fileIcon = octicons['file'].toSVG({ class: 'icon-file' });
 const backIcon = octicons['chevron-left'].toSVG({ class: 'icon-chevron' });
+const linkIcon = octicons['file-symlink-file'].toSVG({ class: 'icon-symlink' });
 
 export type Renderer = (content: string) => string;
 export const moveIntoNavClass = 'MOVE-INTO-TOP-NAV';
@@ -82,12 +83,29 @@ export function renderBody(
     return undefined;
 }
 
-const dirListItem = (item: Dirent, path: string) =>
-    `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}" name="${item.name}">
-        <a href="${pathToURL(pjoin(path, item.name))}">
-            ${item.isDirectory() ? dirIcon : fileIcon}${item.name}
+function dirListItem(item: Dirent, path: string): string {
+    let itemClass = '';
+    let icon = '';
+    let fullPath = '';
+    if (item.isSymbolicLink()) {
+        itemClass = "dir-list-symboliclink";
+        icon = linkIcon;
+        fullPath = pjoin(path, readlinkSync(pjoin(path, item.name)));
+    } else if (item.isDirectory()) {
+        itemClass = "dir-list-directory";
+        icon = dirIcon;
+        fullPath = pjoin(path, item.name);
+    } else {
+        itemClass = "dir-list-file";
+        icon = fileIcon;
+        fullPath = pjoin(path, item.name);
+    }
+    return `<li class="${itemClass}" name="${item.name}">
+        <a href="${pathToURL(fullPath)}">
+            ${icon}${item.name}
         </a>
     </li>`;
+}
 
 function dirUpItem(path: string): string {
     if (pbasename(path) == '') {

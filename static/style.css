@@ -64,3 +64,4 @@ li[class^='dir-list-'] > a > svg {
 }
 .icon-directory { fill: var(--icon-directory); }
 .icon-file { fill: var(--icon-file); }
+.icon-symlink { fill: var(--icon-file); }
