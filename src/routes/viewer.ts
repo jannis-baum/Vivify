@@ -74,7 +74,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                         if (bodyEndCount === 1) {
                             html = html.replace('</body>', `${vivClient(req)}</body>`);
                         } else {
-                            html = html + vivClient;
+                            html = html + vivClient(req);
                         }
                         res.send(html);
                     } else {
