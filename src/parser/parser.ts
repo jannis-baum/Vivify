@@ -1,4 +1,4 @@
-import { Dirent } from 'fs';
+import { Dirent, readlinkSync, existsSync } from 'fs';
 import { homedir } from 'os';
 import { join as pjoin, dirname as pdirname, basename as pbasename } from 'path';
 import { pathToURL } from '../utils/path.js';
@@ -11,6 +11,7 @@ import octicons from '@primer/octicons';
 const dirIcon = octicons['file-directory-fill'].toSVG({ class: 'icon-directory' });
 const fileIcon = octicons['file'].toSVG({ class: 'icon-file' });
 const backIcon = octicons['chevron-left'].toSVG({ class: 'icon-back' });
+const linkIcon = octicons['file-symlink-file'].toSVG({ class: 'icon-symlink' });
 
 export type Renderer = (content: string) => string;
 
@@ -57,12 +58,24 @@ export function renderTextFile(content: string, path: string): string {
     return wrap(contentType, render(content), pdirname(path));
 }
 
-const dirListItem = (item: Dirent, path: string) =>
-    `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}" name="${item.name}">
-        <a href="${pathToURL(pjoin(path, item.name))}">
-            ${item.isDirectory() ? dirIcon : fileIcon}${item.name}
-        </a>
-    </li>`;
+function dirListItem(item: Dirent, path: string): string {
+    if (item.isSymbolicLink()) {
+        const targetPath = readlinkSync(pjoin(path, item.name));
+        const isValid = existsSync(pjoin(path, targetPath));
+        return `<li class="dir-list-symboliclink" name="${item.name}">
+                    <a href="${isValid ? pathToURL(pjoin(path, targetPath)) : ''}">
+                        ${linkIcon}${item.name} ->&nbsp;
+                        <span style="color: ${isValid ? '#55ff55' : '#ff0000'}">${targetPath}</span>
+                    </a>
+                </li>`;
+    } else {
+        return `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}" name="${item.name}">
+                    <a href="${pathToURL(pjoin(path, item.name))}">
+                        ${item.isDirectory() ? dirIcon : fileIcon}${item.name}
+                    </a>
+                </li>`;
+    }
+}
 
 function dirUpItem(path: string): string {
     if (pbasename(path) == '') {
