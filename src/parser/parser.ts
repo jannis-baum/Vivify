@@ -44,7 +44,7 @@ export function renderBody(
     }
 
     // render text files
-    if (mime.startsWith('text/') || mime === 'application/json' || mime === 'inode/x-empty') {
+    if (mime.startsWith('text/')) {
         const fileEnding = path?.split('.')?.at(-1);
         const text = content ?? readFileSync(path).toString();
 

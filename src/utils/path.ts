@@ -1,37 +1,24 @@
-import { exec } from 'child_process';
 import { homedir } from 'os';
 import { basename as pbasename, dirname as pdirname, parse as pparse, extname } from 'path';
 import config from '../config.js';
-import { stat, readFile } from 'fs/promises';
-import { promisify } from 'util';
+import { isText } from 'istextorbinary';
+import { readFileSync } from 'fs';
+import { fileTypeFromBuffer } from 'file-type';
 
-const execPromise = promisify(exec);
+// returns hopefully correct MIME for binary files,
+// text/html for plain text files ending in .hmtl, and
+// text/plain for all other plain text files
 export const pmime = async (path: string) => {
     const ext = extname(path).slice(1);
     if (config.mdExtensions.includes(ext)) {
         return 'text/plain';
     }
-    const [{ stdout: mime }, stats] = await Promise.all([
-        execPromise(`file --mime-type -b '${path}'`),
-        stat(path),
-    ]);
-    // empty files can also be `application/x-empty`
-    // -> we unify to `inode/x-empty`
-    if (stats.size == 0) return 'inode/x-empty';
-    // single byte files don't work well for mime recognition as they will
-    // always be guessed as application/octet-stream
-    // -> we return `text/plain` if the single byte is a printable character
-    if (stats.size == 1) {
-        const content = await readFile(path);
-        const char = content.at(0);
-        if (
-            char !== undefined &&
-            // tab            line feed        carriage return   printable character range
-            (char === 0x09 || char === 0x0a || char === 0x0d || (char >= 0x20 && char <= 0x7e))
-        )
-            return 'text/plain';
+    // always returns text/plain for any text file
+    const content = readFileSync(path);
+    if (isText(path, content)) {
+        return ext === 'html' ? 'text/html' : 'text/plain';
     }
-    return mime.trim();
+    return (await fileTypeFromBuffer(content))?.mime;
 };
 
 export const pcomponents = (path: string) => {

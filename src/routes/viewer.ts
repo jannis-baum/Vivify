@@ -59,6 +59,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
                     return (req.get('Accept') ?? '').split(',').includes('text/html');
                 })();
 
+                if (mime === undefined) throw 'Unable to determine MIME type';
                 if (shouldRenderBody) body = renderBody(path, mime);
                 // shouldn't render body or failed to render -> send file data instead
                 if (!body || !shouldRenderBody) {
@@ -135,6 +136,10 @@ router.post(/.*/, async (req: Request, res: Response) => {
 
     if (content !== undefined) {
         const mime = await pmime(path);
+        if (!mime) {
+            res.status(500).send('Unable to determine MIME type');
+            return;
+        }
         const rendered = renderBody(path, mime, content);
         if (!rendered) {
             res.status(400).send('Reload is only permitted on rendered files');
