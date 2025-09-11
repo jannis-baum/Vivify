@@ -38,7 +38,7 @@ export function renderBody(
     if (mime.startsWith('image/')) {
         return wrap(
             'image',
-            renderMarkdown(`${pathHeading(path)}\n\n![${path}](./${pbasename(path)})\n`),
+            renderMarkdown(`${pathHeading(path)}\n\n![${path}](<./${pbasename(path)}>)\n`),
             pdirname(path),
         );
     }
