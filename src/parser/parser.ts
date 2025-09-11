@@ -86,11 +86,11 @@ export function renderBody(
 function dirListItem(item: Dirent, path: string): string {
     if (item.isSymbolicLink()) {
         const targetPath = readlinkSync(pjoin(path, item.name));
-        const isVaild = existsSync(pjoin(path, targetPath));
+        const isValid = existsSync(pjoin(path, targetPath));
         return `<li class="dir-list-symboliclink" name="${item.name}">
-                    <a href="${isVaild ? pathToURL(pjoin(path, targetPath)) : ''}">
+                    <a href="${isValid ? pathToURL(pjoin(path, targetPath)) : ''}">
                         ${linkIcon}${item.name} ->&nbsp;
-                        <span style="color: ${isVaild ? "#55ff55" : "#ff0000" }">${targetPath}</span>
+                        <span style="color: ${isValid ? '#55ff55' : '#ff0000'}">${targetPath}</span>
                     </a>
                 </li>`;
     } else {
