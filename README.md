@@ -26,8 +26,9 @@ features!
 - view image files
 - view & navigate directories using "back to parent directory" button at the
   top-left of the file viewer
-- easy to integrate with any editor for live synchronization (see [editor
-  support](#editor-support))
+- automatic reloads when files change
+- easy to integrate with any editor for fully live synchronization without
+  saving the file (see [editor support](#editor-support))
 - Vivify server starts lazily and automatically shuts down when no more viewers
   are connected
 - various [customization options](docs/customization.md)
