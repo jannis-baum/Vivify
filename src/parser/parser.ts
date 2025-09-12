@@ -62,9 +62,11 @@ export function renderBody(
         }
 
         // any other plain text with syntax highlighting
+        // remove trailing line break
+        const code = text.replace(/\n$/, '');
         return wrap(
             'txt',
-            renderMarkdown(`${pathHeading(path!)}\n\n\`\`\`${fileEnding}\n${text}\n\`\`\``),
+            renderMarkdown(`${pathHeading(path!)}\n\n\`\`\`${fileEnding}\n${code}\n\`\`\``),
             pdirname(path),
         );
     }
