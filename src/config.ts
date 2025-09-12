@@ -6,8 +6,12 @@ import path from 'path';
 // NOTE: this type does not directly correspond to the config file: see
 // defaultConfig, envConfigs and configFileBlocked
 type Config = {
+    // result in 1 long string which is join of all referenced files
     styles?: string;
     clientScripts?: string;
+    // results in array of paths to scripts
+    serverScripts?: string[];
+    // results in array of ignore patterns
     dirListIgnore?: string[];
     port: number;
     timeout: number;
@@ -52,30 +56,36 @@ const configPaths = [
     path.join(homedir(), '.vivify.json'),
 ];
 
+// get all paths from glob pattern or array of glob patterns
+const resolvePaths = (
+    paths: string[] | string | undefined,
+    baseDir: string | undefined,
+): string[] => {
+    if (paths === undefined) return [];
+
+    const resolvePath = (p: string): string[] => {
+        let resolved = p;
+        if (resolved[0] === '~') {
+            resolved = path.join(homedir(), resolved.slice(1));
+        }
+        if (resolved[0] !== '/' && baseDir !== undefined) {
+            resolved = path.join(baseDir, resolved);
+        }
+        return globSync(resolved);
+    };
+
+    if (Array.isArray(paths)) return paths.map(resolvePath).flat();
+    return resolvePath(paths);
+};
+
 // read contents of file at paths or files at paths
 const getFileContents = (
     paths: string[] | string | undefined,
     baseDir: string | undefined,
 ): string => {
-    if (paths === undefined) return '';
-
-    const getFileContent = (p: string): string => {
-        let resolved = p;
-        if (resolved[0] === '~') {
-            resolved = path.join(homedir(), p.slice(1));
-        }
-        if (resolved[0] !== '/' && baseDir !== undefined) {
-            resolved = path.join(baseDir, resolved);
-        }
-        return globSync(resolved)
-            .map((p) => fs.readFileSync(p, 'utf8'))
-            .join('\n');
-    };
-
-    if (Array.isArray(paths)) {
-        return paths.map(getFileContent).join('\n');
-    }
-    return getFileContent(paths);
+    return resolvePaths(paths, baseDir)
+        .map((p) => fs.readFileSync(p, 'utf8'))
+        .join('\n');
 };
 
 let configBaseDir: string | undefined = undefined;
@@ -102,6 +112,7 @@ const config = ((): Config => {
     // get styles, scripts and ignore files
     config.styles = getFileContents(config.styles, configBaseDir);
     config.clientScripts = getFileContents(config.clientScripts, configBaseDir);
+    config.serverScripts = resolvePaths(config.serverScripts, configBaseDir);
     config.dirListIgnore = getFileContents(config.dirListIgnore, configBaseDir)
         .split('\n')
         .filter((pattern) => pattern !== '' && pattern[0] !== '#');
