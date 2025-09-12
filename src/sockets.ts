@@ -55,9 +55,7 @@ export function setupSockets(
             switch (key) {
                 case 'PATH':
                     sockets.get(id)!.path = value;
-                    console.log('setting up watcher for', value);
                     sockets.get(id)!.watcher = fs.watch(value, (eventType) => {
-                        console.log('watcher triggered for', value, 'with', eventType);
                         if (eventType !== 'change') return;
                         onWrite(value);
                     });
