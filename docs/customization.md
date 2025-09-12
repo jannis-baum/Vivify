@@ -23,7 +23,7 @@ keys:
   The styles will be applied after Vivify's [default styles](../static/) are
   applied so that there are always sensible fallbacks but you can override
   everything.
-- **`"scripts"`**\
+- **`"clientScripts"`**\
   A path to a single custom JavaScript to inject into the viewing pages, or an
   array of paths for multiple custom scripts injected in order. The paths can be
   absolute, start with a tilde (`~`) for your home directory, or be relative to

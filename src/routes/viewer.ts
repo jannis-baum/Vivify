@@ -121,7 +121,7 @@ router.get(/.*/, async (req: Request, res: Response) => {
             </body>
 
             ${vivClient(req)}
-            ${config.scripts ? `<script type="text/javascript">${config.scripts}</script>` : ''}
+            ${config.clientScripts ? `<script type="text/javascript">${config.clientScripts}</script>` : ''}
         </html>
     `);
 });
