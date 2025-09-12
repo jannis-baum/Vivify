@@ -1,33 +1,34 @@
-import { exec } from 'child_process';
 import { homedir } from 'os';
-import { basename as pbasename, dirname as pdirname, parse as pparse } from 'path';
+import { basename as pbasename, dirname as pdirname, parse as pparse, extname } from 'path';
 import config from '../config.js';
-import { stat, readFile } from 'fs/promises';
-import { promisify } from 'util';
+import { isText } from 'istextorbinary';
+import { readFileSync } from 'fs';
+import { fileTypeFromBuffer } from 'file-type';
 
-const execPromise = promisify(exec);
+const relevantPlainTextMIMEs = new Map<string, string>([
+    ['html', 'text/html'],
+    ['js', 'text/javascript'],
+    ['mjs', 'text/javascript'],
+    ['css', 'text/css'],
+    ['json', 'application/json'],
+    ['svg', 'image/svg+xml'],
+]);
+// returns
+// - hopefully correct MIME for binary files based on magic number,
+// - extension-based MIME from the table above for plain text files we do need
+//   correct MIME types for
+// - text/plain for all other plain text files that only need to be rendered as
+//   code
 export const pmime = async (path: string) => {
-    const [{ stdout: mime }, stats] = await Promise.all([
-        execPromise(`file --mime-type -b '${path}'`),
-        stat(path),
-    ]);
-    // empty files can also be `application/x-empty`
-    // -> we unify to `inode/x-empty`
-    if (stats.size == 0) return 'inode/x-empty';
-    // single byte files don't work well for mime recognition as they will
-    // always be guessed as application/octet-stream
-    // -> we return `text/plain` if the single byte is a printable character
-    if (stats.size == 1) {
-        const content = await readFile(path);
-        const char = content.at(0);
-        if (
-            char !== undefined &&
-            // tab            line feed        carriage return   printable character range
-            (char === 0x09 || char === 0x0a || char === 0x0d || (char >= 0x20 && char <= 0x7e))
-        )
-            return 'text/plain';
+    const ext = extname(path).slice(1);
+    if (config.mdExtensions.includes(ext)) {
+        return 'text/plain';
     }
-    return mime.trim();
+    const content = readFileSync(path);
+    if (isText(path, content)) {
+        return relevantPlainTextMIMEs.get(ext) ?? 'text/plain';
+    }
+    return (await fileTypeFromBuffer(content))?.mime;
 };
 
 export const pcomponents = (path: string) => {

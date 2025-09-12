@@ -1,4 +1,4 @@
-import { Dirent } from 'fs';
+import { Dirent, readFileSync } from 'fs';
 import { homedir } from 'os';
 import { join as pjoin, dirname as pdirname, basename as pbasename } from 'path';
 import { pathToURL } from '../utils/path.js';
@@ -28,33 +28,49 @@ function wrap(contentType: string, content: string, linkPath?: string): string {
     return `<div class="content-${contentType}">${link}\n${content}</div>`;
 }
 
-function textRenderer(
-    fileEnding: string | undefined,
-): { render: Renderer; contentType: string } | undefined {
-    if (!fileEnding) return undefined;
-    if (config.mdExtensions.includes(fileEnding)) {
-        return { render: renderMarkdown, contentType: 'markdown' };
-    }
-    if (fileEnding === 'ipynb') {
-        return { render: renderNotebook, contentType: 'ipynb' };
-    }
+export function canRenderBody(mime: string) {
+    return mime.startsWith('image/') || mime.startsWith('text/') || mime === 'application/json';
 }
-
-export const shouldRender = (mime: string): boolean =>
-    mime.startsWith('text/') || mime === 'application/json' || mime === 'inode/x-empty';
-
-export function renderTextFile(content: string, path: string): string {
-    const fileEnding = path?.split('.')?.at(-1);
-    const renderInformation = textRenderer(fileEnding);
-    if (renderInformation === undefined) {
+export function renderBody(
+    path: string,
+    mime: string,
+    // undefined to read from file, string for live reloading
+    content: string | undefined = undefined,
+): string | undefined {
+    // render image file
+    if (mime.startsWith('image/')) {
         return wrap(
-            'txt',
-            renderMarkdown(`${pathHeading(path!)}\n\n\`\`\`${fileEnding}\n${content}\n\`\`\``),
+            'image',
+            renderMarkdown(`${pathHeading(path)}\n\n![${path}](<./${pbasename(path)}>)\n`),
             pdirname(path),
         );
     }
-    const { render, contentType } = renderInformation;
-    return wrap(contentType, render(content), pdirname(path));
+
+    // render text files
+    if (mime.startsWith('text/') || mime === 'application/json') {
+        const fileEnding = path?.split('.')?.at(-1);
+        const text = content ?? readFileSync(path).toString();
+
+        // markdown
+        if (fileEnding && config.mdExtensions.includes(fileEnding)) {
+            return wrap('markdown', renderMarkdown(text), pdirname(path));
+        }
+
+        // jupyter notebook
+        if (fileEnding === 'ipynb') {
+            return wrap('ipynb', renderNotebook(text), pdirname(path));
+        }
+
+        // any other plain text with syntax highlighting
+        // remove trailing line break
+        const code = text.replace(/\n$/, '');
+        return wrap(
+            'txt',
+            renderMarkdown(`${pathHeading(path!)}\n\n\`\`\`${fileEnding}\n${code}\n\`\`\``),
+            pdirname(path),
+        );
+    }
+    return undefined;
 }
 
 const dirListItem = (item: Dirent, path: string) =>

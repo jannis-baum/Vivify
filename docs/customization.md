@@ -51,6 +51,8 @@ keys:
 - **`"preferHomeTilde"`**\
   Prefer using `~` as a placeholder for your home directory in URLs as well as
   the `components` for `"pageTitle"` (default is `true`)
+- **`"renderHTML"`**\
+  Render HTML files rather than viewing them as code.
 - **`"katexOptions"`**\
   [Available KaTeX options](https://katex.org/docs/options.html), such as
 

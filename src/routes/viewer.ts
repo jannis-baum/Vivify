@@ -7,7 +7,7 @@ import { Request, Response, Router } from 'express';
 import { clientsAt, messageClients } from '../app.js';
 import config from '../config.js';
 import { pcomponents, pmime, preferredPath, urlToPath } from '../utils/path.js';
-import { renderDirectory, renderTextFile, shouldRender } from '../parser/parser.js';
+import { renderDirectory, renderBody, canRenderBody } from '../parser/parser.js';
 
 export const router = Router();
 
@@ -22,6 +22,15 @@ const pageTitle = (path: string) => {
         `);
     } else return pjoin(...comps.slice(-2));
 };
+
+function vivClient(req: Request) {
+    return `<script>
+        window.VIV_PORT = "${config.port}";
+        window.VIV_PATH = "${urlToPath(req.path)}";
+    </script>
+    <script type="module" src="/static/client.mjs"></script>
+    <script type="text/javascript" src="/static/clipboard/clipboard.min.js"></script>`;
+}
 
 if (config.preferHomeTilde) {
     router.use((req, res, next) => {
@@ -42,14 +51,38 @@ router.get(/.*/, async (req: Request, res: Response) => {
             if (lstatSync(path).isDirectory()) {
                 body = renderDirectory(path);
             } else {
-                const data = readFileSync(path);
                 const mime = await pmime(path);
-                if (!shouldRender(mime)) {
-                    res.setHeader('Content-Type', mime).send(data);
+                const shouldRenderBody = (() => {
+                    // config says render HTML as is and this is HTML -> no Vivify body rendering
+                    if (config.renderHTML && mime === 'text/html') return false;
+                    // Vivify rendering if request wants HTML reply
+                    return (req.get('Accept') ?? '').split(',').includes('text/html');
+                })();
+
+                if (mime === undefined) throw 'Unable to determine MIME type';
+                if (shouldRenderBody) body = renderBody(path, mime);
+                // shouldn't render body or failed to render -> send file data instead
+                if (!body || !shouldRenderBody) {
+                    const data = readFileSync(path);
+                    if (mime === 'text/html') {
+                        // Inject Vivify client script
+                        let html = data.toString();
+                        // If there's one closing tag for the body we add the
+                        // Vivify client script to the end of the body. If not
+                        // then we try to just add it to the end of the
+                        // document.
+                        const bodyEndCount = (html.match(/<\/body>/g) || []).length;
+                        if (bodyEndCount === 1) {
+                            html = html.replace('</body>', `${vivClient(req)}</body>`);
+                        } else {
+                            html = html + vivClient(req);
+                        }
+                        res.send(html);
+                    } else {
+                        res.setHeader('Content-Type', mime).send(data);
+                    }
                     return;
                 }
-
-                body = renderTextFile(data.toString(), path);
             }
         } catch (error) {
             res.status(500).send(String(error));
@@ -82,42 +115,62 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 </div>
             </body>
 
-            <script>
-                window.VIV_PORT = "${config.port}";
-                window.VIV_PATH = "${urlToPath(req.path)}";
-            </script>
+            ${vivClient(req)}
             ${config.scripts ? `<script type="text/javascript">${config.scripts}</script>` : ''}
-            <script type="module" src="/static/client.mjs"></script>
-            <script type="text/javascript" src="/static/clipboard/clipboard.min.js"></script>
         </html>
     `);
 });
 
 // POST:
-// - `cursor`: scroll to corresponding line in source file
+// - `cursor`: scroll to corresponding line in source file (only works in markdown)
 // - `content`: set content for live viewer
-// - `reload`: set live content to file content (overwrites `content`)
+// - `reload`:
+//   - for live-reloadable files, set live content to file content (overwrites `content`)
+//   - for non-live-reloadable files, hard-reload page
 router.post(/.*/, async (req: Request, res: Response) => {
     const path = res.locals.filepath;
     const { cursor, reload } = req.body;
     let { content } = req.body;
 
-    if (reload) {
-        const mime = await pmime(path);
-        if (!shouldRender(mime)) {
-            res.status(400).send('Reload is only permitted on rendered files');
+    const mime = await pmime(path);
+    if (!mime) {
+        res.status(500).send('Unable to determine MIME type');
+        return;
+    }
+    const isLiveReloadable = !(config.renderHTML && mime === 'text/html') && canRenderBody(mime);
+    const messages = Array<string>();
+
+    if (reload === true) {
+        if (isLiveReloadable) {
+            // get content from file for soft-reload below
+            content = readFileSync(path).toString();
+        } else {
+            // hard-reload
+            messages.push('RELOAD: 1');
+        }
+    }
+
+    // soft-reload content
+    if (content !== undefined) {
+        if (!isLiveReloadable) {
+            res.status(400).send('Live content is not permitted');
             return;
         }
-        content = readFileSync(path).toString();
-    }
-    const clients = clientsAt(path);
-    if (content !== undefined) {
-        const rendered = renderTextFile(content, path);
+        const rendered = renderBody(path, mime, content);
+        if (!rendered) {
+            res.status(500).send('Failed to render live content');
+            return;
+        }
         liveContent.set(path, rendered);
-        messageClients(clients, `UPDATE: ${rendered}`);
+        messages.push(`UPDATE: ${rendered}`);
     }
-    if (cursor) messageClients(clients, `SCROLL: ${cursor}`);
 
+    if (cursor !== undefined) {
+        messages.push(`SCROLL: ${cursor}`);
+    }
+
+    const clients = clientsAt(path);
+    messages.forEach((message) => messageClients(clients, message));
     res.send({ clients: clients.length });
 });
 
