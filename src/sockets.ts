@@ -2,14 +2,21 @@ import { WebSocketServer, WebSocket } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import { Server } from 'http';
 import { openFileAt } from './cli.js';
+import fs from 'fs';
 
 interface SocketData {
     socket: WebSocket;
     alive: boolean;
     path?: string;
+    watcher?: fs.FSWatcher;
 }
 
-export function setupSockets(server: Server, onNoClients: () => void, onFirstClient: () => void) {
+export function setupSockets(
+    server: Server,
+    onNoClients: () => void,
+    onFirstClient: () => void,
+    onWrite: (path: string) => void,
+) {
     onNoClients();
 
     const wss = new WebSocketServer({ server });
@@ -21,6 +28,7 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
         const socket = sockets.get(id);
         if (!socket) return;
         socket.socket.terminate();
+        socket.watcher?.close();
         sockets.delete(id);
         if (!sockets.size) onNoClients();
     };
@@ -47,6 +55,12 @@ export function setupSockets(server: Server, onNoClients: () => void, onFirstCli
             switch (key) {
                 case 'PATH':
                     sockets.get(id)!.path = value;
+                    console.log('setting up watcher for', value);
+                    sockets.get(id)!.watcher = fs.watch(value, (eventType) => {
+                        console.log('watcher triggered for', value, 'with', eventType);
+                        if (eventType !== 'change') return;
+                        onWrite(value);
+                    });
                     const queue = openQueue.get(value);
                     if (!queue) return;
 

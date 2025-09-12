@@ -32,6 +32,11 @@ function vivClient(req: Request) {
     <script type="text/javascript" src="/static/clipboard/clipboard.min.js"></script>`;
 }
 
+export function onWrite(path: string) {
+    if (liveContent.has(path)) return;
+    messageClients(clientsAt(path), 'RELOAD: 1');
+}
+
 if (config.preferHomeTilde) {
     router.use((req, res, next) => {
         if (req.method === 'GET' && req.path.startsWith(homedir())) {
