@@ -7,7 +7,7 @@ import path from 'path';
 // defaultConfig, envConfigs and configFileBlocked
 type Config = {
     styles?: string;
-    scripts?: string;
+    clientScripts?: string;
     dirListIgnore?: string[];
     port: number;
     timeout: number;
@@ -101,7 +101,7 @@ const config = ((): Config => {
 
     // get styles, scripts and ignore files
     config.styles = getFileContents(config.styles, configBaseDir);
-    config.scripts = getFileContents(config.scripts, configBaseDir);
+    config.clientScripts = getFileContents(config.clientScripts, configBaseDir);
     config.dirListIgnore = getFileContents(config.dirListIgnore, configBaseDir)
         .split('\n')
         .filter((pattern) => pattern !== '' && pattern[0] !== '#');
