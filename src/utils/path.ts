@@ -5,18 +5,28 @@ import { isText } from 'istextorbinary';
 import { readFileSync } from 'fs';
 import { fileTypeFromBuffer } from 'file-type';
 
-// returns hopefully correct MIME for binary files,
-// text/html for plain text files ending in .hmtl, and
-// text/plain for all other plain text files
+const relevantPlainTextMIMEs = new Map<string, string>([
+    ['html', 'text/html'],
+    ['js', 'text/javascript'],
+    ['mjs', 'text/javascript'],
+    ['css', 'text/css'],
+    ['json', 'application/json'],
+    ['svg', 'image/svg+xml'],
+]);
+// returns
+// - hopefully correct MIME for binary files based on magic number,
+// - extension-based MIME from the table above for plain text files we do need
+//   correct MIME types for
+// - text/plain for all other plain text files that only need to be rendered as
+//   code
 export const pmime = async (path: string) => {
     const ext = extname(path).slice(1);
     if (config.mdExtensions.includes(ext)) {
         return 'text/plain';
     }
-    // always returns text/plain for any text file
     const content = readFileSync(path);
     if (isText(path, content)) {
-        return ext === 'html' ? 'text/html' : 'text/plain';
+        return relevantPlainTextMIMEs.get(ext) ?? 'text/plain';
     }
     return (await fileTypeFromBuffer(content))?.mime;
 };
