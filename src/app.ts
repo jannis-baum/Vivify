@@ -5,7 +5,7 @@ import express from 'express';
 import config, { address } from './config.js';
 import { router as healthRouter } from './routes/health.js';
 import { router as staticRouter } from './routes/static.js';
-import { router as viewerRouter } from './routes/viewer.js';
+import { onWrite, router as viewerRouter } from './routes/viewer.js';
 import { router as openRouter } from './routes/_open.js';
 import { setupSockets } from './sockets.js';
 import { urlToPath } from './utils/path.js';
@@ -37,6 +37,7 @@ export const { clientsAt, messageClients, openAndMessage } = setupSockets(
     () => {
         if (shutdownTimer) clearInterval(shutdownTimer);
     },
+    onWrite,
 );
 
 const openTargetsAndCompleteStartup = handleArgs();
