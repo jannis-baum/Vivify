@@ -7,7 +7,7 @@ import { Request, Response, Router } from 'express';
 import { clientsAt, messageClients } from '../app.js';
 import config from '../config.js';
 import { pcomponents, pmime, preferredPath, urlToPath } from '../utils/path.js';
-import { renderDirectory, renderBody } from '../parser/parser.js';
+import { renderDirectory, renderBody, canRenderBody } from '../parser/parser.js';
 
 export const router = Router();
 
@@ -122,34 +122,55 @@ router.get(/.*/, async (req: Request, res: Response) => {
 });
 
 // POST:
-// - `cursor`: scroll to corresponding line in source file
+// - `cursor`: scroll to corresponding line in source file (only works in markdown)
 // - `content`: set content for live viewer
-// - `reload`: set live content to file content (overwrites `content`)
+// - `reload`:
+//   - for live-reloadable files, set live content to file content (overwrites `content`)
+//   - for non-live-reloadable files, hard-reload page
 router.post(/.*/, async (req: Request, res: Response) => {
     const path = res.locals.filepath;
     const { cursor, reload } = req.body;
     let { content } = req.body;
 
-    if (reload) content = readFileSync(path).toString();
+    const mime = await pmime(path);
+    if (!mime) {
+        res.status(500).send('Unable to determine MIME type');
+        return;
+    }
+    const isLiveReloadable = !(config.renderHTML && mime === 'text/html') && canRenderBody(mime);
+    const messages = Array<string>();
 
-    const clients = clientsAt(path);
+    if (reload === true) {
+        if (isLiveReloadable) {
+            // get content from file for soft-reload below
+            content = readFileSync(path).toString();
+        } else {
+            // hard-reload
+            messages.push('RELOAD: 1');
+        }
+    }
 
+    // soft-reload content
     if (content !== undefined) {
-        const mime = await pmime(path);
-        if (!mime) {
-            res.status(500).send('Unable to determine MIME type');
+        if (!isLiveReloadable) {
+            res.status(400).send('Live content is not permitted');
             return;
         }
         const rendered = renderBody(path, mime, content);
         if (!rendered) {
-            res.status(400).send('Reload is only permitted on rendered files');
+            res.status(500).send('Failed to render live content');
             return;
         }
         liveContent.set(path, rendered);
-        messageClients(clients, `UPDATE: ${rendered}`);
+        messages.push(`UPDATE: ${rendered}`);
     }
-    if (cursor) messageClients(clients, `SCROLL: ${cursor}`);
 
+    if (cursor !== undefined) {
+        messages.push(`SCROLL: ${cursor}`);
+    }
+
+    const clients = clientsAt(path);
+    messages.forEach((message) => messageClients(clients, message));
     res.send({ clients: clients.length });
 });
 

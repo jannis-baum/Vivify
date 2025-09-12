@@ -28,6 +28,9 @@ function wrap(contentType: string, content: string, linkPath?: string): string {
     return `<div class="content-${contentType}">${link}\n${content}</div>`;
 }
 
+export function canRenderBody(mime: string) {
+    return mime.startsWith('image/') || mime.startsWith('text/') || mime === 'application/json';
+}
 export function renderBody(
     path: string,
     mime: string,
