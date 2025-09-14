@@ -70,14 +70,13 @@ jobs:
           - os: macos-13
             arch: x86
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
     steps:
       - name: checkout
         uses: actions/checkout@v4
-      - name: get Homebrew Node
+      - name: get Homebrew Node dependencies
         # lists node dependencies, these need to be mirrored for the Homebrew package
         run: |
-          brew update
-          brew install node
           brew deps --installed --direct node > macos-deps-${{ matrix.arch }}.txt
       - name: build
         run: |
