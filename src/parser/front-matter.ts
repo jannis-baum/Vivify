@@ -1,5 +1,9 @@
+import octicons from '@primer/octicons';
 import MarkdownIt, { StateCore } from 'markdown-it/index.js';
 import { parse } from 'yaml';
+
+const upIcon = octicons['chevron-up'].toSVG({ class: 'icon-chevron' });
+const downIcon = octicons['chevron-down'].toSVG({ class: 'icon-chevron' });
 
 export default function parseFrontMatter(md: MarkdownIt) {
     md.core.ruler.after('block', 'convert_front_matter', (state: StateCore) => {
@@ -9,12 +13,22 @@ export default function parseFrontMatter(md: MarkdownIt) {
             const yaml = tokens[0].meta;
             const displayToken = new state.Token('html_block', '', 0);
             displayToken.content = `<div id="front-matter-section">
-                <div style="text-align: right">
-                    <a href="" id="front-matter-button" onClick="(function(){
+                <script type="text/javascript">
+                    function frontMatterButtonClicked() {
                         const display = document.getElementById('front-matter-display');
-                        display.style.display = display.style.display == 'none' ? 'block' : 'none';
-                        return false;
-                    })();return false;">Front Matter</a>
+                        if (display.style.display == 'none') {
+                            display.style.display = 'block';
+                            document.getElementById('front-matter-collapse-icon').innerHTML = '${upIcon}';
+                        } else {
+                            display.style.display = 'none';
+                            document.getElementById('front-matter-collapse-icon').innerHTML = '${downIcon}';
+                        }
+                    }
+                </script>
+                <div style="text-align: right">
+                    <a href="" id="front-matter-button" onClick="frontMatterButtonClicked(); return false;">
+                        Front Matter <span id="front-matter-collapse-icon">${downIcon}</span>
+                    </a>
                 </div>
                 <pre id="front-matter-display" style="display: none"><code>${yaml}</code></pre>
             </div>`;

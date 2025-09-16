@@ -10,7 +10,7 @@ import octicons from '@primer/octicons';
 
 const dirIcon = octicons['file-directory-fill'].toSVG({ class: 'icon-directory' });
 const fileIcon = octicons['file'].toSVG({ class: 'icon-file' });
-const backIcon = octicons['chevron-left'].toSVG({ class: 'icon-back' });
+const backIcon = octicons['chevron-left'].toSVG({ class: 'icon-chevron' });
 
 export type Renderer = (content: string) => string;
 

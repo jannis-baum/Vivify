@@ -25,8 +25,8 @@ body {
     display: inline-flex;
     align-items: center;
 }
-.icon-back {
-    fill: var(--icon-back);
+.icon-chevron {
+    fill: var(--icon-chevron);
 }
 
 @media print {
