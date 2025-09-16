@@ -2,6 +2,7 @@ import MarkdownIt from 'markdown-it';
 import anchor from 'markdown-it-anchor';
 import copycode from './copycode.js';
 import frontMatter from 'markdown-it-front-matter';
+import parseFrontMatter from './front-matter.js';
 import highlight from './highlight.js';
 import graphviz from './dot.js';
 import mermaid from './mermaid.js';
@@ -61,9 +62,10 @@ mdit.use(texMath, {
     delimiters: 'dollars',
     katexOptions: config.katexOptions,
 });
-// markdown-it-front-matter requires a callback function but we aren’t doing
-// anything with it, so we just pass in a noop.
+
 mdit.use(frontMatter, () => {});
+mdit.use(parseFrontMatter);
+
 // anchor has to be added after attribute plugin for ids to work
 mdit.use(anchor, {
     permalink: anchor.permalink.ariaHidden({
