@@ -2,6 +2,20 @@
 front-matter: This should not be shown in the renderer
 ---
 
+<script type="text/javascript">
+// this is an example for how to access front matter data from client-side JS
+const frontMatterElement = document.getElementById('front-matter');
+
+if (frontMatterElement) {
+    try {
+        const frontMatter = JSON.parse(frontMatterElement.textContent);
+        console.log('Front Matter:', frontMatter);
+    } catch (err) {
+        console.error('Failed to parse front matter JSON:', err);
+    }
+}
+</script>
+
 # Additional Markdown test file
 
 Test various other Markdown syntax here, starting with the table of contents
