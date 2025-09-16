@@ -1,5 +1,8 @@
 ---
-front-matter: This should not be shown in the renderer
+front-matter: This should be in a collapsible code block
+more-info: |
+    You should also see the data printed in the console because this document
+    adds a script that does that :)
 ---
 
 <script type="text/javascript">
