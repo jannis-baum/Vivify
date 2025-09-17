@@ -70,11 +70,20 @@ li[class^='dir-list-symlink'] > a {
     align-items: center;
     color: var(--text-secondary);
 }
+
+/* symlink destination underline color */
+li[class^='dir-list-symlink'] > a:hover .dir-list-symlink-dest {
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+}
+
 .icon-directory { fill: var(--icon-directory); }
 .icon-file { fill: var(--icon-file); }
-.icon-symlink-file { fill: var(--text-link); }
+.icon-symlink-file { fill: currentColor; }
 .icon-symlink-dest {
-    margin-left: 12px;
+    width: 13px;
+    height: 13px;
+    margin-left: 8px;
     margin-right: 8px;
-    fill: var(--text-secondary);
+    fill: currentColor;
 }
