@@ -12,7 +12,8 @@ import * as cheerio from 'cheerio';
 const dirIcon = octicons['file-directory-fill'].toSVG({ class: 'icon-directory' });
 const fileIcon = octicons['file'].toSVG({ class: 'icon-file' });
 const backIcon = octicons['chevron-left'].toSVG({ class: 'icon-chevron' });
-const linkIcon = octicons['file-symlink-file'].toSVG({ class: 'icon-symlink' });
+const symlinkFileIcon = octicons['file-symlink-file'].toSVG({ class: 'icon-symlink-file' });
+const symlinkDestIcon = octicons['arrow-right'].toSVG({ class: 'icon-symlink-dest' });
 
 export type Renderer = (content: string) => string;
 export const moveIntoNavClass = 'MOVE-INTO-TOP-NAV';
@@ -87,10 +88,12 @@ function dirListItem(item: Dirent, path: string): string {
     if (item.isSymbolicLink()) {
         const targetPath = readlinkSync(pjoin(path, item.name));
         const isValid = existsSync(pjoin(path, targetPath));
-        return `<li class="dir-list-symboliclink" name="${item.name}">
+        return `<li class="dir-list-symlink" name="${item.name}">
                     <a href="${isValid ? pathToURL(pjoin(path, targetPath)) : ''}">
-                        ${linkIcon}${item.name} ->&nbsp;
-                        <span style="color: ${isValid ? '#55ff55' : '#ff0000'}">${targetPath}</span>
+                        ${symlinkFileIcon}${item.name}
+                        <span class="dir-list-symlink-dest">
+                            ${symlinkDestIcon}${targetPath}
+                        </span>
                     </a>
                 </li>`;
     } else {

@@ -62,7 +62,19 @@ li[class^='dir-list-'] > a:hover {
 li[class^='dir-list-'] > a > svg {
     margin-right: 0.3rem;
 }
-li[class^='dir-list-symboliclink'] > a { color: var(--text-link); }
+li[class^='dir-list-symlink'] > a {
+    color: var(--text-link);
+}
+.dir-list-symlink-dest {
+    display: inline-flex;
+    align-items: center;
+    color: var(--text-secondary);
+}
 .icon-directory { fill: var(--icon-directory); }
 .icon-file { fill: var(--icon-file); }
-.icon-symlink { fill: var(--text-link); }
+.icon-symlink-file { fill: var(--text-link); }
+.icon-symlink-dest {
+    margin-left: 12px;
+    margin-right: 8px;
+    fill: var(--text-secondary);
+}
