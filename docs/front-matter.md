@@ -18,7 +18,7 @@ if (frontMatterElement) {
 }
 ```
 
-This allows you to do whatever we want with it and customize Vivify to your
+This allows you to do whatever you want with it and customize Vivify to your
 individual usage of front matter.
 
 In case you want to avoid the collapsible code block, you can add
