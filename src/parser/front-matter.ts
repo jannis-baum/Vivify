@@ -29,7 +29,11 @@ export default function parseFrontMatter(md: MarkdownIt) {
         tokens.splice(1, 0, displayToken);
 
         const buttonToken = new state.Token('html_block', '', 0);
-        // script toggles visibility of display & moves button into top nav
+        // script toggles visibility of display & moves button into top nav. we
+        // use an anonomous function and call it to make sure we don't define
+        // any variable because that would make it crash on re-execution when
+        // the client updates the content. redefining functions on the other
+        // hand is allowed in JS.
         buttonToken.content = `
         <div id="front-matter-button">
             <script type="text/javascript">
@@ -43,9 +47,11 @@ export default function parseFrontMatter(md: MarkdownIt) {
                         document.getElementById('front-matter-collapse-icon').innerHTML = '${downIcon}';
                     }
                 }
-                const frontMatterButton = document.getElementById("front-matter-button");
-                const navArea = document.getElementById("top-nav");
-                navArea.appendChild(frontMatterButton);
+                (() => {
+                    const frontMatterButton = document.getElementById("front-matter-button");
+                    const navArea = document.getElementById("top-nav");
+                    navArea.appendChild(frontMatterButton);
+                })();
             </script>
             <a href="" onClick="frontMatterButtonClicked(); return false;">
                 front matter<span id="front-matter-collapse-icon">${downIcon}</span>
