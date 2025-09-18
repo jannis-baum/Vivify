@@ -30,7 +30,7 @@ body {
 }
 
 @media print {
-    #top-nav {
+    #top-nav, #front-matter-section {
         display: none;
     }
 }
