@@ -1,6 +1,6 @@
-import { Dirent, readFileSync } from 'fs';
+import { Dirent, readFileSync, readlinkSync } from 'fs';
 import { homedir } from 'os';
-import { join as pjoin, dirname as pdirname, basename as pbasename } from 'path';
+import { join as pjoin, dirname as pdirname, basename as pbasename, isAbsolute } from 'path';
 import { pathToURL } from '../utils/path.js';
 import config from '../config.js';
 import renderNotebook from './ipynb.js';
@@ -11,6 +11,8 @@ import octicons from '@primer/octicons';
 const dirIcon = octicons['file-directory-fill'].toSVG({ class: 'icon-directory' });
 const fileIcon = octicons['file'].toSVG({ class: 'icon-file' });
 const backIcon = octicons['chevron-left'].toSVG({ class: 'icon-back' });
+const symlinkFileIcon = octicons['file-symlink-file'].toSVG({ class: 'icon-symlink-file' });
+const symlinkDestIcon = octicons['arrow-right'].toSVG({ class: 'icon-symlink-dest' });
 
 export type Renderer = (content: string) => string;
 
@@ -73,12 +75,25 @@ export function renderBody(
     return undefined;
 }
 
-const dirListItem = (item: Dirent, path: string) =>
-    `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}" name="${item.name}">
-        <a href="${pathToURL(pjoin(path, item.name))}">
-            ${item.isDirectory() ? dirIcon : fileIcon}${item.name}
-        </a>
-    </li>`;
+function dirListItem(item: Dirent, path: string): string {
+    if (item.isSymbolicLink()) {
+        const targetPath = readlinkSync(pjoin(path, item.name));
+        return `<li class="dir-list-symlink" name="${item.name}">
+                    <a href="${isAbsolute(targetPath) ? pathToURL(targetPath) : pathToURL(pjoin(path, targetPath))}">
+                        ${symlinkFileIcon}${item.name}
+                        <span class="dir-list-symlink-dest">
+                            ${symlinkDestIcon}${targetPath}
+                        </span>
+                    </a>
+                </li>`;
+    } else {
+        return `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}" name="${item.name}">
+                    <a href="${pathToURL(pjoin(path, item.name))}">
+                        ${item.isDirectory() ? dirIcon : fileIcon}${item.name}
+                    </a>
+                </li>`;
+    }
+}
 
 function dirUpItem(path: string): string {
     if (pbasename(path) == '') {
