@@ -1,4 +1,4 @@
-import { Dirent, readFileSync, readlinkSync, existsSync } from 'fs';
+import { Dirent, readFileSync, readlinkSync } from 'fs';
 import { homedir } from 'os';
 import { join as pjoin, dirname as pdirname, basename as pbasename } from 'path';
 import { pathToURL } from '../utils/path.js';
@@ -87,9 +87,8 @@ export function renderBody(
 function dirListItem(item: Dirent, path: string): string {
     if (item.isSymbolicLink()) {
         const targetPath = readlinkSync(pjoin(path, item.name));
-        const isValid = existsSync(pjoin(path, targetPath));
         return `<li class="dir-list-symlink" name="${item.name}">
-                    <a href="${isValid ? pathToURL(pjoin(path, targetPath)) : ''}">
+                    <a href="${pathToURL(pjoin(path, targetPath))}">
                         ${symlinkFileIcon}${item.name}
                         <span class="dir-list-symlink-dest">
                             ${symlinkDestIcon}${targetPath}
