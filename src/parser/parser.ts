@@ -1,6 +1,6 @@
 import { Dirent, readFileSync, readlinkSync } from 'fs';
 import { homedir } from 'os';
-import { join as pjoin, dirname as pdirname, basename as pbasename } from 'path';
+import { join as pjoin, dirname as pdirname, basename as pbasename, isAbsolute } from 'path';
 import { pathToURL } from '../utils/path.js';
 import config from '../config.js';
 import renderNotebook from './ipynb.js';
@@ -88,7 +88,7 @@ function dirListItem(item: Dirent, path: string): string {
     if (item.isSymbolicLink()) {
         const targetPath = readlinkSync(pjoin(path, item.name));
         return `<li class="dir-list-symlink" name="${item.name}">
-                    <a href="${pathToURL(pjoin(path, targetPath))}">
+                    <a href="${isAbsolute(targetPath) ? pathToURL(targetPath) : pathToURL(pjoin(path, targetPath))}">
                         ${symlinkFileIcon}${item.name}
                         <span class="dir-list-symlink-dest">
                             ${symlinkDestIcon}${targetPath}
