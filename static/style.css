@@ -21,11 +21,15 @@ body {
 .content-txt { max-width: 1200px; }
 
 /* buttons at the top of the page */
-#top-nav-up, #front-matter-button {
+#top-nav {
+    display: flex;
+    justify-content: space-between;
+}
+#top-nav-up, #front-matter-button a {
     display: inline-flex;
     align-items: center;
 }
-#front-matter-button svg {
+#front-matter-button a svg {
     display: block;
     margin-left: 0.2em;
 }
@@ -34,7 +38,7 @@ body {
 }
 
 @media print {
-    #top-nav, #front-matter-section {
+    #top-nav, #front-matter-button {
         display: none;
     }
 }

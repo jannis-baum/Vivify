@@ -25,7 +25,13 @@ export default function parseFrontMatter(md: MarkdownIt) {
 
         // collapsible front matter section
         const displayToken = new state.Token('html_block', '', 0);
-        displayToken.content = `<div id="front-matter-section">
+        displayToken.content = `<pre id="front-matter-display" style="display: none"><code>${yaml}</code></pre>`;
+        tokens.splice(1, 0, displayToken);
+
+        const buttonToken = new state.Token('html_block', '', 0);
+        // script toggles visibility of display & moves button into top nav
+        buttonToken.content = `
+        <div id="front-matter-button">
             <script type="text/javascript">
                 function frontMatterButtonClicked() {
                     const display = document.getElementById('front-matter-display');
@@ -37,15 +43,16 @@ export default function parseFrontMatter(md: MarkdownIt) {
                         document.getElementById('front-matter-collapse-icon').innerHTML = '${downIcon}';
                     }
                 }
+                const frontMatterButton = document.getElementById("front-matter-button");
+                const navArea = document.getElementById("top-nav");
+                navArea.appendChild(frontMatterButton);
             </script>
-            <div style="text-align: right">
-                <a href="" id="front-matter-button" onClick="frontMatterButtonClicked(); return false;">
-                    Front Matter <span id="front-matter-collapse-icon">${downIcon}</span>
-                </a>
-            </div>
-            <pre id="front-matter-display" style="display: none"><code>${yaml}</code></pre>
-        </div>`;
-        tokens.splice(1, 0, displayToken);
+            <a href="" onClick="frontMatterButtonClicked(); return false;">
+                Front Matter <span id="front-matter-collapse-icon">${downIcon}</span>
+            </a>
+        </div>
+        `;
+        tokens.splice(2, 0, buttonToken);
 
         return true;
     });

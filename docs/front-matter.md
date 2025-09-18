@@ -24,7 +24,7 @@ individual usage of front matter.
 In case you want to avoid the collapsible code block, you can add
 
 ```css
-#front-matter-section {
+#front-matter-button {
     display: none;
 }
 ```
