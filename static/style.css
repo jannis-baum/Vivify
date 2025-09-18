@@ -20,10 +20,14 @@ body {
 }
 .content-txt { max-width: 1200px; }
 
-/* parent directory link */
-#top-nav > a {
+/* buttons at the top of the page */
+#top-nav-up, #front-matter-button {
     display: inline-flex;
     align-items: center;
+}
+#front-matter-button svg {
+    display: block;
+    margin-left: 0.2em;
 }
 .icon-chevron {
     fill: var(--icon-chevron);
