@@ -12,7 +12,7 @@ const frontMatterElement = document.getElementById('front-matter');
 if (frontMatterElement) {
     try {
         const frontMatter = JSON.parse(frontMatterElement.textContent);
-        console.log('Front Matter:', frontMatter);
+        console.log('front matter:', frontMatter);
     } catch (err) {
         console.error('Failed to parse front matter JSON:', err);
     }

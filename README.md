@@ -33,7 +33,7 @@ features!
   are connected
 - various [customization options](docs/customization.md)
 - [produce nice looking PDFs](docs/pdfs.md) from Markdown
-- automatic parsing of Front Matter allowing for [custom
+- automatic parsing of front matter allowing for [custom
   usage](docs/front-matter.md)
   
 If you need any additional features, feel free to [open an

@@ -48,7 +48,7 @@ export default function parseFrontMatter(md: MarkdownIt) {
                 navArea.appendChild(frontMatterButton);
             </script>
             <a href="" onClick="frontMatterButtonClicked(); return false;">
-                Front Matter <span id="front-matter-collapse-icon">${downIcon}</span>
+                front matter<span id="front-matter-collapse-icon">${downIcon}</span>
             </a>
         </div>
         `;
