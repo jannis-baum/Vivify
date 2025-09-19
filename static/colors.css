@@ -20,7 +20,7 @@
 
     --icon-directory: var(--text-secondary);
     --icon-file: var(--text-secondary);
-    --icon-back: var(--text-secondary);
+    --icon-chevron: var(--text-secondary);
 
     --syntax-text: var(--text-primary);
     --syntax-keyword: #aed7ff;
@@ -91,7 +91,7 @@
 
         --icon-directory: #54aeff;
         --icon-file: #636c76;
-        --icon-back: var(--text-secondary);
+        --icon-chevron: var(--text-secondary);
 
         /* source for light mode syntax theme:
          * https://github.com/highlightjs/highlight.js/blob/main/src/styles/github.css

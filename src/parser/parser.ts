@@ -7,12 +7,14 @@ import renderNotebook from './ipynb.js';
 import renderMarkdown from './markdown.js';
 import { globSync } from 'glob';
 import octicons from '@primer/octicons';
+import * as cheerio from 'cheerio';
 
 const dirIcon = octicons['file-directory-fill'].toSVG({ class: 'icon-directory' });
 const fileIcon = octicons['file'].toSVG({ class: 'icon-file' });
-const backIcon = octicons['chevron-left'].toSVG({ class: 'icon-back' });
+const backIcon = octicons['chevron-left'].toSVG({ class: 'icon-chevron' });
 
 export type Renderer = (content: string) => string;
+export const moveIntoNavClass = 'MOVE-INTO-TOP-NAV';
 
 const pathHeading: Renderer = (path: string) => `# \`${path.replace(homedir(), '~')}\``;
 
@@ -25,7 +27,14 @@ function wrap(contentType: string, content: string, linkPath?: string): string {
                     </a>
                 </div>`;
     }
-    return `<div class="content-${contentType}">${link}\n${content}</div>`;
+    const html = `<div class="content-${contentType}">${link}\n${content}</div>`;
+    // move body elements that want to be in nav bar
+    const $ = cheerio.load(html);
+    $(`.${moveIntoNavClass}`).each((_, el) => {
+        $(el).removeClass(moveIntoNavClass);
+        $('#top-nav').append(el);
+    });
+    return $.html();
 }
 
 export function canRenderBody(mime: string) {

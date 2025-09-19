@@ -20,17 +20,25 @@ body {
 }
 .content-txt { max-width: 1200px; }
 
-/* parent directory link */
-#top-nav > a {
+/* buttons at the top of the page */
+#top-nav {
+    display: flex;
+    justify-content: space-between;
+}
+#top-nav-up, #front-matter-button a {
     display: inline-flex;
     align-items: center;
 }
-.icon-back {
-    fill: var(--icon-back);
+#front-matter-button a svg {
+    display: block;
+    margin-left: 0.2em;
+}
+.icon-chevron {
+    fill: var(--icon-chevron);
 }
 
 @media print {
-    #top-nav {
+    #top-nav, #front-matter-button {
         display: none;
     }
 }

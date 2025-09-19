@@ -33,6 +33,8 @@ features!
   are connected
 - various [customization options](docs/customization.md)
 - [produce nice looking PDFs](docs/pdfs.md) from Markdown
+- automatic parsing of front matter allowing for [custom
+  usage](docs/front-matter.md)
   
 If you need any additional features, feel free to [open an
 issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
