@@ -6,17 +6,24 @@ more-info: |
 ---
 
 <script type="text/javascript">
-// this is an example for how to access front matter data from client-side JS
-const frontMatterElement = document.getElementById('front-matter');
+// this is an example for how to access front matter data from within the
+// document. the anonymous function is used because in-document scripts will be
+// re-executed on every soft reload (e.g. when editing in Vim with the Vim
+// plugin), which would lead to a crash when redefining variables. this does
+// not affect custom client-side JS because it is not re-run on every soft
+// reload.
+(() => {
+    const frontMatterElement = document.getElementById('front-matter');
 
-if (frontMatterElement) {
-    try {
-        const frontMatter = JSON.parse(frontMatterElement.textContent);
-        console.log('front matter:', frontMatter);
-    } catch (err) {
-        console.error('Failed to parse front matter JSON:', err);
+    if (frontMatterElement) {
+        try {
+            const frontMatter = JSON.parse(frontMatterElement.textContent);
+            console.log('front matter:', frontMatter);
+        } catch (err) {
+            console.error('Failed to parse front matter JSON:', err);
+        }
     }
-}
+})()
 </script>
 
 # Additional Markdown test file
