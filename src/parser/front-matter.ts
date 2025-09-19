@@ -1,6 +1,7 @@
 import octicons from '@primer/octicons';
 import MarkdownIt, { StateCore } from 'markdown-it/index.js';
 import { parse } from 'yaml';
+import { moveIntoNavClass } from './parser.js';
 
 const upIcon = octicons['chevron-up'].toSVG({ class: 'icon-chevron' });
 const downIcon = octicons['chevron-down'].toSVG({ class: 'icon-chevron' });
@@ -29,13 +30,9 @@ export default function parseFrontMatter(md: MarkdownIt) {
         tokens.splice(1, 0, displayToken);
 
         const buttonToken = new state.Token('html_block', '', 0);
-        // script toggles visibility of display & moves button into top nav. we
-        // use an anonomous function and call it to make sure we don't define
-        // any variable because that would make it crash on re-execution when
-        // the client updates the content. redefining functions on the other
-        // hand is allowed in JS.
+        // script toggles visibility of display & moves button into top nav.
         buttonToken.content = `
-        <div id="front-matter-button">
+        <div id="front-matter-button" class="${moveIntoNavClass}">
             <script type="text/javascript">
                 function frontMatterButtonClicked() {
                     const display = document.getElementById('front-matter-display');
@@ -47,11 +44,6 @@ export default function parseFrontMatter(md: MarkdownIt) {
                         document.getElementById('front-matter-collapse-icon').innerHTML = '${downIcon}';
                     }
                 }
-                (() => {
-                    const frontMatterButton = document.getElementById("front-matter-button");
-                    const navArea = document.getElementById("top-nav");
-                    navArea.appendChild(frontMatterButton);
-                })();
             </script>
             <a href="" onClick="frontMatterButtonClicked(); return false;">
                 front matter<span id="front-matter-collapse-icon">${downIcon}</span>
