@@ -12,7 +12,6 @@ type Config = {
     dirListIgnore?: string[];
     port: number;
     timeout: number;
-    pageTitle?: string;
     mdExtensions: string[];
     mdFilePatterns: RegExp[];
     preferHomeTilde: boolean;

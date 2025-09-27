@@ -13,16 +13,6 @@ export const router = Router();
 
 const liveContent = new Map<string, string>();
 
-const pageTitle = (path: string) => {
-    const comps = pcomponents(preferredPath(path));
-    if (config.pageTitle) {
-        return eval(`
-            const components = ${JSON.stringify(comps)};
-            ${config.pageTitle};
-        `);
-    } else return pjoin(...comps.slice(-2));
-};
-
 function vivClient(req: Request) {
     return `<script>
         window.VIV_PORT = "${config.port}";
@@ -47,12 +37,12 @@ if (config.preferHomeTilde) {
     });
 }
 
-function renderFullPage(title: string, body: string, req: Request): string {
+function renderFullPage(path: string, body: string, req: Request): string {
     return `
         <!DOCTYPE html>
         <html>
             <head>
-                <title>${title}</title>
+                <title>${pjoin(...pcomponents(preferredPath(path)).slice(-2))}</title>
                 <link rel="stylesheet" type="text/css" href="/static/colors.css"/>
                 <link rel="stylesheet" type="text/css" href="/static/style.css"/>
                 <link rel="stylesheet" type="text/css" href="/static/markdown.css"/>
@@ -76,13 +66,6 @@ function renderFullPage(title: string, body: string, req: Request): string {
 router.get(/.*/, async (req: Request, res: Response) => {
     const path = res.locals.filepath;
     let body = liveContent.get(path);
-
-    let title = 'custom title error';
-    try {
-        title = pageTitle(path);
-    } catch (error) {
-        body = `Error evaluating custom page title: ${error as string}`;
-    }
 
     if (!body) {
         try {
@@ -126,12 +109,12 @@ router.get(/.*/, async (req: Request, res: Response) => {
             const e = error as Error & { code?: string };
             const statusCode = e.code === 'ENOENT' ? 404 : 500;
             body = renderErrorPage(statusCode, e.message);
-            res.status(statusCode).send(renderFullPage(title, body, req));
+            res.status(statusCode).send(renderFullPage(path, body, req));
             return;
         }
     }
 
-    res.send(renderFullPage(title, body, req));
+    res.send(renderFullPage(path, body, req));
 });
 
 // POST:
