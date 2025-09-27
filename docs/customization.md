@@ -19,10 +19,8 @@ keys:
   A path to a single custom style sheet, or an array of paths for multiple style
   sheets applied in order. The paths can be absolute, start with a tilde (`~`)
   for your home directory, or be relative to your config file's directory. The
-  paths can also include [glob patterns](https://www.npmjs.com/package/glob).\
-  The styles will be applied after Vivify's [default styles](../static/) are
-  applied so that there are always sensible fallbacks but you can override
-  everything.
+  paths can also include [glob patterns](https://www.npmjs.com/package/glob).
+  See [here](styles.md) for more information.
 - **`"scripts"`**\
   A path to a single custom JavaScript to inject into the viewing pages, or an
   array of paths for multiple custom scripts injected in order. The paths can be
