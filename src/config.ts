@@ -11,7 +11,6 @@ type Config = {
     dirListIgnore?: string[];
     port: number;
     timeout: number;
-    pageTitle?: string;
     mdExtensions: string[];
     preferHomeTilde: boolean;
     renderHTML: boolean;

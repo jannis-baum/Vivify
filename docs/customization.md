@@ -36,21 +36,14 @@ keys:
 - **`"timeout"`**\
   How long the server should wait in milliseconds before shutting down after the
   last client disconnected (default is 10000)
-- **`"pageTitle"`**\
-  JavaScript code that will be evaluated to determine the viewer's page title.
-  Here, the variable `components` is set to a string array of path components
-  for the current file, e.g. `['~', 'some', 'path', 'file.txt']`. If this
-  evaluation fails, the title will be *custom title error* and you will see the
-  error message on the page. The default title are the last two components
-  joined with the path separator, e.g.  `path/file.txt`
 - **`"mdExtensions"`**\
   An array of file extensions that Vivify will render as Markdown. All other
   files (except for Jupyter Notebooks) will be displayed as monospaced text with
   code highlighting if available. The default Markdown extensions are
   `['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn']`
 - **`"preferHomeTilde"`**\
-  Prefer using `~` as a placeholder for your home directory in URLs as well as
-  the `components` for `"pageTitle"` (default is `true`)
+  Prefer using `~` as a placeholder for your home directory in URLs (default is
+  `true`)
 - **`"renderHTML"`**\
   Render HTML files rather than viewing them as code.
 - **`"katexOptions"`**\
