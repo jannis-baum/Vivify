@@ -17,9 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: set up node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 20.x
+          node-version: 24.x
       - uses: actions/checkout@v4
       - run: yarn
       - run: yarn lint
@@ -30,9 +30,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: set up node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 20.x
+          node-version: 24.x
       - name: checkout
         uses: actions/checkout@v4
       - run: yarn
@@ -46,9 +46,9 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
       - name: set up node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 20.x
+          node-version: 24.x
       - name: build
         run: |
           yarn
@@ -74,24 +74,18 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-      - name: get Homebrew Node dependencies
-        # lists node dependencies, these need to be mirrored for the Homebrew package
-        run: |
-          brew deps --installed --direct node > macos-deps-${{ matrix.arch }}.txt
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24.x
       - name: build
         run: |
           yarn
           VIV_VERSION="${{ github.ref_name }}" make macos
-      - name: upload artifact (macOS build)
+      - name: upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: vivify-macos-${{ matrix.arch }}
           path: build/macos
-      - name: upload artifact (macOS dependency list)
-        uses: actions/upload-artifact@v4
-        with:
-          name: macos-deps-${{ matrix.arch }}
-          path: macos-deps-${{ matrix.arch }}.txt
 
   release:
     name: Release
@@ -126,17 +120,6 @@ jobs:
           tar -czf vivify-linux.tar.gz vivify-linux
           tar -czf vivify-macos-arm.tar.gz vivify-macos-arm
           tar -czf vivify-macos-x86.tar.gz vivify-macos-x86
-      # macos dependencies -----------------------------------------------------
-      - name: download macos arm dependencies
-        uses: actions/download-artifact@v4
-        with:
-          name: macos-deps-arm
-          path: macos-deps-arm
-      - name: download macos x86 dependencies
-        uses: actions/download-artifact@v4
-        with:
-          name: macos-deps-x86
-          path: macos-deps-x86
       # release notes ----------------------------------------------------------
       # actions/checkout seems to have a bug where annotated tags are converted
       # to simple tags so we have to fetch them explicitly again
@@ -154,31 +137,10 @@ jobs:
               >> release.md
           echo -e "Linux: \`$(sha256sum vivify-linux.tar.gz | cut -d' ' -f1)\`\\" \
               >> release.md
-          echo -e "macOS ARM: \`$(sha256sum vivify-macos-arm.tar.gz | cut -d' ' -f1)\`" \
+          echo -e "macOS ARM: \`$(sha256sum vivify-macos-arm.tar.gz | cut -d' ' -f1)\`\\" \
               >> release.md
           echo -e "macOS x86: \`$(sha256sum vivify-macos-x86.tar.gz | cut -d' ' -f1)\`" \
               >> release.md
-          if ! cmp -s macos-deps-arm/macos-deps-arm.txt macos-deps-x86/macos-deps-x86.txt; then
-            echo -e '\n**macOS Homebrew ARM dependencies**\n\n```plain' \
-                >> release.md
-            cat macos-deps-arm/macos-deps-arm.txt \
-                >> release.md
-            echo -e '```\n' \
-                >> release.md
-            echo -e '\n**macOS Homebrew x86 dependencies**\n\n```plain' \
-                >> release.md
-            cat macos-deps-x86/macos-deps-x86.txt \
-                >> release.md
-            echo -e '```' \
-                >> release.md
-          else
-            echo -e '\n**macOS Homebrew dependencies (shared across ARM and x86)**\n\n```plain' \
-                >> release.md
-            cat macos-deps-arm/macos-deps-arm.txt \
-                >> release.md
-            echo -e '```' \
-                >> release.md
-          fi
 
       - name: print release notes for logs
         run: cat release.md
