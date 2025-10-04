@@ -137,7 +137,7 @@ jobs:
               >> release.md
           echo -e "Linux: \`$(sha256sum vivify-linux.tar.gz | cut -d' ' -f1)\`\\" \
               >> release.md
-          echo -e "macOS ARM: \`$(sha256sum vivify-macos-arm.tar.gz | cut -d' ' -f1)\`" \
+          echo -e "macOS ARM: \`$(sha256sum vivify-macos-arm.tar.gz | cut -d' ' -f1)\`\\" \
               >> release.md
           echo -e "macOS x86: \`$(sha256sum vivify-macos-x86.tar.gz | cut -d' ' -f1)\`" \
               >> release.md
