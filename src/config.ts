@@ -11,7 +11,6 @@ type Config = {
     dirListIgnore?: string[];
     port: number;
     timeout: number;
-    pageTitle?: string;
     mdExtensions: string[];
     preferHomeTilde: boolean;
     renderHTML: boolean;
@@ -81,7 +80,7 @@ const getFileContents = (
 let configBaseDir: string | undefined = undefined;
 
 const config = ((): Config => {
-    let config = undefined;
+    let config: Config | undefined = undefined;
     // greedily find config
     for (const cp of configPaths) {
         if (!fs.existsSync(cp)) continue;
@@ -108,10 +107,13 @@ const config = ((): Config => {
 
     // fill missing values from default config
     for (const [key, value] of Object.entries(defaultConfig)) {
+        // @ts-expect-error: Typescript can't correctly pair key and value and
+        // know the next line is legal
         if (config[key] === undefined) config[key] = value;
     }
     // environment overrides
     for (const [env, key] of envConfigs) {
+        // @ts-expect-error: same thing
         if (process.env[env]) config[key] = process.env[env];
     }
     return config;

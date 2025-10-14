@@ -13,16 +13,6 @@ export const router = Router();
 
 const liveContent = new Map<string, string>();
 
-const pageTitle = (path: string) => {
-    const comps = pcomponents(preferredPath(path));
-    if (config.pageTitle) {
-        return eval(`
-            const components = ${JSON.stringify(comps)};
-            ${config.pageTitle};
-        `);
-    } else return pjoin(...comps.slice(-2));
-};
-
 function vivClient(req: Request) {
     return `<script>
         window.VIV_PORT = "${config.port}";
@@ -95,18 +85,11 @@ router.get(/.*/, async (req: Request, res: Response) => {
         }
     }
 
-    let title = 'custom title error';
-    try {
-        title = pageTitle(path);
-    } catch (error) {
-        body = `Error evaluating custom page title: ${error as string}`;
-    }
-
     res.send(`
         <!DOCTYPE html>
         <html>
             <head>
-                <title>${title}</title>
+                <title>${pjoin(...pcomponents(preferredPath(path)).slice(-2))}</title>
                 <link rel="stylesheet" type="text/css" href="/static/colors.css"/>
                 <link rel="stylesheet" type="text/css" href="/static/style.css"/>
                 <link rel="stylesheet" type="text/css" href="/static/markdown.css"/>
