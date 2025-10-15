@@ -1,4 +1,4 @@
-import { Dirent, readFileSync, readlinkSync } from 'fs';
+import { Dirent, readFileSync, readlinkSync, realpathSync } from 'fs';
 import { homedir } from 'os';
 import { join as pjoin, dirname as pdirname, basename as pbasename, isAbsolute } from 'path';
 import { pathToURL } from '../utils/path.js';
@@ -85,23 +85,42 @@ export function renderBody(
 }
 
 function dirListItem(item: Dirent, path: string): string {
-    if (item.isSymbolicLink()) {
-        const targetPath = readlinkSync(pjoin(path, item.name));
-        return `<li class="dir-list-symlink" name="${item.name}">
-                    <a href="${isAbsolute(targetPath) ? pathToURL(targetPath) : pathToURL(pjoin(path, targetPath))}">
-                        ${symlinkFileIcon}${item.name}
-                        <span class="dir-list-symlink-dest">
-                            ${symlinkDestIcon}${targetPath}
-                        </span>
-                    </a>
-                </li>`;
-    } else {
+    const fullPath = pjoin(path, item.name);
+
+    if (!item.isSymbolicLink()) {
         return `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}" name="${item.name}">
-                    <a href="${pathToURL(pjoin(path, item.name))}">
+                    <a href="${pathToURL(fullPath)}">
                         ${item.isDirectory() ? dirIcon : fileIcon}${item.name}
                     </a>
                 </li>`;
     }
+
+    // The path the symlink is pointing to,
+    // not necessarily valid
+    const symlinkDest = readlinkSync(fullPath);
+
+    // Handle recursive symlinks
+    // Don't let broken symlinks crash the viewer
+    let finalDest;
+    try {
+        finalDest = realpathSync(fullPath);
+    } catch {
+        // Symlink is broken: keep the path for a 404 URL
+        finalDest = symlinkDest;
+    }
+
+    if (!isAbsolute(finalDest)) {
+        finalDest = pjoin(path, finalDest);
+    }
+
+    return `<li class="dir-list-symlink" name="${item.name}">
+                <a href="${pathToURL(finalDest)}">
+                    ${symlinkFileIcon}${item.name}
+                    <span class="dir-list-symlink-dest">
+                        ${symlinkDestIcon}${symlinkDest}
+                    </span>
+                </a>
+            </li>`;
 }
 
 function dirUpItem(path: string): string {
