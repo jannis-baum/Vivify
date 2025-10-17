@@ -124,8 +124,8 @@ router.get(/.*/, async (req: Request, res: Response) => {
             }
         } catch (error: unknown) {
             const e = error as Error & { code?: string };
-            body = renderErrorPage(e.message);
             const statusCode = e.code === 'ENOENT' ? 404 : 500;
+            body = renderErrorPage(statusCode, e.message);
             res.status(statusCode).send(renderFullPage(title, body, req));
             return;
         }

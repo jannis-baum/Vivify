@@ -154,6 +154,7 @@ export function renderDirectory(path: string): string {
     );
 }
 
-export function renderErrorPage(errorMessage: string): string {
-    return wrap('error', renderMarkdown(`# Something went wrong\n\n\`\`\`${errorMessage}\`\`\``));
+export function renderErrorPage(statusCode: number, errorMessage: string): string {
+    const heading = statusCode === 404 ? 'File not found' : 'Something went wrong';
+    return wrap('error', renderMarkdown(`# ${heading} \n\n\`\`\`${errorMessage}\`\`\``));
 }
