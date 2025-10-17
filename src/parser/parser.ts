@@ -155,5 +155,5 @@ export function renderDirectory(path: string): string {
 }
 
 export function renderErrorPage(errorMessage: string): string {
-    return renderMarkdown(`# Something went wrong\n\n\`\`\`${errorMessage}\`\`\``);
+    return wrap('error', renderMarkdown(`# Something went wrong\n\n\`\`\`${errorMessage}\`\`\``));
 }
