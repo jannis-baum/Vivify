@@ -7,7 +7,7 @@ import { Request, Response, Router } from 'express';
 import { clientsAt, messageClients } from '../app.js';
 import config from '../config.js';
 import { pcomponents, pmime, preferredPath, urlToPath } from '../utils/path.js';
-import { renderDirectory, renderBody, canRenderBody } from '../parser/parser.js';
+import { renderDirectory, renderErrorPage, renderBody, canRenderBody } from '../parser/parser.js';
 
 export const router = Router();
 
@@ -47,10 +47,43 @@ if (config.preferHomeTilde) {
     });
 }
 
+function renderFullPage(title: string, body: string, req: Request): string {
+    return `
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <title>${title}</title>
+                <link rel="stylesheet" type="text/css" href="/static/colors.css"/>
+                <link rel="stylesheet" type="text/css" href="/static/style.css"/>
+                <link rel="stylesheet" type="text/css" href="/static/markdown.css"/>
+                <link rel="stylesheet" type="text/css" href="/static/highlight.css">
+                <link rel="stylesheet" type="text/css" href="/static/ipynb.css">
+                <link rel="stylesheet" type="text/css" href="/static/katex/katex.css">
+                ${config.styles ? `<style type="text/css">${config.styles}</style>` : ''}
+            </head>
+            <body>
+                <div id="body-content">
+                    ${body}
+                </div>
+            </body>
+
+            ${vivClient(req)}
+            ${config.scripts ? `<script type="text/javascript">${config.scripts}</script>` : ''}
+        </html>
+    `;
+}
+
 router.get(/.*/, async (req: Request, res: Response) => {
     const path = res.locals.filepath;
-
     let body = liveContent.get(path);
+
+    let title = 'custom title error';
+    try {
+        title = pageTitle(path);
+    } catch (error) {
+        body = `Error evaluating custom page title: ${error as string}`;
+    }
+
     if (!body) {
         try {
             if (lstatSync(path).isDirectory()) {
@@ -89,41 +122,16 @@ router.get(/.*/, async (req: Request, res: Response) => {
                     return;
                 }
             }
-        } catch (error) {
-            res.status(500).send(String(error));
+        } catch (error: unknown) {
+            const e = error as Error & { code?: string };
+            body = renderErrorPage(e.message);
+            const statusCode = e.code === 'ENOENT' ? 404 : 500;
+            res.status(statusCode).send(renderFullPage(title, body, req));
             return;
         }
     }
 
-    let title = 'custom title error';
-    try {
-        title = pageTitle(path);
-    } catch (error) {
-        body = `Error evaluating custom page title: ${error as string}`;
-    }
-
-    res.send(`
-        <!DOCTYPE html>
-        <html>
-            <head>
-                <title>${title}</title>
-                <link rel="stylesheet" type="text/css" href="/static/colors.css"/>
-                <link rel="stylesheet" type="text/css" href="/static/style.css"/>
-                <link rel="stylesheet" type="text/css" href="/static/markdown.css"/>
-                <link rel="stylesheet" type="text/css" href="/static/highlight.css">
-                <link rel="stylesheet" type="text/css" href="/static/ipynb.css">
-                <link rel="stylesheet" type="text/css" href="/static/katex/katex.css">
-                ${config.styles ? `<style type="text/css">${config.styles}</style>` : ''}
-            <body>
-                <div id="body-content">
-                    ${body}
-                </div>
-            </body>
-
-            ${vivClient(req)}
-            ${config.scripts ? `<script type="text/javascript">${config.scripts}</script>` : ''}
-        </html>
-    `);
+    res.send(renderFullPage(title, body, req));
 });
 
 // POST:
