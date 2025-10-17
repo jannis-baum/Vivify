@@ -88,10 +88,12 @@ const MarkdownItAlerts = (md: MarkdownIt) => {
     // Alert title line example:
     // > [!marker] Optional title
 
-    // Allow multi word alphanumeric markers (includes underscore)
-    // Additionally allow dashes in marker
-    // Match marker case-insensitively
-    const titlePattern = /^\[!([\w\- ]+)\]([^\n\r]*)/i;
+    // On a marker name, allow anything except a closing square bracket
+    // Match case-insensitively
+    // Optional title requires a leading space
+    // Ignore Obsidian fold characters [!note]- and [!note]+
+
+    const titlePattern = /^\[!([^\]]+)\]\S*( [^\n\r]*)?/i;
 
     md.core.ruler.after('block', 'alerts', (state) => {
         const tokens = state.tokens;
@@ -124,7 +126,7 @@ const MarkdownItAlerts = (md: MarkdownIt) => {
             if (!match) continue;
 
             const marker = match[1].toLowerCase();
-            const title = match[2].trim() || (titles[marker] ?? capitalize(marker));
+            const title = match[2]?.trim() || (titles[marker] ?? capitalize(marker));
             const isFallback = !(marker in resolvedIcons); // For styling unconfigured markers
             const icon = isFallback ? fallbackIcon : resolvedIcons[marker];
 
