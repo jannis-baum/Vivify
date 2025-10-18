@@ -1,4 +1,4 @@
-import { Dirent, readFileSync, readlinkSync, realpathSync } from 'fs';
+import { Dirent, readFileSync, readlinkSync, realpathSync, lstatSync } from 'fs';
 import { homedir } from 'os';
 import { join as pjoin, dirname as pdirname, basename as pbasename, isAbsolute } from 'path';
 import { pathToURL } from '../utils/path.js';
@@ -13,6 +13,7 @@ const dirIcon = octicons['file-directory-fill'].toSVG({ class: 'icon-directory' 
 const fileIcon = octicons['file'].toSVG({ class: 'icon-file' });
 const backIcon = octicons['chevron-left'].toSVG({ class: 'icon-chevron' });
 const symlinkFileIcon = octicons['file-symlink-file'].toSVG({ class: 'icon-symlink-file' });
+const symlinkDirIcon = octicons['file-submodule'].toSVG({ class: 'icon-symlink-directory' });
 const symlinkDestIcon = octicons['arrow-right'].toSVG({ class: 'icon-symlink-dest' });
 
 export type Renderer = (content: string) => string;
@@ -102,8 +103,10 @@ function dirListItem(item: Dirent, path: string): string {
     // Handle recursive symlinks
     // Don't let broken symlinks crash the viewer
     let finalDest;
+    let pointsToDir = false;
     try {
         finalDest = realpathSync(fullPath);
+        pointsToDir = lstatSync(finalDest).isDirectory();
     } catch {
         // Symlink is broken: keep the path for a 404 URL
         finalDest = symlinkDest;
@@ -113,9 +116,11 @@ function dirListItem(item: Dirent, path: string): string {
         finalDest = pjoin(path, finalDest);
     }
 
-    return `<li class="dir-list-symlink" name="${item.name}">
+    const symlinkIcon = pointsToDir ? symlinkDirIcon : symlinkFileIcon;
+
+    return `<li class="dir-list-symlink-${pointsToDir ? 'directory' : 'file'}" name="${item.name}">
                 <a href="${pathToURL(finalDest)}">
-                    ${symlinkFileIcon}${item.name}
+                    ${symlinkIcon}${item.name}
                     <span class="dir-list-symlink-dest">
                         ${symlinkDestIcon}${symlinkDest}
                     </span>

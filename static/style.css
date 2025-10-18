@@ -79,6 +79,7 @@ li[class^='dir-list-symlink'] > a:hover .dir-list-symlink-dest {
 
 .icon-directory { fill: var(--icon-directory); }
 .icon-file { fill: var(--icon-file); }
+.icon-symlink-directory { fill: var(--icon-directory); }
 .icon-symlink-file { fill: currentColor; }
 .icon-symlink-dest {
     width: 13px;
