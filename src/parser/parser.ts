@@ -1,6 +1,6 @@
-import { Dirent, readFileSync } from 'fs';
+import { Dirent, readFileSync, readlinkSync, realpathSync, lstatSync } from 'fs';
 import { homedir } from 'os';
-import { join as pjoin, dirname as pdirname, basename as pbasename } from 'path';
+import { join as pjoin, dirname as pdirname, basename as pbasename, isAbsolute } from 'path';
 import { pathToURL } from '../utils/path.js';
 import config from '../config.js';
 import renderNotebook from './ipynb.js';
@@ -12,6 +12,9 @@ import * as cheerio from 'cheerio';
 const dirIcon = octicons['file-directory-fill'].toSVG({ class: 'icon-directory' });
 const fileIcon = octicons['file'].toSVG({ class: 'icon-file' });
 const backIcon = octicons['chevron-left'].toSVG({ class: 'icon-chevron' });
+const symlinkFileIcon = octicons['file-symlink-file'].toSVG({ class: 'icon-symlink-file' });
+const symlinkDirIcon = octicons['file-submodule'].toSVG({ class: 'icon-symlink-directory' });
+const symlinkDestIcon = octicons['arrow-right'].toSVG({ class: 'icon-symlink-dest' });
 
 export type Renderer = (content: string) => string;
 export const moveIntoNavClass = 'MOVE-INTO-TOP-NAV';
@@ -82,12 +85,48 @@ export function renderBody(
     return undefined;
 }
 
-const dirListItem = (item: Dirent, path: string) =>
-    `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}" name="${item.name}">
-        <a href="${pathToURL(pjoin(path, item.name))}">
-            ${item.isDirectory() ? dirIcon : fileIcon}${item.name}
-        </a>
-    </li>`;
+function dirListItem(item: Dirent, path: string): string {
+    const fullPath = pjoin(path, item.name);
+
+    if (!item.isSymbolicLink()) {
+        return `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}" name="${item.name}">
+                    <a href="${pathToURL(fullPath)}">
+                        ${item.isDirectory() ? dirIcon : fileIcon}${item.name}
+                    </a>
+                </li>`;
+    }
+
+    // The path the symlink is pointing to,
+    // not necessarily valid
+    const symlinkDest = readlinkSync(fullPath);
+
+    // Handle recursive symlinks
+    // Don't let broken symlinks crash the viewer
+    let finalDest;
+    let pointsToDir = false;
+    try {
+        finalDest = realpathSync(fullPath);
+        pointsToDir = lstatSync(finalDest).isDirectory();
+    } catch {
+        // Symlink is broken: keep the path for a 404 URL
+        finalDest = symlinkDest;
+    }
+
+    if (!isAbsolute(finalDest)) {
+        finalDest = pjoin(path, finalDest);
+    }
+
+    const symlinkIcon = pointsToDir ? symlinkDirIcon : symlinkFileIcon;
+
+    return `<li class="dir-list-symlink-${pointsToDir ? 'directory' : 'file'}" name="${item.name}">
+                <a href="${pathToURL(finalDest)}">
+                    ${symlinkIcon}${item.name}
+                    <span class="dir-list-symlink-dest">
+                        ${symlinkDestIcon}${symlinkDest}
+                    </span>
+                </a>
+            </li>`;
+}
 
 function dirUpItem(path: string): string {
     if (pbasename(path) == '') {
@@ -118,4 +157,9 @@ export function renderDirectory(path: string): string {
             `${pathHeading(path)}\n\n<ul class="dir-list">\n${dirUpItem(path)}\n${list}\n</ul>`,
         ),
     );
+}
+
+export function renderErrorPage(statusCode: number, errorMessage: string): string {
+    const heading = statusCode === 404 ? 'File not found' : 'Something went wrong';
+    return wrap('error', renderMarkdown(`# ${heading} \n\n\`\`\`${errorMessage}\`\`\``));
 }

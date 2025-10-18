@@ -55,10 +55,13 @@ export function setupSockets(
             switch (key) {
                 case 'PATH':
                     sockets.get(id)!.path = value;
-                    sockets.get(id)!.watcher = fs.watch(value, (eventType) => {
-                        if (eventType !== 'change') return;
-                        onWrite(value);
-                    });
+                    // watch path (fails if path doesn't exist)
+                    try {
+                        sockets.get(id)!.watcher = fs.watch(value, (eventType) => {
+                            if (eventType !== 'change') return;
+                            onWrite(value);
+                        });
+                    } catch {}
                     const queue = openQueue.get(value);
                     if (!queue) return;
 
