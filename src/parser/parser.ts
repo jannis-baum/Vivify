@@ -85,15 +85,36 @@ export function renderBody(
     return undefined;
 }
 
-function dirListItem(item: Dirent, path: string): string {
-    const fullPath = pjoin(path, item.name);
+function renderDirUpItem(cwd: string): string {
+    if (pbasename(cwd) == '') {
+        return ''; // Show nothing when already at root directory
+    }
+    return `<li class="dir-list-directory">
+                <a href="${pathToURL(pdirname(cwd))}">
+                    ${dirIcon}..
+                </a>
+            </li>`;
+}
 
-    if (!item.isSymbolicLink()) {
-        return `<li class="dir-list-${item.isDirectory() ? 'directory' : 'file'}" name="${item.name}">
-                    <a href="${pathToURL(fullPath)}">
-                        ${item.isDirectory() ? dirIcon : fileIcon}${item.name}
-                    </a>
-                </li>`;
+type DirListItem = {
+    name: string;
+    isDir: boolean;
+    html: string;
+};
+
+function makeDirListItem(dirent: Dirent, cwd: string): DirListItem {
+    const name = dirent.name;
+    const fullPath = pjoin(cwd, name);
+
+    if (!dirent.isSymbolicLink()) {
+        const isDir = dirent.isDirectory();
+        const html = `<li class="dir-list-${isDir ? 'directory' : 'file'}" name="${name}">
+                          <a href="${pathToURL(fullPath)}">
+                              ${isDir ? dirIcon : fileIcon}${name}
+                          </a>
+                      </li>`;
+
+        return { name, isDir, html };
     }
 
     // The path the symlink is pointing to,
@@ -103,58 +124,51 @@ function dirListItem(item: Dirent, path: string): string {
     // Handle recursive symlinks
     // Don't let broken symlinks crash the viewer
     let finalDest;
-    let pointsToDir = false;
+    let isDir = false;
     try {
         finalDest = realpathSync(fullPath);
-        pointsToDir = lstatSync(finalDest).isDirectory();
+        isDir = lstatSync(finalDest).isDirectory();
     } catch {
         // Symlink is broken: keep the path for a 404 URL
         finalDest = symlinkDest;
     }
 
     if (!isAbsolute(finalDest)) {
-        finalDest = pjoin(path, finalDest);
+        finalDest = pjoin(cwd, finalDest);
     }
 
-    const symlinkIcon = pointsToDir ? symlinkDirIcon : symlinkFileIcon;
+    const symlinkIcon = isDir ? symlinkDirIcon : symlinkFileIcon;
 
-    return `<li class="dir-list-symlink-${pointsToDir ? 'directory' : 'file'}" name="${item.name}">
-                <a href="${pathToURL(finalDest)}">
-                    ${symlinkIcon}${item.name}
-                    <span class="dir-list-symlink-dest">
-                        ${symlinkDestIcon}${symlinkDest}
-                    </span>
-                </a>
-            </li>`;
+    const html = `<li class="dir-list-symlink-${isDir ? 'directory' : 'file'}" name="${name}">
+                      <a href="${pathToURL(finalDest)}">
+                          ${symlinkIcon}${name}
+                          <span class="dir-list-symlink-dest">
+                              ${symlinkDestIcon}${symlinkDest}
+                          </span>
+                      </a>
+                  </li>`;
+
+    return { name, isDir, html };
 }
 
-function dirUpItem(path: string): string {
-    if (pbasename(path) == '') {
-        return ''; // Show nothing when already at root directory
-    }
-    return `<li class="dir-list-directory">
-                <a href="${pathToURL(pdirname(path))}">
-                    ${dirIcon}..
-                </a>
-            </li>`;
-}
-
-export function renderDirectory(path: string): string {
-    const list = globSync('*', {
-        cwd: path,
+export function renderDirectory(cwd: string): string {
+    const dirListItems = globSync('*', {
+        cwd: cwd,
         withFileTypes: true,
         ignore: config.dirListIgnore,
         dot: true,
         maxDepth: 1,
     })
+        .map((dirent) => makeDirListItem(dirent, cwd))
         // sort directories first and alphabetically in one combined smart step
-        .sort((a, b) => +b.isDirectory() - +a.isDirectory() || a.name.localeCompare(b.name))
-        .map((item) => dirListItem(item, path))
-        .join('\n');
+        .sort((a, b) => +b.isDir - +a.isDir || a.name.localeCompare(b.name));
+
+    const list = dirListItems.map((item) => item.html).join('\n');
+
     return wrap(
         'directory',
         renderMarkdown(
-            `${pathHeading(path)}\n\n<ul class="dir-list">\n${dirUpItem(path)}\n${list}\n</ul>`,
+            `${pathHeading(cwd)}\n\n<ul class="dir-list">\n${renderDirUpItem(cwd)}\n${list}\n</ul>`,
         ),
     );
 }
