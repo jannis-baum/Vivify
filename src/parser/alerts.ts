@@ -142,7 +142,11 @@ const MarkdownItAlerts = (md: MarkdownIt) => {
     });
     md.renderer.rules.alert_open = function (tokens, idx) {
         const { marker, title, icon, isFallback } = tokens[idx].meta;
-        const markerId = marker.replace(/\s+/g, '-');
+
+        const markerId = marker
+            .replace(/\s+/g, '-') // get rid of spaces in a CSS classname
+            .replace(/"/g, '&quot;'); // escape quotes so they don't break the HTML tag
+
         return `<div class="alert alert-${markerId} ${isFallback ? 'fallback-alert' : ''}">
                     <p class="alert-title">${icon}${title}</p>`;
     };
