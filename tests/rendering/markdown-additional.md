@@ -111,6 +111,9 @@ Known by many names: GitHub Alerts, Obsidian Callouts, Admonitions...
 > [!CUSTOM]
 > Set custom icon and color for any marker
 
+> [!你好 😀 !?]
+> Markers allow any characters except a closing square bracket `]`
+
 > [!TIP] Unconfigured custom markers
 > Markers fall back to `[!NOTE]` by default, to match Obsidian's default behavior
 >
