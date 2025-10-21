@@ -4,10 +4,10 @@ Contributions are very welcome! If you would like to contribute, please make
 sure you follow the steps below:
 
 - Make sure there is an issue corresponding to what you are working on, and name
-  your branch`issue/<issue-number>-<hyphenated-name-of-issue>`, e.g.
+  your branch`<issue-number>-<hyphenated-name-of-issue>`, e.g.
 
   ```plain
-  issue/134-add-branch-naming-convention
+  134-add-branch-naming-convention
   ```
 
   for issue #134 "Add branch naming convention"
