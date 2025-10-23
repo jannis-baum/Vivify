@@ -1,5 +1,5 @@
 ---
-name: "🪲 Bug report"
+name: "Bug report"
 about: Create a report to help us improve
 title: ''
 labels: 'type:bug'
@@ -41,10 +41,6 @@ output goes here
 ```
 
 > I installed Vivify in the following way (e.g. name of the package manager, self-compiled or development mode):
-
-
-
-> This is what happens when I kill any running instance of Vivify with `killall vivify-server` and then run `vivify-server` at the absolute installation path (e.g. at `command -v vivify-server`) instead of `viv` and try to reproduce the problem:
 
 
 
