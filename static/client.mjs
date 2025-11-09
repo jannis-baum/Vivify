@@ -57,14 +57,18 @@ ws.addEventListener('message', async (event) => {
             break;
 
         case 'SCROLL':
+            // remove cursor class from elements that have it
+            const cursorElements = document.querySelectorAll('.has-vim-cursor');
+            cursorElements.forEach((el) => el.classList.remove('has-vim-cursor'));
+
             let line = parseInt(value);
             while (line) {
                 const targets = document.querySelectorAll(`[data-source-line="${line - 1}"]`);
                 if (targets.length) {
-                    targets[0].scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'nearest',
-                    });
+                    const target = targets[0];
+                    // add cursor class
+                    target.classList.add('has-vim-cursor');
+                    target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     break;
                 }
                 line -= 1;
