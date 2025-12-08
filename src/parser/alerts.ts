@@ -9,6 +9,7 @@
  */
 
 import MarkdownIt from 'markdown-it';
+import type { Token } from 'markdown-it/index.js';
 import { config, configBaseDir } from '../config.js';
 import octicons from '@primer/octicons';
 import { existsSync, readFileSync } from 'fs';
@@ -84,6 +85,19 @@ function capitalize(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function findBlockquoteClose(tokens: Token[], startIndex: number): number | null {
+    let nested = 0;
+    for (let i = startIndex + 1; i < tokens.length; i++) {
+        if (tokens[i].type === 'blockquote_open') {
+            nested++;
+        } else if (tokens[i].type === 'blockquote_close') {
+            if (nested === 0) return i;
+            nested--;
+        }
+    }
+    return null;
+}
+
 const MarkdownItAlerts = (md: MarkdownIt) => {
     // Alert title line example:
     // > [!marker] Optional title
@@ -103,11 +117,11 @@ const MarkdownItAlerts = (md: MarkdownIt) => {
 
             const open = tokens[i];
             const start = i;
+            const end = findBlockquoteClose(tokens, start);
 
-            while (i < tokens.length && tokens[i].type !== 'blockquote_close') i++;
+            if (end === null) continue;
 
-            const close = tokens[i];
-            const end = i;
+            const close = tokens[end];
 
             // Get the first inline token, consists of:
             // 1. title line e.g. [!marker] Optional title

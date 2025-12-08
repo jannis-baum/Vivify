@@ -128,3 +128,32 @@ Known by many names: GitHub Alerts, Obsidian Callouts, Admonitions...
 > You can use a custom title with a custom marker as well
 >
 > A custom title can be capitalized freely
+
+### Nested alerts
+
+Unlike GitHub Alerts, Obsidian Callouts can be nested. Nesting is supported in Vivify's
+implementation:
+
+> [!NOTE]
+> Foo
+>> [!TIP]
+>> Bar
+>>
+>> Lorem ipsum,
+>>> [!IMPORTANT]
+>>> Baz
+>>
+>> dolor sit amet.
+>
+> Hehe
+>> [!WARNING]
+>> Bar
+>>
+>> ```ts
+>> console.log('hey')
+>> ```
+>>> [!CAUTION]
+>>> Baz
+>>> 1. One
+>>> 2. > [!Two]
+>>>    > Yeah
