@@ -78,6 +78,7 @@ list!
 #### Existing integration
 
 - for Vim and Neovim: [vivify.vim](https://github.com/jannis-baum/vivify.vim)
+- for micro: [micro-vivify](https://codeberg.org/gibbert/micro-vivify)
 
 ## Installation
 
