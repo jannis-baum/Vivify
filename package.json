@@ -20,7 +20,7 @@
     "clipboard": "^2.0.11",
     "express": "^5.2.1",
     "file-type": "^21.3.0",
-    "glob": "11.0.3",
+    "glob": "13.0.0",
     "highlight.js": "^11.11.1",
     "istextorbinary": "^9.5.0",
     "katex": "^0.16.27",
