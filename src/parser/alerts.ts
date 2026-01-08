@@ -9,6 +9,7 @@
  */
 
 import MarkdownIt from 'markdown-it';
+import type { Token } from 'markdown-it/index.js';
 import { config, configBaseDir } from '../config.js';
 import octicons from '@primer/octicons';
 import { existsSync, readFileSync } from 'fs';
@@ -84,6 +85,19 @@ function capitalize(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function findBlockquoteClose(tokens: Token[], startIndex: number): number | null {
+    let nested = 0;
+    for (let i = startIndex + 1; i < tokens.length; i++) {
+        if (tokens[i].type === 'blockquote_open') {
+            nested++;
+        } else if (tokens[i].type === 'blockquote_close') {
+            if (nested === 0) return i;
+            nested--;
+        }
+    }
+    return null;
+}
+
 const MarkdownItAlerts = (md: MarkdownIt) => {
     // Alert title line example:
     // > [!marker] Optional title
@@ -101,29 +115,41 @@ const MarkdownItAlerts = (md: MarkdownIt) => {
         for (let i = 0; i < tokens.length; i++) {
             if (tokens[i].type !== 'blockquote_open') continue;
 
-            const open = tokens[i];
             const start = i;
+            const open = tokens[i];
 
-            while (i < tokens.length && tokens[i].type !== 'blockquote_close') i++;
-
-            const close = tokens[i];
-            const end = i;
+            const end = findBlockquoteClose(tokens, start);
+            if (end === null) continue;
+            const close = tokens[end];
 
             // Get the first inline token, consists of:
             // 1. title line e.g. [!marker] Optional title
             // 2. the first paragraph in the alert body
-            let firstBlock;
-            for (let j = start; j <= end; j++) {
+            let firstInline;
+            for (let j = start + 1; j <= end; j++) {
+                // '>>' case
+                if (tokens[j].type === 'blockquote_open') {
+                    // Alert isn't allowed to nest inside regular blockquote, skip this one
+                    i = end;
+                    break;
+                }
                 if (tokens[j].type === 'inline') {
-                    firstBlock = tokens[j];
+                    firstInline = tokens[j];
                     break;
                 }
             }
-            if (!firstBlock) continue;
+            if (!firstInline) continue;
 
             // Is this blockquote an alert?
-            const match = firstBlock.content.match(titlePattern);
-            if (!match) continue;
+            const match = firstInline.content.match(titlePattern);
+
+            // If not, skip this blockquote. This matches Obsidian's behavior:
+            // alerts can't be nested inside regular blockquotes
+            // Makes it easier not having to deal with certain edge cases
+            if (!match) {
+                i = end;
+                continue;
+            }
 
             const marker = match[1].toLowerCase();
             const title = match[2]?.trim() || (titles[marker] ?? capitalize(marker));
@@ -131,7 +157,7 @@ const MarkdownItAlerts = (md: MarkdownIt) => {
             const icon = isFallback ? fallbackIcon : resolvedIcons[marker];
 
             // Remove the title line, to be replaced by the final alert title
-            firstBlock.content = firstBlock.content.slice(match[0].length).trimStart();
+            firstInline.content = firstInline.content.slice(match[0].length).trimStart();
 
             open.type = 'alert_open';
             open.tag = 'div';
