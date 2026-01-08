@@ -52,7 +52,7 @@
     "@jupyterlab/nbformat": "^4.5.1",
     "@types/express": "^5.0.6",
     "@types/markdown-it": "^14.1.1",
-    "@types/node": "^24.2.0",
+    "@types/node": "^25.0.3",
     "@types/primer__octicons": "^19.11.0",
     "@types/tmp": "^0.2.6",
     "@types/ws": "^8.18.1",
