@@ -48,6 +48,11 @@ keys:
   files (except for Jupyter Notebooks) will be displayed as monospaced text with
   code highlighting if available. The default Markdown extensions are
   `['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn']`
+- **`"mdFilePatterns"`**\
+  An array of regular expression strings. Paths that match any of these regular
+  expressions will also be rendered as Markdown. Invalid expressions are
+  skipped. Note that expressions have to be escaped correctly for the JSON
+  format. By default there are no patterns set.
 - **`"preferHomeTilde"`**\
   Prefer using `~` as a placeholder for your home directory in URLs as well as
   the `components` for `"pageTitle"` (default is `true`)
