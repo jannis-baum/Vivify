@@ -12,6 +12,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@mermaid-js/layout-elk": "^0.2.0",
     "@primer/octicons": "^19.21.1",
     "@viz-js/viz": "^3.24.0",
     "ansi_up": "^6.0.6",
