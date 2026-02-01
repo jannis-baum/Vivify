@@ -58,8 +58,8 @@ keys:
   skipped. To test your expressions you can e.g. run the following in your
   browser console.
 
-  ```json
-  new RegExp("^my_[\\w]+$").test("my_path")
+  ```js
+  new RegExp("^.*/calcurse-note\\.[a-zA-Z0-9]{6}$").test("/tmp/calcurse-note.Vf21ma")
   ```
 
   By default there are no patterns set.
