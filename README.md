@@ -11,16 +11,11 @@ features!
   <img alt="Showcase" src="https://raw.githubusercontent.com/jannis-baum/assets/refs/heads/main/Vivify/showcase-dark.gif">
 </picture>
 
-> [!TIP]
-> We recently released [Jupyviv](https://github.com/jannis-baum/Jupyviv), a new
-> solution for interacting with Jupyter Notebooks from plain text editors like
-> Neovim by using Vivify as a live viewer. If you like Vivify and use Jupyter
-> Notebooks, make sure to check out the project!
-
 ## Features
 
 - view Markdown with various [features](#markdown-features)
-- view Jupyter Notebooks
+- view Jupyter Notebooks (check out
+  [Jupyviv](https://github.com/jannis-baum/Jupyviv) if this interests you)
 - view other plain text files with code syntax highlighting, or
   [optionally](docs/customization.md) render HTML files
 - view image files
