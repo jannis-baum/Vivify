@@ -1,7 +1,7 @@
 import { Dirent, readFileSync, readlinkSync, realpathSync, lstatSync } from 'fs';
 import { homedir } from 'os';
 import { join as pjoin, dirname as pdirname, basename as pbasename, isAbsolute } from 'path';
-import { pathToURL } from '../utils/path.js';
+import { isMarkdown, pathToURL, pextension } from '../utils/path.js';
 import config from '../config.js';
 import renderNotebook from './ipynb.js';
 import renderMarkdown from './markdown.js';
@@ -60,14 +60,14 @@ export function renderBody(
 
     // render text files
     if (mime.startsWith('text/') || mime === 'application/json') {
-        const fileEnding = path?.split('.')?.at(-1);
         const text = content ?? readFileSync(path).toString();
 
         // markdown
-        if (fileEnding && config.mdExtensions.includes(fileEnding)) {
+        if (isMarkdown(path)) {
             return wrap('markdown', renderMarkdown(text), pdirname(path));
         }
 
+        const fileEnding = pextension(path);
         // jupyter notebook
         if (fileEnding === 'ipynb') {
             return wrap('ipynb', renderNotebook(text), pdirname(path));
