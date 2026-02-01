@@ -13,6 +13,7 @@ type Config = {
     timeout: number;
     pageTitle?: string;
     mdExtensions: string[];
+    mdFilePatterns: RegExp[];
     preferHomeTilde: boolean;
     renderHTML: boolean;
     // markdown-it plugin options
@@ -31,6 +32,7 @@ type Config = {
 const defaultConfig: Config = {
     port: 31622,
     mdExtensions: ['markdown', 'md', 'mdown', 'mdwn', 'mkd', 'mkdn'],
+    mdFilePatterns: [],
     timeout: 10000,
     preferHomeTilde: true,
     renderHTML: false,
@@ -105,6 +107,18 @@ const config = ((): Config => {
     config.dirListIgnore = getFileContents(config.dirListIgnore, configBaseDir)
         .split('\n')
         .filter((pattern) => pattern !== '' && pattern[0] !== '#');
+
+    if ('mdFilePatterns' in config) {
+        const patternStrings = config.mdFilePatterns;
+        config.mdFilePatterns = [];
+        if (Array.isArray(patternStrings)) {
+            patternStrings.forEach((pattern) => {
+                try {
+                    config.mdFilePatterns.push(new RegExp(pattern));
+                } catch {}
+            });
+        }
+    }
 
     // fill missing values from default config
     for (const [key, value] of Object.entries(defaultConfig)) {
