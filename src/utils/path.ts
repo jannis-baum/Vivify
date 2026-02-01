@@ -5,6 +5,15 @@ import { isText } from 'istextorbinary';
 import { readFileSync } from 'fs';
 import { fileTypeFromBuffer } from 'file-type';
 
+export const pextension = (path: string) => extname(path).slice(1);
+
+export const isMarkdown = (path: string) => {
+    const extension = pextension(path);
+    if (config.mdExtensions.includes(extension)) return true;
+    if (config.mdFilePatterns.some((exp) => exp.test(path))) return true;
+    return false;
+};
+
 const relevantPlainTextMIMEs = new Map<string, string>([
     ['html', 'text/html'],
     ['js', 'text/javascript'],
@@ -20,13 +29,12 @@ const relevantPlainTextMIMEs = new Map<string, string>([
 // - text/plain for all other plain text files that only need to be rendered as
 //   code
 export const pmime = async (path: string) => {
-    const ext = extname(path).slice(1);
-    if (config.mdExtensions.includes(ext)) {
+    if (isMarkdown(path)) {
         return 'text/plain';
     }
     const content = readFileSync(path);
     if (isText(path, content)) {
-        return relevantPlainTextMIMEs.get(ext) ?? 'text/plain';
+        return relevantPlainTextMIMEs.get(pextension(path)) ?? 'text/plain';
     }
     return (await fileTypeFromBuffer(content))?.mime;
 };
