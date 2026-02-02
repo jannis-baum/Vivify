@@ -2,7 +2,9 @@
  * MERMAID ------------------------------------------------------------------ */
 
 import mermaid from '/static/mermaid/mermaid.esm.min.mjs';
+import elkLayouts from '/static/mermaid-elk/mermaid-layout-elk.esm.min.mjs';
 
+mermaid.registerLayoutLoaders(elkLayouts);
 const darkModePreference = window.matchMedia('(prefers-color-scheme: dark)');
 mermaid.initialize({ startOnLoad: true, theme: darkModePreference.matches ? 'dark' : 'default' });
 
