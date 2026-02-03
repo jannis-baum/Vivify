@@ -16,6 +16,18 @@ import { existsSync, readFileSync } from 'fs';
 import { homedir } from 'os';
 import path from 'path';
 
+// Platform detection
+const isWindows = process.platform === 'win32';
+
+// Check if a path is absolute on any platform
+const isAbsolutePath = (p: string): boolean => {
+    if (isWindows) {
+        // Windows: C:\ or C:/ or \\ (UNC)
+        return /^[a-zA-Z]:[\\/]/.test(p) || p.startsWith('\\\\');
+    }
+    return p.startsWith('/');
+};
+
 const icons: Record<string, string> = {
     // GitHub default alerts
     note: 'info',
@@ -52,7 +64,17 @@ function resolveIcon(iconOpt: string): string {
     }
 
     // Case 2: svg file path
-    const prefix = ['/', './', '../', '~/'].find((p) => iconOpt.startsWith(p));
+    // Check for path prefixes (Unix) or absolute Windows paths
+    const isPathPrefix = (p: string): string | undefined => {
+        const unixPrefixes = ['/', './', '../', '~/'];
+        const prefix = unixPrefixes.find((pref) => p.startsWith(pref));
+        if (prefix) return prefix;
+        // Check for Windows absolute path (C:\ or C:/)
+        if (isWindows && isAbsolutePath(p)) return 'win-absolute';
+        return undefined;
+    };
+
+    const prefix = isPathPrefix(iconOpt);
     if (prefix && iconOpt.endsWith('.svg')) {
         let iconPath = iconOpt;
 
@@ -64,6 +86,7 @@ function resolveIcon(iconOpt: string): string {
             }
             iconPath = path.join(configBaseDir, iconPath);
         }
+        // For absolute paths (Unix '/' or Windows 'C:\'), use as-is
 
         if (!existsSync(iconPath)) {
             return warnAndFallback(`Icon file not found: ${iconPath}`);
