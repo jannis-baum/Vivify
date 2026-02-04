@@ -8,6 +8,7 @@ set "INSTALL_DIR=%~dp0..\..\"
 set "LOG_PATH=%TEMP%\vivify-server.log"
 set "OUT_LOG=%TEMP%\vivify-server.out.log"
 set "ERR_LOG=%TEMP%\vivify-server.err.log"
+set "TS_NODE_LOADER=%INSTALL_DIR%node_modules\ts-node\esm.mjs"
 
 echo [%DATE% %TIME%] viv-debug starting > "%LOG_PATH%"
 
@@ -22,13 +23,22 @@ if not exist "%INSTALL_DIR%src\app.ts" (
     exit /b 1
 )
 
+if not exist "%TS_NODE_LOADER%" (
+    echo [%DATE% %TIME%] ERROR: ts-node loader not found at %TS_NODE_LOADER% >> "%LOG_PATH%"
+    echo [%DATE% %TIME%] Run: yarn install (or npm install) in %INSTALL_DIR% >> "%LOG_PATH%"
+    exit /b 1
+)
+
 set "VIV_LOG_PATH=%LOG_PATH%"
 set "VIV_TIMEOUT=0"
 set "NODE_ENV=development"
 
+pushd "%INSTALL_DIR%"
+
 rem Run server from source (uses ts-node loader) and capture stdout/stderr
-start /b "" node --loader ts-node/esm "%INSTALL_DIR%src\app.ts" %* > "%OUT_LOG%" 2> "%ERR_LOG%"
+start /b "" node --loader "%TS_NODE_LOADER%" "%INSTALL_DIR%src\app.ts" %* > "%OUT_LOG%" 2> "%ERR_LOG%"
 
 echo [%DATE% %TIME%] viv-debug launched ts-node server >> "%LOG_PATH%"
 
+popd
 endlocal
