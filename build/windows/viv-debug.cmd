@@ -1,13 +1,10 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-rem Debug launcher for Vivify using Node.js (build/bundle.js)
+rem Debug launcher for Vivify using ts-node (runs src directly)
 rem Logs WebSocket events to %TEMP%\vivify-server.log
 
 set "INSTALL_DIR=%~dp0..\..\"
-set "VIVIFY_BUNDLE=%INSTALL_DIR%build\bundle.js"
-set "VIVIFY_BUNDLE_CJS=%INSTALL_DIR%build\bundle.cjs"
-
 set "LOG_PATH=%TEMP%\vivify-server.log"
 set "OUT_LOG=%TEMP%\vivify-server.out.log"
 set "ERR_LOG=%TEMP%\vivify-server.err.log"
@@ -20,19 +17,18 @@ if errorlevel 1 (
     exit /b 1
 )
 
-if not exist "%VIVIFY_BUNDLE%" (
-    echo [%DATE% %TIME%] ERROR: "%VIVIFY_BUNDLE%" not found >> "%LOG_PATH%"
+if not exist "%INSTALL_DIR%src\app.ts" (
+    echo [%DATE% %TIME%] ERROR: src\app.ts not found in %INSTALL_DIR% >> "%LOG_PATH%"
     exit /b 1
 )
 
-rem Ensure CommonJS bundle exists (Node treats .js as ESM due to "type": "module")
-copy /Y "%VIVIFY_BUNDLE%" "%VIVIFY_BUNDLE_CJS%" >nul 2>&1
-
 set "VIV_LOG_PATH=%LOG_PATH%"
+set "VIV_TIMEOUT=0"
+set "NODE_ENV=development"
 
-rem Run Node.js server in background and capture stdout/stderr
-start /b "" node "%VIVIFY_BUNDLE_CJS%" %* > "%OUT_LOG%" 2> "%ERR_LOG%"
+rem Run server from source (uses ts-node loader) and capture stdout/stderr
+start /b "" node --loader ts-node/esm "%INSTALL_DIR%src\app.ts" %* > "%OUT_LOG%" 2> "%ERR_LOG%"
 
-echo [%DATE% %TIME%] viv-debug launched node bundle >> "%LOG_PATH%"
+echo [%DATE% %TIME%] viv-debug launched ts-node server >> "%LOG_PATH%"
 
 endlocal
