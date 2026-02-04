@@ -1,6 +1,7 @@
 BUILD_DIR=build
 BUILD_DIR_MACOS=$(BUILD_DIR)/macos
 BUILD_DIR_LINUX=$(BUILD_DIR)/linux
+BUILD_DIR_WINDOWS=$(BUILD_DIR)/windows
 
 DIST_PATH=$(BUILD_DIR)/dist
 BUNDLE_PATH=$(BUILD_DIR)/bundle.js
@@ -15,11 +16,15 @@ EXE_PATH_MACOS=$(BUILD_DIR_MACOS)/$(EXE_NAME)
 SERVER_PATH_LINUX=$(BUILD_DIR_LINUX)/$(SERVER_NAME)
 EXE_PATH_LINUX=$(BUILD_DIR_LINUX)/$(EXE_NAME)
 
+SERVER_PATH_WINDOWS=$(BUILD_DIR_WINDOWS)/$(SERVER_NAME).exe
+EXE_PATH_WINDOWS_PS1=$(BUILD_DIR_WINDOWS)/$(EXE_NAME).ps1
+EXE_PATH_WINDOWS_CMD=$(BUILD_DIR_WINDOWS)/$(EXE_NAME).cmd
+
 VIV_VERSION ?= $(shell git describe --tags --always --dirty)
 
 .PHONY: instruct-build
 instruct-build:
-	@ echo 'Please run `make macos` or `make linux` to build the project'
+	@ echo 'Please run `make macos`, `make linux`, or `make windows` to build the project'
 
 # ------------------------------------------------------------------------------
 # MARK: platform-independent build items ---------------------------------------
@@ -87,6 +92,35 @@ $(SERVER_PATH_LINUX): $(BUNDLE_PATH) sea-config.json
 $(EXE_PATH_LINUX): viv
 	mkdir -p $(BUILD_DIR_LINUX)
 	cp viv $(EXE_PATH_LINUX)
+
+# ------------------------------------------------------------------------------
+# MARK: windows ----------------------------------------------------------------
+
+.PHONY: windows
+windows: $(SERVER_PATH_WINDOWS) $(EXE_PATH_WINDOWS_PS1) $(EXE_PATH_WINDOWS_CMD)
+
+$(SERVER_PATH_WINDOWS): $(BUNDLE_PATH) sea-config.json
+	if not exist $(BUILD_DIR_WINDOWS) mkdir $(BUILD_DIR_WINDOWS)
+	if exist $(SERVER_PATH_WINDOWS) del /f $(SERVER_PATH_WINDOWS)
+	node --experimental-sea-config sea-config.json
+	copy "$(shell where node)" $(SERVER_PATH_WINDOWS)
+	node_modules\.bin\postject $(SERVER_PATH_WINDOWS) NODE_SEA_BLOB $(BUILD_DIR)\sea-prep.blob ^
+			  --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
+	@echo Windows build complete: $(SERVER_PATH_WINDOWS)
+
+$(EXE_PATH_WINDOWS_PS1): viv.ps1
+	if not exist $(BUILD_DIR_WINDOWS) mkdir $(BUILD_DIR_WINDOWS)
+	copy viv.ps1 $(EXE_PATH_WINDOWS_PS1)
+
+$(EXE_PATH_WINDOWS_CMD): viv.cmd
+	if not exist $(BUILD_DIR_WINDOWS) mkdir $(BUILD_DIR_WINDOWS)
+	copy viv.cmd $(EXE_PATH_WINDOWS_CMD)
+
+# Windows build using PowerShell (alternative method)
+.PHONY: windows-ps
+windows-ps:
+	@echo Building for Windows using PowerShell...
+	@powershell -ExecutionPolicy Bypass -File scripts/build-windows.ps1
 
 # ------------------------------------------------------------------------------
 # MARK: configured installation ------------------------------------------------

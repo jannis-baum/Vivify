@@ -3,6 +3,18 @@ import { globSync } from 'glob';
 import { homedir } from 'os';
 import path from 'path';
 
+// Platform detection
+const isWindows = process.platform === 'win32';
+
+// Check if a path is absolute on any platform
+const isAbsolutePath = (p: string): boolean => {
+    if (isWindows) {
+        // Windows: C:\ or C:/ or \\ (UNC)
+        return /^[a-zA-Z]:[\\/]/.test(p) || p.startsWith('\\\\');
+    }
+    return p.startsWith('/');
+};
+
 // NOTE: this type does not directly correspond to the config file: see
 // defaultConfig, envConfigs and configFileBlocked
 type Config = {
@@ -47,12 +59,18 @@ const envConfigs: [string, keyof Config][] = [
 // configs that can't be set through the config file
 const configFileBlocked: (keyof Config)[] = ['port'];
 
+// Build config paths - on Windows use AppData as well
 const configPaths = [
     path.join(homedir(), '.config', 'vivify', 'config.json'),
     path.join(homedir(), '.config', 'vivify.json'),
     path.join(homedir(), '.vivify', 'config.json'),
     path.join(homedir(), '.vivify.json'),
 ];
+
+// On Windows, also check AppData/Roaming
+if (isWindows && process.env.APPDATA) {
+    configPaths.unshift(path.join(process.env.APPDATA, 'vivify', 'config.json'));
+}
 
 // read contents of file at paths or files at paths
 const getFileContents = (
@@ -66,7 +84,8 @@ const getFileContents = (
         if (resolved[0] === '~') {
             resolved = path.join(homedir(), p.slice(1));
         }
-        if (resolved[0] !== '/' && baseDir !== undefined) {
+        // Check for relative paths - use isAbsolutePath for cross-platform support
+        if (!isAbsolutePath(resolved) && baseDir !== undefined) {
             resolved = path.join(baseDir, resolved);
         }
         return globSync(resolved)

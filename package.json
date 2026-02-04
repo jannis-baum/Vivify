@@ -4,7 +4,9 @@
   "author": "Jannis Baum",
   "scripts": {
     "dev": "VIV_TIMEOUT=0 VIV_PORT=3000 NODE_ENV=development nodemon --ignore tests/rendering/symlinks --exec node --loader ts-node/esm src/app.ts",
+    "dev:win": "cross-env VIV_TIMEOUT=0 VIV_PORT=3000 NODE_ENV=development nodemon --ignore tests/rendering/symlinks --exec node --loader ts-node/esm src/app.ts",
     "viv": "VIV_PORT=3000 node --loader ts-node/esm src/app.ts",
+    "viv:win": "cross-env VIV_PORT=3000 node --loader ts-node/esm src/app.ts",
     "lint": "eslint src static",
     "lint-markdown": "markdownlint-cli2 --config .github/.markdownlint-cli2.yaml",
     "test": "node --loader ts-node/esm --test tests/unit/cli.ts tests/unit/alerts.ts",
@@ -59,6 +61,7 @@
     "@types/ws": "^8.18.1",
     "@typescript-eslint/eslint-plugin": "^8.52.0",
     "@typescript-eslint/parser": "^8.52.0",
+    "cross-env": "^7.0.3",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",

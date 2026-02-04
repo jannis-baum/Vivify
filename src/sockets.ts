@@ -1,6 +1,8 @@
 import { WebSocketServer, WebSocket } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import { Server } from 'http';
+import { tmpdir } from 'os';
+import path from 'path';
 import { openFileAt } from './cli.js';
 import fs from 'fs';
 
@@ -24,6 +26,15 @@ export function setupSockets(
     // queue of messages to be sent to clients after they have connected
     const openQueue = new Map<string, { message: string; timeout: number }[]>();
 
+    const logPath = process.env.VIV_LOG_PATH ?? path.join(tmpdir(), 'vivify-server.log');
+    const log = (message: string) => {
+        try {
+            fs.appendFileSync(logPath, `[${new Date().toISOString()}] ${message}\n`);
+        } catch {}
+    };
+
+    log(`WS server started (log=${logPath})`);
+
     const terminateSocket = (id: string) => {
         const socket = sockets.get(id);
         if (!socket) return;
@@ -37,6 +48,7 @@ export function setupSockets(
         if (sockets.size === 0) onFirstClient();
         const id = uuidv4();
         sockets.set(id, { socket, alive: true });
+        log(`WS client connected id=${id}`);
 
         socket.on('pong', () => {
             if (sockets.has(id)) {
@@ -55,6 +67,7 @@ export function setupSockets(
             switch (key) {
                 case 'PATH':
                     sockets.get(id)!.path = value;
+                    log(`WS client path id=${id} path=${value}`);
                     // watch path (fails if path doesn't exist)
                     try {
                         sockets.get(id)!.watcher = fs.watch(value, (eventType) => {
@@ -80,6 +93,7 @@ export function setupSockets(
         });
 
         socket.on('close', () => {
+            log(`WS client closed id=${id}`);
             terminateSocket(id);
         });
     });

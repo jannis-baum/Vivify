@@ -30,7 +30,8 @@ features!
 - [produce nice looking PDFs](docs/pdfs.md) from Markdown
 - automatic parsing of front matter allowing for [custom
   usage](docs/front-matter.md)
-  
+- **Windows support** - works natively on Windows, macOS, and Linux
+
 If you need any additional features, feel free to [open an
 issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
 [contribute](docs/CONTRIBUTING.md)!
@@ -97,12 +98,26 @@ directory as an argument! See below for installation options.
 
 ### Manual
 
+#### macOS and Linux
+
 - download & unpack the [latest
   release](https://github.com/jannis-baum/vivify/releases) for your system
   (macOS or Linux)
 - add the two executables to your `$PATH`
 
+#### Windows
+
+- download & unpack the [latest
+  release](https://github.com/jannis-baum/vivify/releases) for Windows
+- add the folder containing `vivify-server.exe` and `viv.ps1`/`viv.cmd` to your `PATH`
+- use PowerShell: `viv.ps1 myfile.md` or Command Prompt: `viv myfile.md`
+
+> [!TIP]
+> For PowerShell, you can create an alias: `Set-Alias viv "C:\path\to\viv.ps1"`
+
 ### Compile yourself
+
+#### macOS and Linux
 
 - make sure you have [`yarn`](https://yarnpkg.com), `make` and `zip` installed
 - clone the repository
@@ -110,9 +125,30 @@ directory as an argument! See below for installation options.
 - run `./configure <install_dir>`
 - run `make install`
 
+#### Windows
+
+- make sure you have [Node.js](https://nodejs.org/) (v20+) and npm installed
+- clone the repository
+- run `npm install`
+- run the build script: `powershell -ExecutionPolicy Bypass -File scripts\build-windows.ps1`
+- the executables will be in `build\windows\`
+- add the `build\windows\` folder to your PATH or copy the files to a location in your PATH
+
 > [!TIP]  
 > If you are having trouble building Vivify, or you'd like more detailed build
 > instructions, see our [CONTRIBUTING](docs/CONTRIBUTING.md) page
+
+## Configuration on Windows
+
+Vivify looks for configuration files in the following locations (in order):
+
+1. `%APPDATA%\vivify\config.json`
+2. `%USERPROFILE%\.config\vivify\config.json`
+3. `%USERPROFILE%\.config\vivify.json`
+4. `%USERPROFILE%\.vivify\config.json`
+5. `%USERPROFILE%\.vivify.json`
+
+See [customization](docs/customization.md) for available options.
 
 ## Get help
 
