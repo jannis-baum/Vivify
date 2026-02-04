@@ -6,6 +6,7 @@ rem Logs WebSocket events to %TEMP%\vivify-server.log
 
 set "INSTALL_DIR=%~dp0..\..\"
 set "VIVIFY_BUNDLE=%INSTALL_DIR%build\bundle.js"
+set "VIVIFY_BUNDLE_CJS=%INSTALL_DIR%build\bundle.cjs"
 
 set "LOG_PATH=%TEMP%\vivify-server.log"
 set "OUT_LOG=%TEMP%\vivify-server.out.log"
@@ -24,10 +25,13 @@ if not exist "%VIVIFY_BUNDLE%" (
     exit /b 1
 )
 
+rem Ensure CommonJS bundle exists (Node treats .js as ESM due to "type": "module")
+copy /Y "%VIVIFY_BUNDLE%" "%VIVIFY_BUNDLE_CJS%" >nul 2>&1
+
 set "VIV_LOG_PATH=%LOG_PATH%"
 
 rem Run Node.js server in background and capture stdout/stderr
-start /b "" node "%VIVIFY_BUNDLE%" %* > "%OUT_LOG%" 2> "%ERR_LOG%"
+start /b "" node "%VIVIFY_BUNDLE_CJS%" %* > "%OUT_LOG%" 2> "%ERR_LOG%"
 
 echo [%DATE% %TIME%] viv-debug launched node bundle >> "%LOG_PATH%"
 
