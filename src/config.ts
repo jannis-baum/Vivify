@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { globSync } from 'glob';
+import { App } from 'open';
 import { homedir } from 'os';
 import path from 'path';
 
@@ -26,6 +27,7 @@ type Config = {
         titles?: Record<string, string>;
         fallbackIcon?: string;
     };
+    browserOptions?: App | App[];
 };
 
 // fills in values from config file config that are not present
