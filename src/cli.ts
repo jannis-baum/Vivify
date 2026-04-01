@@ -2,7 +2,7 @@ import axios from 'axios';
 import { existsSync } from 'fs';
 import open from 'open';
 import { resolve as presolve } from 'path';
-import { address } from './config.js';
+import { address, config } from './config.js';
 import { pathToURL, preferredPath } from './utils/path.js';
 
 // exported for unit test
@@ -20,7 +20,7 @@ export const getPathAndLine = (
 };
 
 export const openFileAt = async (path: string) =>
-    open(`${address}${pathToURL(preferredPath(path))}`);
+    open(`${address}${pathToURL(preferredPath(path))}`, { app: config.browserOptions });
 
 const openTarget = async (target: string) => {
     const { path, line } = getPathAndLine(target);
