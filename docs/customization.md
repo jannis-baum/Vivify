@@ -115,8 +115,8 @@ keys:
   [here](https://www.npmjs.com/package/open#app). Examples:
 
   ```json
-  "browserOptions": { name: "firefox" }
-  "browserOptions": { name: "chromium", arguments: ["--incognito"] }
+  "browserOptions": { "name": "firefox" }
+  "browserOptions": { "name": "chromium", "arguments": ["--incognito"] }
   ```
 
 ### Reloading config
