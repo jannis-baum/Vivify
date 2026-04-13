@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^10.0.1",
     "@jupyterlab/nbformat": "^4.5.6",
     "@types/express": "^5.0.6",
     "@types/markdown-it": "^14.1.1",
@@ -59,7 +59,7 @@
     "@types/ws": "^8.18.1",
     "@typescript-eslint/eslint-plugin": "^8.58.1",
     "@typescript-eslint/parser": "^8.58.1",
-    "eslint": "^9.39.2",
+    "eslint": "^10.2.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "nodemon": "^3.1.14",
@@ -67,9 +67,9 @@
     "prettier": "^3.8.2",
     "ts-loader": "^9.5.7",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.2",
     "webpack": "^5.106.1",
-    "webpack-cli": "^6.0.1",
+    "webpack-cli": "^7.0.2",
     "yarn-deduplicate": "^6.0.2"
   }
 }
