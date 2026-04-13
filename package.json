@@ -20,7 +20,7 @@
     "cheerio": "^1.2.0",
     "clipboard": "^2.0.11",
     "express": "^5.2.1",
-    "file-type": "^21.3.0",
+    "file-type": "^22.0.1",
     "glob": "13.0.6",
     "highlight.js": "^11.11.1",
     "istextorbinary": "^9.5.0",
