@@ -110,6 +110,14 @@ keys:
   ```
 
   For alerts customization, see [full explanation with examples](alerts.md).
+- **`"browserOptions"`**\
+  Options to specify which browser to open, including arguments, as specified
+  [here](https://www.npmjs.com/package/open#app). Examples:
+
+  ```json
+  "browserOptions": { "name": "firefox" }
+  "browserOptions": { "name": "chromium", "arguments": ["--incognito"] }
+  ```
 
 ### Reloading config
 
