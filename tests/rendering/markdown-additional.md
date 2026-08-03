@@ -40,7 +40,43 @@ See basic syntax [here](markdown-basic.md), and extended syntax [here](markdown-
 
 With the syntax `[[relative-file]]` we can also link to other files with an
 implicit `.md`, e.g. to [[markdown-basic]], or also to any file with explicit
-extensions like [[markdown-basic.md]]
+extensions like [[markdown-basic.md]]. Custom display text can be specified
+after a pipe: [[markdown-basic|Basic Syntax]].
+
+### Embeds
+
+With a leading `!` the wiki-link syntax `![[...]]` turns a link into an inline
+embed instead, similar to [Obsidian](https://help.obsidian.md/). The path is
+relative to the current document, just like regular relative links.
+
+Images are embedded inline and can be resized by specifying a width (or
+`width x height`) after a pipe:
+
+![[photo.jpg]]
+
+![[photo.png|300]]
+
+![[photo.gif|300x200]]
+
+PDFs are embedded in an `iframe` rendered by the browser's built-in PDF viewer:
+
+![[document.pdf]]
+
+Videos and audio use the respective HTML `<video>` / `<audio>` players:
+
+![[clip.mp4]]
+
+![[clip.webm|640]]
+
+![[podcast.mp3]]
+
+An embed without a file extension resolves to Markdown:
+
+![[notes]]
+
+Any other file type is also embedded in an `iframe`:
+
+![[notes.md]]
 
 ## Math
 

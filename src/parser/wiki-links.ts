@@ -18,14 +18,17 @@ export default function wikiLinkPlugin(md: MarkdownIt): void {
 
         if (!silent) {
             const content = state.src.slice(start + 2, end - 2);
-            const hasExtension = pbasename(content).indexOf('.') > -1;
-            const href = hasExtension ? content : content + '.md';
+            const pipe = content.indexOf('|');
+            const filePath = pipe === -1 ? content : content.slice(0, pipe).trim();
+            const displayText = pipe === -1 ? filePath : content.slice(pipe + 1).trim();
+            const hasExtension = pbasename(filePath).indexOf('.') > -1;
+            const href = hasExtension ? filePath : filePath + '.md';
 
             // Create link tokens
             const token = state.push('link_open', 'a', 1);
             token.attrSet('href', href);
 
-            state.push('text', '', 0).content = content;
+            state.push('text', '', 0).content = displayText;
             state.push('link_close', 'a', -1);
         }
 

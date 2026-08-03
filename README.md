@@ -50,6 +50,8 @@ issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
 - links to other files: [relative links like in
   GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#relative-links)
   as well as absolute file links
+- [Obsidian-style embeds](docs/embeds.md) (`![[file]]`) and wiki-links
+  (`[[file]]`)
 - [add styles, classes, ids or other attributes directly from
   Markdown](https://github.com/arve0/markdown-it-attrs?tab=readme-ov-file#examples)
 - table of contents with `[[toc]]`

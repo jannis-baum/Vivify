@@ -7,6 +7,7 @@ import highlight from './highlight.js';
 import graphviz from './dot.js';
 import mermaid from './mermaid.js';
 import wikiLinks from './wiki-links.js';
+import embeds from './embeds.js';
 import alerts from './alerts.js';
 import config from '../config.js';
 import { Renderer } from './parser.js';
@@ -77,6 +78,7 @@ mdit.use(graphviz);
 mdit.use(alerts);
 mdit.use(mermaid);
 mdit.use(wikiLinks);
+mdit.use(embeds);
 
 const renderMarkdown: Renderer = (content: string) => {
     return mdit.render(content);
