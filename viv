@@ -14,6 +14,10 @@ arguments:
                       suffix with :n to scroll to the content at line n in the
                       source file
 options:
+  --pdf               export the target(s) to a single-page "infinite scroll"
+                      PDF instead of opening a browser. Requires a WebDriver
+                      (geckodriver or chromedriver) on your PATH
+  -o, --output FILE   output path for --pdf (only with a single target)
   --help              show this help message and exit
   --version           show version information and exit
 EOF
