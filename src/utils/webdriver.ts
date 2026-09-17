@@ -1,5 +1,5 @@
 import { ChildProcess, spawn } from 'child_process';
-import { existsSync } from 'fs';
+import { accessSync, constants } from 'fs';
 import { createServer } from 'net';
 import { delimiter, join } from 'path';
 
@@ -21,7 +21,12 @@ const findExecutable = (name: string): string | undefined => {
     for (const dir of (process.env.PATH ?? '').split(delimiter)) {
         if (!dir) continue;
         const candidate = join(dir, name);
-        if (existsSync(candidate)) return candidate;
+        try {
+            accessSync(candidate, constants.X_OK);
+            return candidate;
+        } catch {
+            // not in this directory, or not executable
+        }
     }
     return undefined;
 };
