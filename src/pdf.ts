@@ -13,9 +13,6 @@ const BOTTOM_MARGIN_PX = 40;
 // and mermaid diagrams, then report the document's scroll size.
 const MEASURE_SCRIPT = `
 const done = arguments[arguments.length - 1];
-const style = document.createElement('style');
-style.textContent = '#top-nav,#front-matter-button{display:none!important}';
-document.head.appendChild(style);
 (async () => {
     if (document.readyState !== 'complete') {
         await new Promise((r) => window.addEventListener('load', r, { once: true }));
@@ -28,12 +25,42 @@ document.head.appendChild(style);
         await new Promise((r) => setTimeout(r, 100));
     }
     await new Promise((r) => setTimeout(r, 150));
+
+    // Measure the actual print layout rather than hard-coding what print hides.
+    // We temporarily activate every '@media print' rule (and switch off
+    // screen-only ones) so both Vivify's built-in and any user print CSS take
+    // effect, then restore the stylesheets so the real print stays pristine.
+    // (Width-based media features still resolve against the window, which we
+    // size to the print width.)
+    const forPrint = (query) => {
+        const q = query.trim().toLowerCase();
+        if (q.includes('print')) return 'all';
+        if (q.includes('screen')) return 'not all';
+        return query;
+    };
+    const patched = [];
+    const activatePrint = (rules) => {
+        for (const rule of rules) {
+            if (rule.media && rule.media.mediaText) {
+                patched.push([rule.media, rule.media.mediaText]);
+                rule.media.mediaText = rule.media.mediaText.split(',').map(forPrint).join(', ');
+            }
+            if (rule.cssRules) activatePrint(rule.cssRules);
+            if (rule.styleSheet) {
+                try { activatePrint(rule.styleSheet.cssRules); } catch (e) { /* cross-origin */ }
+            }
+        }
+    };
+    for (const sheet of document.styleSheets) {
+        try { activatePrint(sheet.cssRules); } catch (e) { /* cross-origin */ }
+    }
+
     // getBoundingClientRect().height is the true content height; scrollHeight is
     // clamped up to the viewport, which over-pads short documents.
-    done({
-        width: document.documentElement.scrollWidth,
-        height: Math.ceil(document.documentElement.getBoundingClientRect().height),
-    });
+    const height = Math.ceil(document.documentElement.getBoundingClientRect().height);
+    for (const [media, text] of patched) media.mediaText = text;
+
+    done({ width: document.documentElement.scrollWidth, height });
 })();
 `;
 
