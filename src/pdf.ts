@@ -28,9 +28,11 @@ document.head.appendChild(style);
         await new Promise((r) => setTimeout(r, 100));
     }
     await new Promise((r) => setTimeout(r, 150));
+    // getBoundingClientRect().height is the true content height; scrollHeight is
+    // clamped up to the viewport, which over-pads short documents.
     done({
         width: document.documentElement.scrollWidth,
-        height: document.documentElement.scrollHeight,
+        height: Math.ceil(document.documentElement.getBoundingClientRect().height),
     });
 })();
 `;
