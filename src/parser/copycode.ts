@@ -1,4 +1,4 @@
-import MarkdownIt from 'markdown-it';
+import type { MarkdownIt } from 'markdown-it';
 import octicons from '@primer/octicons';
 
 const copyIcon = octicons['copy'].toSVG({ class: 'icon-copy' });

@@ -8,8 +8,7 @@
  * Modifications Copyright (c) 2025 Tuure Piitulainen <https://github.com/tuurep>
  */
 
-import MarkdownIt from 'markdown-it';
-import type { Token } from 'markdown-it';
+import type { MarkdownIt, Token } from 'markdown-it';
 import { config, configBaseDir } from '../config.js';
 import octicons from '@primer/octicons';
 import { existsSync, readFileSync } from 'fs';
@@ -167,7 +166,12 @@ const MarkdownItAlerts = (md: MarkdownIt) => {
         }
     });
     md.renderer.rules.alert_open = function (tokens, idx) {
-        const { marker, title, icon, isFallback } = tokens[idx].meta;
+        const { marker, title, icon, isFallback } = tokens[idx].meta as {
+            marker: string;
+            title: string;
+            icon: string;
+            isFallback: boolean;
+        };
 
         const markerId = marker
             .replace(/\s+/g, '-') // get rid of spaces in a CSS classname

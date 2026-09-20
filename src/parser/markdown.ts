@@ -47,7 +47,6 @@ mdit.use(sup);
 /* @ts-expect-error: module not typed */
 import mark from 'markdown-it-mark';
 mdit.use(mark);
-/* @ts-expect-error: module not typed */
 import attributes from 'markdown-it-attrs';
 mdit.use(attributes);
 /* @ts-expect-error: module not typed */

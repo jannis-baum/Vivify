@@ -1,5 +1,5 @@
 import octicons from '@primer/octicons';
-import MarkdownIt, { StateCore } from 'markdown-it';
+import type { MarkdownIt, StateCore } from 'markdown-it';
 import { parse } from 'yaml';
 import { moveIntoNavClass } from './parser.js';
 
@@ -11,7 +11,7 @@ export default function parseFrontMatter(md: MarkdownIt) {
         const tokens = state.tokens;
         if (!tokens.length || tokens[0].type !== 'front_matter') return true;
 
-        const yaml = tokens[0].meta;
+        const yaml = tokens[0].meta as unknown as string;
 
         // front matter data injection so it's available to client
         const scriptToken = new state.Token('html_block', '', 0);

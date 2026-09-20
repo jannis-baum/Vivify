@@ -1,5 +1,5 @@
 import { instance } from '@viz-js/viz';
-import MarkdownIt from 'markdown-it';
+import type { MarkdownIt } from 'markdown-it';
 
 let viz: Awaited<ReturnType<typeof instance>> | undefined = undefined;
 (async () => {
