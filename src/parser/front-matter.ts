@@ -1,5 +1,5 @@
 import octicons from '@primer/octicons';
-import MarkdownIt, { StateCore } from 'markdown-it/index.js';
+import MarkdownIt, { StateCore } from 'markdown-it';
 import { parse } from 'yaml';
 import { moveIntoNavClass } from './parser.js';
 

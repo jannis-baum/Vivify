@@ -9,7 +9,7 @@
  */
 
 import MarkdownIt from 'markdown-it';
-import type { Token } from 'markdown-it/index.js';
+import type { Token } from 'markdown-it';
 import { config, configBaseDir } from '../config.js';
 import octicons from '@primer/octicons';
 import { existsSync, readFileSync } from 'fs';
