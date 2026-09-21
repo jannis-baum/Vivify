@@ -118,3 +118,9 @@ directory as an argument! See below for installation options.
 
 Is something not working or do you have any questions? [Start a
 discussion!](https://github.com/jannis-baum/vivify/discussions/new?category=q-a)
+
+---
+
+We dedicate Vivify to the memory of our friend and collaborator [Tuure
+Piitulainen](https://github.com/tuurep). Your ideas, jokes, and thoughtful
+insights will forever stay with us.
