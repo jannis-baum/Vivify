@@ -1,4 +1,4 @@
-import type MarkdownIt from 'markdown-it';
+import type { MarkdownIt } from 'markdown-it';
 import { basename as pbasename } from 'path';
 
 export default function wikiLinkPlugin(md: MarkdownIt): void {

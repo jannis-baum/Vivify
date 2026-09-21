@@ -16,6 +16,10 @@ maintainers.
    confirm. If something broke, fix the problems with one commit each.
 3. Next commit: Run `yarn upgrade-interactive --latest` again and install all
    red (breaking) `devDependencies`.
+   > [!note]
+   > Typescript is not yet ready to be upgraded to `7.x` because `ts-node` via
+   > `loader.mjs` (for `yarn dev` and `yarn viv`) and `typescript-eslint` are
+   > not compatible. We have to hold out on upgrading until this is fixed.
 4. Repeat *step 2*.
 5. Run `yarn upgrade-interactive --latest` again and go through the list of red
    (breaking) `dependencies`. Look up what the exact breaking change is and how

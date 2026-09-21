@@ -61,7 +61,24 @@ digraph {
 
 ## Mermaid
 
+Normal layout
+
 ```mermaid
+flowchart LR
+
+A[Hard] -->|Text| B(Round)
+B --> C{Decision}
+C -->|One| D[Result 1]
+C -->|Two| E[Result 2]
+```
+
+Elk layout
+
+```mermaid
+---
+config:
+  layout: elk.stress
+---
 flowchart LR
 
 A[Hard] -->|Text| B(Round)
