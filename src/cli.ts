@@ -3,6 +3,7 @@ import { existsSync } from 'fs';
 import open from 'open';
 import { resolve as presolve } from 'path';
 import { address, config } from './config.js';
+import { exportPdf } from './pdf.js';
 import { pathToURL, preferredPath } from './utils/path.js';
 
 // exported for unit test
@@ -58,10 +59,25 @@ export const completeStartup = () => {
     }
 };
 
+const exportTargets = async (targets: string[], output: string | undefined) => {
+    // a single --output only makes sense for a single target
+    const out = targets.length === 1 ? output : undefined;
+    for (const target of targets) {
+        const { path } = getPathAndLine(target);
+        if (!path || !existsSync(path)) {
+            console.log(`File not found: ${target}`);
+            continue;
+        }
+        await exportPdf(path, out);
+    }
+};
+
 export const handleArgs = (): (() => Promise<void>) | undefined => {
     const args = process.argv.slice(2);
     const positionals: string[] = [];
     let parseOptions = true;
+    let pdf = false;
+    let output: string | undefined;
 
     for (let i = 0; i < args.length; i++) {
         const arg = args[i];
@@ -74,6 +90,13 @@ export const handleArgs = (): (() => Promise<void>) | undefined => {
             case '--version':
                 console.log(`vivify-server ${process.env.VERSION ?? 'dev'}`);
                 return;
+            case '--pdf':
+                pdf = true;
+                break;
+            case '-o':
+            case '--output':
+                output = args[++i];
+                break;
             case '--':
                 parseOptions = false;
                 break;
@@ -82,7 +105,11 @@ export const handleArgs = (): (() => Promise<void>) | undefined => {
         }
     }
     return async () => {
-        await Promise.all(positionals.map((target) => openTarget(target)));
+        if (pdf) {
+            await exportTargets(positionals, output);
+        } else {
+            await Promise.all(positionals.map((target) => openTarget(target)));
+        }
         completeStartup();
     };
 };
