@@ -29,7 +29,7 @@ tools.
    conventions.
 5. **Your agent produces concise and minimal code**. Generative AI has a
    tendency to produce overly verbose code, re-implement things that are
-   already there or exist in libaries that should be used instead, and miss
+   already there or exist in libraries that should be used instead, and miss
    obvious refactor opportunities. This introduces a bigger maintenance
    overhead, more chances for bugs, and overall bad code. Please keep an extra
    close eye on avoiding this.
