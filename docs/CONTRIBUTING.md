@@ -1,5 +1,10 @@
 # Contributing to Vivify
 
+> [!important]
+> If you would like to use generative AI (e.g. Claude Code, GitHub Copilot,
+> etc.) to make your contributions, please also read our [AI usage
+> policy](./ai-policy.md).
+
 Contributions are very welcome! If you would like to contribute, please make
 sure you follow the steps below:
 
