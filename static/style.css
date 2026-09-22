@@ -12,6 +12,10 @@ html {
 body {
     padding: 2rem 4rem;
 }
+#body-content {
+    width: 100%;
+    height: 100%;
+}
 
 /* default to 900px for all content types */
 *[class^="content-"] {
@@ -19,6 +23,7 @@ body {
     margin: auto;
 }
 .content-txt { max-width: 1200px; }
+.content-pdf { max-width: 1200px; }
 
 /* buttons at the top of the page */
 #top-nav {
@@ -41,6 +46,25 @@ body {
     #top-nav, #front-matter-button {
         display: none;
     }
+}
+
+/* pdf viewer */
+/* pin the pdf page to the viewport height so the viewer can fill the
+ * remaining vertical space instead of the whole page scrolling */
+body:has(.content-pdf) {
+    height: 100dvh;
+    overflow: hidden;
+}
+.content-pdf {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.pdf-viewer {
+    width: 100%;
+    /* grow to fill; min-height:0 lets it shrink below intrinsic size */
+    flex: 1 1 auto;
+    min-height: 0;
 }
 
 /* --------------------------------------------------------------------------

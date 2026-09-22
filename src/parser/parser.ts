@@ -58,6 +58,22 @@ export function renderBody(
         );
     }
 
+    if (mime === 'application/pdf') {
+        const basename = pbasename(path);
+        // we use an object tag because that correctly re-calls the route
+        // without accepting HTML; an iframe on the other hand would call
+        // the same route with HTML accepted in the header again so we
+        // would embed the page itself again with infinite recursion.
+        // the object is appended as a direct child of `.content-pdf` (rather
+        // than fed through renderMarkdown) so it isn't wrapped in a <p> and
+        // can participate in the flex column that sizes it to the viewport.
+        return wrap(
+            'pdf',
+            `${renderMarkdown(pathHeading(path))}<object class="pdf-viewer" data="${basename}"></object>`,
+            pdirname(path),
+        );
+    }
+
     // render text files
     if (mime.startsWith('text/') || mime === 'application/json') {
         const text = content ?? readFileSync(path).toString();
