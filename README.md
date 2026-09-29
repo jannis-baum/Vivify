@@ -18,7 +18,7 @@ features!
   [Jupyviv](https://github.com/jannis-baum/Jupyviv) if this interests you)
 - view other plain text files with code syntax highlighting, or
   [optionally](docs/customization.md) render HTML files
-- view image files
+- view image files and PDFs
 - view & navigate directories using "back to parent directory" button at the
   top-left of the file viewer
 - automatic reloads when files change
@@ -54,6 +54,8 @@ issue](https://github.com/jannis-baum/vivify/issues/new/choose) or
   Markdown](https://github.com/arve0/markdown-it-attrs?tab=readme-ov-file#examples)
 - table of contents with `[[toc]]`
 - `<kbd>` tags, e.g. to style keyboard shortcuts
+- PDFs can be referenced as images, resulting in their first page being
+  displayed as a vector graphic
 
 You can find examples for all supported features in the files in the
 [`tests/rendering`](tests/rendering) directory. In case you are looking at these
