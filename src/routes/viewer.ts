@@ -8,6 +8,7 @@ import { clientsAt, messageClients } from '../app.js';
 import config from '../config.js';
 import { pcomponents, pmime, preferredPath, urlToPath } from '../utils/path.js';
 import { renderDirectory, renderErrorPage, renderBody, canRenderBody } from '../parser/parser.js';
+import { renderPdfPageToSvg } from '../parser/pdf-svg.js';
 
 export const router = Router();
 
@@ -98,6 +99,12 @@ router.get(/.*/, async (req: Request, res: Response) => {
                 })();
 
                 if (mime === undefined) throw 'Unable to determine MIME type';
+                if (mime === 'application/pdf' && req.query.viv === 'svg') {
+                    res.setHeader('Content-Type', 'image/svg+xml').send(
+                        await renderPdfPageToSvg(path),
+                    );
+                    return;
+                }
                 if (shouldRenderBody) body = renderBody(path, mime);
                 // shouldn't render body or failed to render -> send file data instead
                 if (!body || !shouldRenderBody) {
