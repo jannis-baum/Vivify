@@ -2,6 +2,7 @@
     "main": "build/bundle.js",
     "output": "build/sea-prep.blob",
     "assets": {
-        "static.zip": "build/static.zip"
+        "static.zip": "build/static.zip",
+        "mupdf-wasm.wasm": "node_modules/mupdf/dist/mupdf-wasm.wasm"
     }
 }
