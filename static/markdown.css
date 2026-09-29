@@ -222,6 +222,7 @@ h1, h2 {
 
 /* images */
 img, svg { max-width: 100%; }
+img.pdf-image { background: white; }
 
 /* keyboard */
 kbd {
