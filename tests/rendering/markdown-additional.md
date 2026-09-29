@@ -174,3 +174,10 @@ implementation:
 >>> 1. One
 >>> 2. > [!Two]
 >>>    > Yeah
+
+## PDF images
+
+PDF documents can also be referenced as images and their first page will be
+displayed as a vector graphics, similar to how it is done in LaTeX.
+
+![](pdf-document.pdf)
