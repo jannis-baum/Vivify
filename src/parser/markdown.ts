@@ -6,6 +6,7 @@ import parseFrontMatter from './front-matter.js';
 import highlight from './highlight.js';
 import graphviz from './dot.js';
 import mermaid from './mermaid.js';
+import pdfImage from './pdf-image.js';
 import wikiLinks from './wiki-links.js';
 import alerts from './alerts.js';
 import config from '../config.js';
@@ -75,6 +76,7 @@ mdit.use(copycode);
 mdit.use(graphviz);
 mdit.use(alerts);
 mdit.use(mermaid);
+mdit.use(pdfImage);
 mdit.use(wikiLinks);
 
 const renderMarkdown: Renderer = (content: string) => {
