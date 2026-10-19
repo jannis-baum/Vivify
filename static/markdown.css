@@ -222,6 +222,12 @@ h1, h2 {
 
 /* images */
 img, svg { max-width: 100%; }
+img.pdf-image {
+    /* SVG has hardcoded sizing but since it's a vector graphic we can just
+     * extend it to cover the full width */
+    width: 100%;
+    background: white;
+}
 
 /* keyboard */
 kbd {
